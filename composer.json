@@ -1,0 +1,24 @@
+{
+    "name": "wouterj/eloquent-bundle",
+    "description": "Implementing the Eloquent ORM into Symfony2",
+    "authors": [
+        {
+            "name": "Wouter J",
+            "email": "wouter@wouterj.nl"
+        }
+    ],
+    "license": "MIT",
+
+    "require": {
+        "illuminate/database": "~4.1.4"
+    },
+
+    "autoload": {
+        "psr-4": { "Wj\\EloquentBundle\\": "" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.0-dev"
+        }
+    }
+}
