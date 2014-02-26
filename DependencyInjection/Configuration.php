@@ -36,7 +36,7 @@ class Configuration implements ConfigurationInterface
                     $includedKeys = array('driver', 'host', 'database', 'username', 'password', 'charset', 'collation', 'prefix');
                     $connection = array();
                     foreach ($v as $key => $value) {
-                        if (isset($includedKeys[$key])) {
+                        if (in_array($key, $includedKeys)) {
                             $connection[$key] = $v[$key];
                             unset($v[$key]);
                         }
