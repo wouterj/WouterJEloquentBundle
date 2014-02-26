@@ -39,7 +39,7 @@ class WjEloquentExtensionTest extends AbstractExtensionTestCase
             'eloquent'    => array('enabled' => true),
         ));
 
-        $this->assertInstanceOf('Illuminate\Database\DatabaseManager', Eloquent::getConnectionResolver());
+        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall('wj_eloquent', 'bootEloquent', array());
     }
 
     /**

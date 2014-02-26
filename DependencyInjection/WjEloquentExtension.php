@@ -39,7 +39,7 @@ class WjEloquentExtension extends Extension
             $capsuleDefinition->addMethodCall('addConnection', array($connection, $name));
         }
 
-        if ('default' !== $configuration['default_connection']) {
+        if ('default' !== $config['default_connection']) {
             $container->getDefinition('wj_eloquent.database_manager')->addMethodCall('setDefaultConnection', array($config['default_connection']));
         }
     }
@@ -55,5 +55,10 @@ class WjEloquentExtension extends Extension
         }
 
         $container->getDefinition('wj_eloquent')->addMethodCall('bootEloquent');
+    }
+
+    public function getNamespace()
+    {
+        return 'http://wouterj.nl/schema/dic/eloquent';
     }
 }
