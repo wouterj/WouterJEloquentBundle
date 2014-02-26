@@ -31,7 +31,6 @@ class Configuration implements ConfigurationInterface
                         && count($v) !== count(array_diff(array_keys($v), array('driver', 'host', 'database', 'username', 'password', 'charset', 'collation', 'prefix')));
                 })
                 ->then(function ($v) {
-                    var_dump($v);
                     // Key that should be rewritten to the connection config
                     $includedKeys = array('driver', 'host', 'database', 'username', 'password', 'charset', 'collation', 'prefix');
                     $connection = array();
