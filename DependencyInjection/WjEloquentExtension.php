@@ -23,7 +23,7 @@ class WjEloquentExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
         $this->loadCapsule($config, $container, $loader);
-        $this->loadEloquent($config, $container);
+        $this->loadEloquent($config, $container, $loader);
     }
 
     protected function loadCapsule(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader)
@@ -44,7 +44,7 @@ class WjEloquentExtension extends Extension
         }
     }
 
-    protected function loadEloquent(array $config, ContainerBuilder $container)
+    protected function loadEloquent(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader)
     {
         if (!$this->isConfigEnabled($container, $config['eloquent'])) {
             return;
@@ -54,7 +54,7 @@ class WjEloquentExtension extends Extension
             throw new \LogicException('There should be at least one connection configured on "wj_eloquent.connections" in order to use the Eloquent ORM.');
         }
 
-        $container->getDefinition('wj_eloquent')->addMethodCall('bootEloquent');
+        $loader->load('eloquent.xml');
     }
 
     public function getNamespace()

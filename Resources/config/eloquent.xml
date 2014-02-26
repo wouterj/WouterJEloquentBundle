@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services">
+    
+    <parameters>
+        <parameter key="wj_eloquent.initializer.class">Wj\EloquentBundle\EventListener\EloquentInitializer</parameter>
+    </parameters>
+
+    <services>
+        <service id="wj_eloquent.initializer" class="%wj_eloquent.initializer.class%">
+            <argument type="service" id="wj_eloquent" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+    </services>
+</container>

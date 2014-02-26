@@ -26,9 +26,9 @@ class WjEloquentExtensionTest extends AbstractExtensionTestCase
     {
         $this->load(array('connections' => $this->getConnectionConfig()));
 
-        $this->assertInstanceOf('Illuminate\Database\Capsule\Manager', $this->container->get('wj_eloquent'));
-        $this->assertInstanceOf('Illuminate\Database\DatabaseManager', $this->container->get('wj_eloquent.database_manager'));
-        $this->assertNull(Eloquent::getConnectionResolver());
+        $this->assertContainerBuilderHasService('wj_eloquent', '%wj_eloquent.class%');
+        $this->assertContainerBuilderHasService('wj_eloquent.database_manager', '%wj_eloquent.database_manager.class%');
+        $this->assertFalse($this->container->has('wj_eloquent.initializer'));
     }
 
     /** @test */
@@ -39,7 +39,7 @@ class WjEloquentExtensionTest extends AbstractExtensionTestCase
             'eloquent'    => array('enabled' => true),
         ));
 
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall('wj_eloquent', 'bootEloquent', array());
+        $this->assertContainerBuilderHasService('wj_eloquent.initializer', '%wj_eloquent.initializer.class%');
     }
 
     /**
