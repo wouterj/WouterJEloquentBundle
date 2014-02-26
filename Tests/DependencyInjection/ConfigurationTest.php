@@ -21,8 +21,9 @@ class ConfigurationTest extends AbstractExtensionConfigurationTestCase
      * @test
      * @dataProvider provideFormattingData
      */
-    public function it_works_with_different_formats($expectedConfiguration)
+    public function it_works_with_different_formats($source, $expectedConfiguration)
     {
+        $this->assertProcessedConfigurationEquals($expectedConfiguration, array($source));
     }
 
     public function provideFormattingData()
@@ -30,6 +31,7 @@ class ConfigurationTest extends AbstractExtensionConfigurationTestCase
         $expected1 = array(
             'connections' => array(),
             'eloquent' => array('enabled' => false),
+            'default_connection' => null,
         );
         $expected2 = array(
             'connections' => array(
@@ -77,7 +79,7 @@ class ConfigurationTest extends AbstractExtensionConfigurationTestCase
                 ),
                 'foo' => array(
                     'driver' => 'sqlite',
-                    'host' => 'localhost',
+                    'host' => 'local',
                     'database' => 'foo.db',
                     'username' => 'user',
                     'password' => 'pass',

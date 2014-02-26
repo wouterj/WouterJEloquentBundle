@@ -46,8 +46,9 @@ class Configuration implements ConfigurationInterface
                     return $v;
                 })
             ->end()
+            ->fixXmlConfig('connection')
             ->children()
-                ->scalarNode('default_connection')->defaultvalue('default')->end()
+                ->scalarNode('default_connection')->defaultNull()->end()
                 ->arrayNode('connections')
                     ->requiresAtLeastOneElement()
                     ->useAttributeAsKey('name')
