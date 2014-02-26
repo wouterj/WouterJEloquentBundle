@@ -4,6 +4,7 @@ namespace Wj\EloquentBundle\EventListener;
 
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 /**
  * Initializes the Eloquent ORM.
