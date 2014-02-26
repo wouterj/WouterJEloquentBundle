@@ -3,12 +3,12 @@
     
     <parameters>
         <parameter key="wj_eloquent.aliases.loader.class">Wj\EloquentBundle\Facade\AliasesLoader</parameter>
-        <parameter key="wj_eloquent.aliases.initializer.class">Wj\EloquentBundle\EventListener\AliasesInitializer</parameter>
+        <parameter key="wj_eloquent.facade.initializer.class">Wj\EloquentBundle\EventListener\FacadeInitializer</parameter>
     </parameters>
 
     <services>
-        <service id="wj_eloquent.aliases.initializer" class="%wj_eloquent.aliases.initializer.class%">
-            <argument type="service" id="wj_eloquent.aliases.loader" />
+        <service id="wj_eloquent.facade.initializer" class="%wj_eloquent.facade.initializer.class%">
+            <argument type="service" id="service_container" />
             <tag name="kernel.event_subscriber" />
         </service>
 

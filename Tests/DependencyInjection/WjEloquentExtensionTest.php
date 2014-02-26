@@ -18,7 +18,7 @@ class WjEloquentExtensionTest extends AbstractExtensionTestCase
     {
         $this->load();
 
-        $this->assertCount(0, $this->container->getDefinitions());
+        $this->assertCount(2, $this->container->getDefinitions());
     }
 
     /** @test */

@@ -8,7 +8,7 @@ class ProphecyTestCase extends \PHPUnit_Framework_TestCase
 {
     protected $prophet;
 
-    protected function setup()
+    protected function setUp()
     {
         $this->prophet = new Prophet();
     }

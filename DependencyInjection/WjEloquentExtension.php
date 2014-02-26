@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\DependencyInjection\Reference;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 class WjEloquentExtension extends Extension
@@ -61,11 +62,9 @@ class WjEloquentExtension extends Extension
 
     protected function loadFacades(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader)
     {
-        Facade::setContainer($container);
+        $loader->load('facades.xml');
 
         if ($config['aliases']['db'] || $config['aliases']['schema']) {
-            $loader->load('aliases.xml');
-
             $aliasesLoaderDefinition = $container->getDefinition('wj_eloquent.aliases.loader');
             if ($config['aliases']['db']) {
                 $aliasesLoaderDefinition->addMethodCall('addAlias', array('DB', 'Wj\EloquentBundle\Facade\Db'));
@@ -73,6 +72,8 @@ class WjEloquentExtension extends Extension
             if ($config['aliases']['schema']) {
                 $aliasesLoaderDefinition->addMethodCall('addAlias', array('Schema', 'Wj\EloquentBundle\Facade\Schema'));
             }
+
+            $container->getDefinition('wj_eloquent.facade.initializer')->addMethodCall('setLoader', array(new Reference('wj_eloquent.aliases.loader')));
         }
     }
 
