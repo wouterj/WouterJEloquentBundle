@@ -9,7 +9,7 @@ class AliasesLoader
     /**
      * @param array     $aliases
      */
-    public function __construct($aliases)
+    public function __construct($aliases = array())
     {
         $this->setAliases($aliases);
     }
@@ -19,11 +19,19 @@ class AliasesLoader
         spl_autoload_register(array($this, 'load'));
     }
 
-    public function load($alias)
+    public function load($class)
     {
+        $parts = explode('\\', $class);
+        $alias = array_pop($parts);
+
         if ($this->hasAlias($alias)) {
-            class_alias($this->getRealClass($alias), $alias);
+            class_alias($this->getRealClass($alias), $class);
         }
+    }
+
+    public function addAlias($alias, $class)
+    {
+        $this->aliases[$alias] = $class;
     }
 
     protected function getRealClass($alias)
@@ -33,7 +41,7 @@ class AliasesLoader
 
     protected function hasAlias($alias)
     {
-        return isset($this->aliases[$class]);
+        return isset($this->aliases[$alias]);
     }
 
     private function setAliases(array $aliases)

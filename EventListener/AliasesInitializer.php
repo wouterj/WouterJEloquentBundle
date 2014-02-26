@@ -2,7 +2,7 @@
 
 namespace Wj\EloquentBundle\EventListener;
 
-use Wj\Facade\AliasesLoader;
+use Wj\EloquentBundle\Facade\AliasesLoader;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

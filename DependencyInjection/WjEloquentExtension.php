@@ -66,7 +66,7 @@ class WjEloquentExtension extends Extension
         if ($config['aliases']['db'] || $config['aliases']['schema']) {
             $loader->load('aliases.xml');
 
-            $aliasesLoaderDefinition = $container->getDefintion('wj_eloquent.aliases.loader');
+            $aliasesLoaderDefinition = $container->getDefinition('wj_eloquent.aliases.loader');
             if ($config['aliases']['db']) {
                 $aliasesLoaderDefinition->addMethodCall('addAlias', array('DB', 'Wj\EloquentBundle\Facade\Db'));
             }
