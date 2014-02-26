@@ -34,17 +34,14 @@ class WjEloquentExtension extends Extension
 
         $loader->load('services.xml');
 
-        $capsule = new Capsule();
-
+        $capsuleDefinition = $container->getDefinition('wj_eloquent');
         foreach ($config['connections'] as $name => $connection) {
-            $capsule->addConnection($connection, $name);
+            $capsuleDefinition->addMethodCall('addConnection', array($connection, $name));
         }
-        $capsule->container['config']['database.default'] = $config['default_connection'];
 
-        $container->set('wj_eloquent', $capsule);
-        $container->set('wj_eloquent.database_manager', $capsule->getDatabaseManager());
-
-        $this->capsuleEnabled = true;
+        if ('default' !== $configuration['default_connection']) {
+            $container->getDefinition('wj_eloquent.database_manager')->addMethodCall('setDefaultConnection', array($config['default_connection']));
+        }
     }
 
     protected function loadEloquent(array $config, ContainerBuilder $container)
@@ -53,10 +50,10 @@ class WjEloquentExtension extends Extension
             return;
         }
 
-        if (!$this->capsuleEnabled) {
+        if (!$container->hasDefinition('wj_eloquent')) {
             throw new \LogicException('There should be at least one connection configured on "wj_eloquent.connections" in order to use the Eloquent ORM.');
         }
 
-        $container->get('wj_eloquent')->bootEloquent();
+        $container->getDefinition('wj_eloquent')->addMethodCall('bootEloquent');
     }
 }

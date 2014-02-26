@@ -1,8 +1,15 @@
 <?xml version="1.0" ?>
 <container xmlns="http://symfony.com/schema/dic/services">
+    
+    <parameters>
+        <parameter key="wj_eloquent.class">Illuminate\Database\Capsule\Manager</parameter>
+        <parameter key="wj_eloquent.database_manager.class">Illuminate\Database\DatabaseManager</parameter>
+    </parameters>
 
     <services>
-        <service id="wj_eloquent" synthetic="true" />
-        <service id="wj_eloquent.database_manager" synthetic="true" />
+        <service id="wj_eloquent" class="%wj_eloquent.class%" />
+
+        <service id="wj_eloquent.database_manager" class="%wj_eloquent.database_manager.class%"
+            factory-service="wj_eloquent" factory-method="getDatabaseManager" />
     </services>
 </container>
