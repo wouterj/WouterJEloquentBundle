@@ -8,7 +8,7 @@ abstract class Facade
 {
     /** @var Container */
     protected static $container;
-    private static $facadeInstances = array();
+    protected static $facadeInstances = array();
 
     public static function setContainer(Container $container)
     {
@@ -22,13 +22,13 @@ abstract class Facade
      *
      * @return object
      */
-    private function resolveFacadeInstance($accessor)
+    private static function resolveFacadeInstance($accessor)
     {
         if (is_object($accessor)) {
             return $accessor;
         }
 
-        if (static::$facadeInstances[$accessor]) {
+        if (isset(static::$facadeInstances[$accessor])) {
             return static::$facadeInstances[$accessor];
         }
 
