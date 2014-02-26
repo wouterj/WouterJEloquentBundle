@@ -8,4 +8,5 @@ $container->loadFromExtension('wj_eloquent', array(
     'password' => 'pass',
     'prefix' => 'symfo_',
     'eloquent' => true,
+    'aliases' => true,
 ));

@@ -10,5 +10,6 @@
         prefix="symfo_"
     >
         <eloquent />
+        <aliases />
     </config>
 </container>

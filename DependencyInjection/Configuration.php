@@ -15,10 +15,55 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $root = $treeBuilder->root('wj_eloquent');
 
+        $this->addAliasesSection($root);
         $this->addCapsuleSection($root);
         $this->addEloquentSection($root);
 
         return $treeBuilder;
+    }
+
+    protected function addAliasesSection($node)
+    {
+        $node
+            ->children()
+                ->arrayNode('aliases')
+                    ->beforeNormalization()
+                        ->always()
+                        ->then(function ($v) {
+                            if (is_bool($v)) {
+                                $u = array();
+                                $u['db'] = $v;
+                                $u['schema'] = $v;
+
+                                return $u;
+                            }
+
+                            if (isset($v['enabled'])) {
+                                $v['db'] = $v['enabled'];
+                                $v['schema'] = $v['enabled'];
+                                unset($v['enabled']);
+
+                                return $v;
+                            }
+
+                            if (null === $v) {
+                                $v = array();
+                                $v['db'] = true;
+                                $v['schema'] = true;
+
+                                return $v;
+                            }
+
+                            return $v;
+                        })
+                    ->end()
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('db')->defaultFalse()->end()
+                        ->booleanNode('schema')->defaultFalse()->end()
+                    ->end()
+                ->end()
+            ->end();
     }
 
     protected function addCapsuleSection($node)

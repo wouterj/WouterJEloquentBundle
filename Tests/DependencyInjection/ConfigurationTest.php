@@ -29,11 +29,19 @@ class ConfigurationTest extends AbstractExtensionConfigurationTestCase
     public function provideFormattingData()
     {
         $expected1 = array(
+            'aliases' => array(
+                'db' => false,
+                'schema' => false,
+            ),
             'connections' => array(),
             'eloquent' => array('enabled' => false),
             'default_connection' => null,
         );
         $expected2 = array(
+            'aliases' => array(
+                'db' => false,
+                'schema' => true,
+            ),
             'connections' => array(
                 'default' => array(
                     'driver' => 'mysql',
@@ -50,6 +58,10 @@ class ConfigurationTest extends AbstractExtensionConfigurationTestCase
             'eloquent' => array('enabled' => false),
         );
         $expected3 = array(
+            'aliases' => array(
+                'db' => true,
+                'schema' => true,
+            ),
             'connections' => array(
                 'default' => array(
                     'driver' => 'sqlite',
@@ -66,6 +78,10 @@ class ConfigurationTest extends AbstractExtensionConfigurationTestCase
             'eloquent' => array('enabled' => true),
         );
         $expected4 = array(
+            'aliases' => array(
+                'db' => false,
+                'schema' => false,
+            ),
             'connections' => array(
                 'default' => array(
                     'driver' => 'mysql',

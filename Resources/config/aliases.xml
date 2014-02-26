@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services">
+    
+    <parameters>
+        <parameter key="wj_eloquent.aliases.loader.class">Wj\EloquentBundle\Facade\AliasesLoader</parameter>
+        <parameter key="wj_eloquent.aliases.initializer.class">Wj\EloquentBundle\EventListener\AliasesInitializer</parameter>
+    </parameters>
+
+    <services>
+        <service id="wj_eloquent.aliases.initializer" class="%wj_eloquent.aliases.initializer.class%">
+            <argument type="service" id="wj_eloquent.aliases.loader" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+
+        <service id="wj_eloquent.aliases.loader" class="%wj_eloquent.aliases.loader.class%" />
+    </services>
+</container>

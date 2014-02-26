@@ -6,3 +6,4 @@ wj_eloquent:
     password: pass
     prefix: symfo_
     eloquent: true
+    aliases: true

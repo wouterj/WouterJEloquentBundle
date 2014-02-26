@@ -2,6 +2,7 @@
 
 namespace Wj\EloquentBundle\DependencyInjection;
 
+use Wj\EloquentBundle\Facade\Facade;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -24,6 +25,7 @@ class WjEloquentExtension extends Extension
 
         $this->loadCapsule($config, $container, $loader);
         $this->loadEloquent($config, $container, $loader);
+        $this->loadFacades($config, $container, $loader);
     }
 
     protected function loadCapsule(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader)
@@ -55,6 +57,23 @@ class WjEloquentExtension extends Extension
         }
 
         $loader->load('eloquent.xml');
+    }
+
+    protected function loadFacades(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader)
+    {
+        Facade::setContainer($container);
+
+        if ($config['aliases']['db'] || $config['aliases']['schema']) {
+            $loader->load('aliases.xml');
+
+            $aliasesLoaderDefinition = $container->getDefintion('wj_eloquent.aliases.loader');
+            if ($config['aliases']['db']) {
+                $aliasesLoaderDefinition->addMethodCall('addAlias', array('DB', 'Wj\EloquentBundle\Facade\Db'));
+            }
+            if ($config['aliases']['schema']) {
+                $aliasesLoaderDefinition->addMethodCall('addAlias', array('Schema', 'Wj\EloquentBundle\Facade\Schema'));
+            }
+        }
     }
 
     public function getNamespace()
