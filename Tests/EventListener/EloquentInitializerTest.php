@@ -15,7 +15,6 @@ class EloquentInitializerTest extends ProphecyTestCase
     {
         parent::setUp();
 
-        $this->markTestIncomplete('Prophecy is broken.');
         $this->capsule = $this->prophet->prophesize('Illuminate\Database\Capsule\Manager');
         $this->subject = new EloquentInitializer($this->capsule->reveal());
     }
