@@ -45,7 +45,7 @@ class ConfigurationTest extends AbstractExtensionConfigurationTestCase
             ),
             'connections' => array(),
             'eloquent' => array('enabled' => false),
-            'default_connection' => null,
+            'default_connection' => 'default',
         );
         $expected2 = array(
             'aliases' => array(
