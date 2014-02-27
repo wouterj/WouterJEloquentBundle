@@ -18,4 +18,8 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class WouterJEloquentBundle extends Bundle
 {
+    public function getContainerExtension()
+    {
+        return new DependencyInjection\WouterJEloquentExtension();
+    }
 }
