@@ -1,7 +1,7 @@
 # WouterJEloquentBundle
 
-    The WouterJEloquentBundle claims to integrate the [Eloquent ORM][eloquent]
-    into the Symfony2 framework.
+The WouterJEloquentBundle claims to integrate the [Eloquent ORM][eloquent]
+into the Symfony2 framework.
 
 ## Installation
 
