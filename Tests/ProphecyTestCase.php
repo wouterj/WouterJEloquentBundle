@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-
 namespace WouterJ\EloquentBundle\Tests;
 
 use Prophecy\Prophet;

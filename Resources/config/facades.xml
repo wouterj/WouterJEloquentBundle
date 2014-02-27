@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <container xmlns="http://symfony.com/schema/dic/services">
-    
+
     <parameters>
         <parameter key="wouterj_eloquent.aliases.loader.class">WouterJ\EloquentBundle\Facade\AliasesLoader</parameter>
         <parameter key="wouterj_eloquent.facade.initializer.class">WouterJ\EloquentBundle\EventListener\FacadeInitializer</parameter>

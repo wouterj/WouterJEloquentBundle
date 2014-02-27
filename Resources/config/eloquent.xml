@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <container xmlns="http://symfony.com/schema/dic/services">
-    
+
     <parameters>
         <parameter key="wouterj_eloquent.initializer.class">WouterJ\EloquentBundle\EventListener\EloquentInitializer</parameter>
     </parameters>

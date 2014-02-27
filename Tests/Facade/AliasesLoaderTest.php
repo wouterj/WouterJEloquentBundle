@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-
 namespace WouterJ\EloquentBundle\Tests\Facade;
 
 use WouterJ\EloquentBundle\Facade\AliasesLoader;

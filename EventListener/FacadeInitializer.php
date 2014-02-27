@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-
 namespace WouterJ\EloquentBundle\EventListener;
 
 use WouterJ\EloquentBundle\Facade\Facade;
@@ -49,7 +48,7 @@ class FacadeInitializer implements EventSubscriberInterface
     }
 
     /**
-     * Configures the facades and registers the aliases loader, when 
+     * Configures the facades and registers the aliases loader, when
      * activated.
      */
     public function initialize()

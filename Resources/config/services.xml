@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <container xmlns="http://symfony.com/schema/dic/services">
-    
+
     <parameters>
         <parameter key="wouterj_eloquent.class">Illuminate\Database\Capsule\Manager</parameter>
         <parameter key="wouterj_eloquent.database_manager.class">Illuminate\Database\DatabaseManager</parameter>

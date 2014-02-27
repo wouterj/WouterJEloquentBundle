@@ -9,10 +9,8 @@
  * file that was distributed with this source code.
  */
 
-
 namespace WouterJ\EloquentBundle\Tests\EventListener;
 
-use Prophecy\Argument;
 use WouterJ\EloquentBundle\Tests\ProphecyTestCase;
 use WouterJ\EloquentBundle\EventListener\EloquentInitializer;
 

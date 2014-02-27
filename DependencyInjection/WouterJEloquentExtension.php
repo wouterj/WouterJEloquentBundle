@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-
 namespace WouterJ\EloquentBundle\DependencyInjection;
 
 use WouterJ\EloquentBundle\Facade\Facade;
@@ -18,7 +17,6 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
-use Illuminate\Database\Capsule\Manager as Capsule;
 
 /**
  * {@inheritDoc}
