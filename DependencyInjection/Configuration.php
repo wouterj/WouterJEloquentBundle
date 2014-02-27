@@ -13,7 +13,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $root = $treeBuilder->root('wj_eloquent');
+        $root = $treeBuilder->root('wouterj_eloquent');
 
         $this->addAliasesSection($root);
         $this->addCapsuleSection($root);
