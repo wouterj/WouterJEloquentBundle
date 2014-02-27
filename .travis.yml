@@ -7,7 +7,6 @@ php:
     - hhvm
 
 env:
-  - SYMFONY_VERSION=2.2.*
   - SYMFONY_VERSION=2.3.*
   - SYMFONY_VERSION=2.4.*
   - SYMFONY_VERSION=dev-master
@@ -25,8 +24,6 @@ matrix:
     - hhvm
   exclude:
     # only test Symfony 2.3.* against HHVM
-    - php: hhvm
-      env: SYMFONY_VERSION=2.2.*
     - php: hhvm
       env: SYMFONY_VERSION=2.4.*
     - php: hhvm
