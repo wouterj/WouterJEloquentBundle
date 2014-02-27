@@ -56,6 +56,9 @@ I love contributors. You can submit fixes, report bugs, give your opinion,
 advocate this bundle or just say "hello" to me. Feel free to do anything you
 want, as long as you stick to the [Symfony Coding Standards][cs].
 
+> Discussions about the CS used or PRs adding PHPdoc comments have a high risk
+> to be rejected.
+
  [eloquent]: http://laravel.com/docs/database
  [composer]: https://getcomposer.org/
  [docs]: Resources/docs/index.md
