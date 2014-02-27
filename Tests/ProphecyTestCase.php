@@ -13,7 +13,7 @@ namespace WouterJ\EloquentBundle\Tests;
 
 use Prophecy\Prophet;
 
-class ProphecyTestCase extends \PHPUnit_Framework_TestCase
+abstract class ProphecyTestCase extends \PHPUnit_Framework_TestCase
 {
     protected $prophet;
 
