@@ -59,8 +59,14 @@ want, as long as you stick to the [Symfony Coding Standards][cs].
 > Discussions about the CS used or PRs adding PHPdoc comments have a high risk
 > to be rejected.
 
+## Roadmap
+
+To view the roadmap to a full featured Eloquent bundle, see the
+[roadmap][roadmap]. 
+
  [eloquent]: http://laravel.com/docs/database
  [composer]: https://getcomposer.org/
- [docs]: Resources/docs/index.md
+ [docs]: Resources/docs/index.rst
  [license]: Resources/meta/LICENSE
  [cs]: http://symfony.com/doc/current/contributing/code/standards.html
+ [roadmap]: Resources/docs/roadmap.rst
