@@ -14,10 +14,18 @@ namespace WouterJ\EloquentBundle\Facade;
 
 use Symfony\Component\DependencyInjection\Container;
 
+/**
+ * The base Facade class.
+ *
+ * This class is based on the Facade class in the illuminate/support package.
+ *
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 abstract class Facade
 {
     /** @var Container */
     protected static $container;
+    /** @var object[] */
     protected static $facadeInstances = array();
 
     public static function setContainer(Container $container)
@@ -65,6 +73,8 @@ abstract class Facade
      * This can either be an object or a string containing the service id.
      *
      * @return object|string
+     *
+     * @throws \LogicException When not overriden by a child facade
      */
     protected static function getFacadeAccessor()
     {

@@ -15,6 +15,11 @@ namespace WouterJ\EloquentBundle\DependencyInjection;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
+/**
+ * {@inheritDoc}
+ *
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class Configuration implements ConfigurationInterface
 {
     /**

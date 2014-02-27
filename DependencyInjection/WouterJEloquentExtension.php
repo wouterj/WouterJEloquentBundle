@@ -20,6 +20,11 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
+/**
+ * {@inheritDoc}
+ *
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class WouterJEloquentExtension extends Extension
 {
     private $capsuleEnabled = false;

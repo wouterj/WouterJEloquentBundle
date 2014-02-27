@@ -12,6 +12,9 @@
 
 namespace WouterJ\EloquentBundle\Facade;
 
+/**
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class Schema extends Facade
 {
     /**
@@ -19,6 +22,6 @@ class Schema extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return static::$container->get('wj_eloquent.database_manager')->getSchemaBuilder();
+        return static::$container->get('wouterj_eloquent.database_manager')->getSchemaBuilder();
     }
 }

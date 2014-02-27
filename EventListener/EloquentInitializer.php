@@ -34,11 +34,17 @@ class EloquentInitializer implements EventSubscriberInterface
         $this->setCapsule($capsule);
     }
 
+    /**
+     * Initializes the Eloquent ORM.
+     */
     public function initialize()
     {
         $this->getCapsule()->bootEloquent();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public static function getSubscribedEvents()
     {
         return array(

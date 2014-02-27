@@ -12,13 +12,17 @@
 
 namespace WouterJ\EloquentBundle\Facade;
 
+/**
+ * Lazy loads alias class.
+ *
+ * Based on the AliasLoader in the illuminate/foundation package.
+ *
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class AliasesLoader
 {
     private $aliases = array();
 
-    /**
-     * @param array     $aliases
-     */
     public function __construct($aliases = array())
     {
         $this->setAliases($aliases);

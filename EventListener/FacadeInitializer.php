@@ -30,6 +30,9 @@ class FacadeInitializer implements EventSubscriberInterface
     /** @var Container */
     private $container;
 
+    /**
+     * {@inheritDoc}
+     */
     public static function getSubscribedEvents()
     {
         return array(
@@ -45,6 +48,10 @@ class FacadeInitializer implements EventSubscriberInterface
         $this->setContainer($container);
     }
 
+    /**
+     * Configures the facades and registers the aliases loader, when 
+     * activated.
+     */
     public function initialize()
     {
         Facade::setContainer($this->getContainer());

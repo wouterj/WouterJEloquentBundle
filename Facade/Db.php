@@ -12,6 +12,9 @@
 
 namespace WouterJ\EloquentBundle\Facade;
 
+/**
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class Db extends Facade
 {
     /**
@@ -19,6 +22,6 @@ class Db extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'wj_eloquent.database_manager';
+        return 'wouterj_eloquent.database_manager';
     }
 }
