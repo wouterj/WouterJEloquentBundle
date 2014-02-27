@@ -108,7 +108,7 @@ class Configuration implements ConfigurationInterface
             ->end()
             ->fixXmlConfig('connection')
             ->children()
-                ->scalarNode('default_connection')->defaultNull()->end()
+                ->scalarNode('default_connection')->defaultValue('default')->end()
                 ->arrayNode('connections')
                     ->requiresAtLeastOneElement()
                     ->useAttributeAsKey('name')
