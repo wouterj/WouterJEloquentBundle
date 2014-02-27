@@ -1,16 +1,16 @@
 <?php
 
-namespace Wj\EloquentBundle\Tests\DependencyInjection;
+namespace WouterJ\EloquentBundle\Tests\DependencyInjection;
 
-use Wj\EloquentBundle\DependencyInjection\WjEloquentExtension;
+use WouterJ\EloquentBundle\DependencyInjection\WouterJEloquentExtension;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class WjEloquentExtensionTest extends AbstractExtensionTestCase
+class WouterJEloquentExtensionTest extends AbstractExtensionTestCase
 {
     public function getContainerExtensions()
     {
-        return array(new WjEloquentExtension());
+        return array(new WouterJEloquentExtension());
     }
 
     /** @test */
@@ -26,9 +26,9 @@ class WjEloquentExtensionTest extends AbstractExtensionTestCase
     {
         $this->load(array('connections' => $this->getConnectionConfig()));
 
-        $this->assertContainerBuilderHasService('wj_eloquent', '%wj_eloquent.class%');
-        $this->assertContainerBuilderHasService('wj_eloquent.database_manager', '%wj_eloquent.database_manager.class%');
-        $this->assertFalse($this->container->has('wj_eloquent.initializer'));
+        $this->assertContainerBuilderHasService('wouterj_eloquent', '%wouterj_eloquent.class%');
+        $this->assertContainerBuilderHasService('wouterj_eloquent.database_manager', '%wouterj_eloquent.database_manager.class%');
+        $this->assertFalse($this->container->has('wouterj_eloquent.initializer'));
     }
 
     /** @test */
@@ -39,13 +39,13 @@ class WjEloquentExtensionTest extends AbstractExtensionTestCase
             'eloquent'    => array('enabled' => true),
         ));
 
-        $this->assertContainerBuilderHasService('wj_eloquent.initializer', '%wj_eloquent.initializer.class%');
+        $this->assertContainerBuilderHasService('wouterj_eloquent.initializer', '%wouterj_eloquent.initializer.class%');
     }
 
     /**
      * @test
      * @expectedException LogicException
-     * @expectedExceptionMessage There should be at least one connection configured on "wj_eloquent.connections" in order to use the Eloquent ORM.
+     * @expectedExceptionMessage There should be at least one connection configured on "wouterj_eloquent.connections" in order to use the Eloquent ORM.
      */
     public function it_fails_to_enable_eloquent_without_connections()
     {

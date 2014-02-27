@@ -1,4 +1,4 @@
-wj_eloquent:
+wouterj_eloquent:
     driver: sqlite
     host: local
     database: foo.db

@@ -1,6 +1,6 @@
 <?php
 
-namespace Wj\EloquentBundle\DependencyInjection;
+namespace WouterJ\EloquentBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

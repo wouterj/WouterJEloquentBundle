@@ -1,8 +1,8 @@
 <?php
 
-namespace Wj\EloquentBundle\DependencyInjection;
+namespace WouterJ\EloquentBundle\DependencyInjection;
 
-use Wj\EloquentBundle\Facade\Facade;
+use WouterJ\EloquentBundle\Facade\Facade;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-class WjEloquentExtension extends Extension
+class WouterJEloquentExtension extends Extension
 {
     private $capsuleEnabled = false;
 
@@ -37,13 +37,13 @@ class WjEloquentExtension extends Extension
 
         $loader->load('services.xml');
 
-        $capsuleDefinition = $container->getDefinition('wj_eloquent');
+        $capsuleDefinition = $container->getDefinition('wouterj_eloquent');
         foreach ($config['connections'] as $name => $connection) {
             $capsuleDefinition->addMethodCall('addConnection', array($connection, $name));
         }
 
         if ('default' !== $config['default_connection']) {
-            $container->getDefinition('wj_eloquent.database_manager')->addMethodCall('setDefaultConnection', array($config['default_connection']));
+            $container->getDefinition('wouterj_eloquent.database_manager')->addMethodCall('setDefaultConnection', array($config['default_connection']));
         }
     }
 
@@ -53,8 +53,8 @@ class WjEloquentExtension extends Extension
             return;
         }
 
-        if (!$container->hasDefinition('wj_eloquent')) {
-            throw new \LogicException('There should be at least one connection configured on "wj_eloquent.connections" in order to use the Eloquent ORM.');
+        if (!$container->hasDefinition('wouterj_eloquent')) {
+            throw new \LogicException('There should be at least one connection configured on "wouterj_eloquent.connections" in order to use the Eloquent ORM.');
         }
 
         $loader->load('eloquent.xml');
@@ -65,20 +65,25 @@ class WjEloquentExtension extends Extension
         $loader->load('facades.xml');
 
         if ($config['aliases']['db'] || $config['aliases']['schema']) {
-            $aliasesLoaderDefinition = $container->getDefinition('wj_eloquent.aliases.loader');
+            $aliasesLoaderDefinition = $container->getDefinition('wouterj_eloquent.aliases.loader');
             if ($config['aliases']['db']) {
-                $aliasesLoaderDefinition->addMethodCall('addAlias', array('DB', 'Wj\EloquentBundle\Facade\Db'));
+                $aliasesLoaderDefinition->addMethodCall('addAlias', array('DB', 'WouterJ\EloquentBundle\Facade\Db'));
             }
             if ($config['aliases']['schema']) {
-                $aliasesLoaderDefinition->addMethodCall('addAlias', array('Schema', 'Wj\EloquentBundle\Facade\Schema'));
+                $aliasesLoaderDefinition->addMethodCall('addAlias', array('Schema', 'WouterJ\EloquentBundle\Facade\Schema'));
             }
 
-            $container->getDefinition('wj_eloquent.facade.initializer')->addMethodCall('setLoader', array(new Reference('wj_eloquent.aliases.loader')));
+            $container->getDefinition('wouterj_eloquent.facade.initializer')->addMethodCall('setLoader', array(new Reference('wouterj_eloquent.aliases.loader')));
         }
     }
 
     public function getNamespace()
     {
         return 'http://wouterj.nl/schema/dic/eloquent';
+    }
+
+    public function getAlias()
+    {
+        return 'wouterj_eloquent';
     }
 }

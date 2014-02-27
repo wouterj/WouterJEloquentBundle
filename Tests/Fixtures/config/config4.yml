@@ -1,4 +1,4 @@
-wj_eloquent:
+wouterj_eloquent:
     connections:
         default:
             database: database

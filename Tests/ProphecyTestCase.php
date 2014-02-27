@@ -1,6 +1,6 @@
 <?php
 
-namespace Wj\EloquentBundle\Tests;
+namespace WouterJ\EloquentBundle\Tests;
 
 use Prophecy\Prophet;
 

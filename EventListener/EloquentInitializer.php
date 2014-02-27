@@ -1,6 +1,6 @@
 <?php
 
-namespace Wj\EloquentBundle\EventListener;
+namespace WouterJ\EloquentBundle\EventListener;
 
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

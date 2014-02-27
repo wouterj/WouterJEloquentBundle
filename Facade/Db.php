@@ -1,6 +1,6 @@
 <?php
 
-namespace Wj\EloquentBundle\Facade;
+namespace WouterJ\EloquentBundle\Facade;
 
 class Db extends Facade
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Wj\EloquentBundle\EventListener;
+namespace WouterJ\EloquentBundle\EventListener;
 
-use Wj\EloquentBundle\Facade\Facade;
-use Wj\EloquentBundle\Facade\AliasesLoader;
+use WouterJ\EloquentBundle\Facade\Facade;
+use WouterJ\EloquentBundle\Facade\AliasesLoader;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\DependencyInjection\Container;

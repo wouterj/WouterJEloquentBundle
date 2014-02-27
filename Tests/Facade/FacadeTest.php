@@ -1,10 +1,10 @@
 <?php
 
-namespace Wj\EloquentBundle\Tests\Facade;
+namespace WouterJ\EloquentBundle\Tests\Facade;
 
-use Wj\EloquentBundle\Tests\ProphecyTestCase;
-use Wj\EloquentBundle\Facade\Facade;
-use Wj\EloquentBundle\Tests\Fixtures\Facade as Fixture;
+use WouterJ\EloquentBundle\Tests\ProphecyTestCase;
+use WouterJ\EloquentBundle\Facade\Facade;
+use WouterJ\EloquentBundle\Tests\Fixtures\Facade as Fixture;
 
 class FacadeTest extends ProphecyTestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-$container->loadFromExtension('wj_eloquent', array(
+$container->loadFromExtension('wouterj_eloquent', array(
     'connections' => array(
         'default' => array(
             'database' => 'database',

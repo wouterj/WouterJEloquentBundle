@@ -1,8 +1,8 @@
 <?php
 
-namespace Wj\EloquentBundle\Tests\Facade;
+namespace WouterJ\EloquentBundle\Tests\Facade;
 
-use Wj\EloquentBundle\Facade\AliasesLoader;
+use WouterJ\EloquentBundle\Facade\AliasesLoader;
 
 class AliasesLoaderTest extends \PHPUnit_Framework_TestCase
 {

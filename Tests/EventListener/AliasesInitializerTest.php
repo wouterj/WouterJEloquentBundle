@@ -1,10 +1,10 @@
 <?php
 
-namespace Wj\EloquentBundle\Tests\EventListener;
+namespace WouterJ\EloquentBundle\Tests\EventListener;
 
-use Wj\EloquentBundle\Tests\ProphecyTestCase;
-use Wj\EloquentBundle\Facade\Facade;
-use Wj\EloquentBundle\EventListener\FacadeInitializer;
+use WouterJ\EloquentBundle\Tests\ProphecyTestCase;
+use WouterJ\EloquentBundle\Facade\Facade;
+use WouterJ\EloquentBundle\EventListener\FacadeInitializer;
 
 class FacadeInitializerTest extends ProphecyTestCase
 {
@@ -16,7 +16,7 @@ class FacadeInitializerTest extends ProphecyTestCase
     {
         parent::setUp();
 
-        $this->loader = $this->prophet->prophesize('Wj\EloquentBundle\Facade\AliasesLoader');
+        $this->loader = $this->prophet->prophesize('WouterJ\EloquentBundle\Facade\AliasesLoader');
         $this->container = $this->prophet->prophesize('Symfony\Component\DependencyInjection\Container');
         $this->subject = new FacadeInitializer($this->container->reveal());
     }
@@ -26,7 +26,7 @@ class FacadeInitializerTest extends ProphecyTestCase
     {
         $this->subject->initialize();
 
-        $container = $this->readAttribute('Wj\EloquentBundle\Facade\Facade', 'container');
+        $container = $this->readAttribute('WouterJ\EloquentBundle\Facade\Facade', 'container');
         $this->assertSame($this->container->reveal(), $container);
     }
 

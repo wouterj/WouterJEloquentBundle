@@ -1,15 +1,15 @@
 <?php
 
-namespace Wj\EloquentBundle\Tests\DependencyInjection;
+namespace WouterJ\EloquentBundle\Tests\DependencyInjection;
 
-use Wj\EloquentBundle\DependencyInjection as DI;
+use WouterJ\EloquentBundle\DependencyInjection as DI;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionConfigurationTestCase;
 
 class ConfigurationTest extends AbstractExtensionConfigurationTestCase
 {
     protected function getContainerExtension()
     {
-        return new DI\WjEloquentExtension();
+        return new DI\WouterJEloquentExtension();
     }
 
     protected function getConfiguration()

@@ -1,10 +1,10 @@
 <?php
 
-namespace Wj\EloquentBundle\Tests\EventListener;
+namespace WouterJ\EloquentBundle\Tests\EventListener;
 
 use Prophecy\Argument;
-use Wj\EloquentBundle\Tests\ProphecyTestCase;
-use Wj\EloquentBundle\EventListener\EloquentInitializer;
+use WouterJ\EloquentBundle\Tests\ProphecyTestCase;
+use WouterJ\EloquentBundle\EventListener\EloquentInitializer;
 
 class EloquentInitializerTest extends ProphecyTestCase
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Wj\EloquentBundle\Tests\Fixtures\Facade;
+namespace WouterJ\EloquentBundle\Tests\Fixtures\Facade;
 
-use Wj\EloquentBundle\Facade\Facade;
+use WouterJ\EloquentBundle\Facade\Facade;
 
 class ObjectFacade extends Facade
 {
