@@ -1,0 +1,33 @@
+language: php
+
+php:
+    - 5.3
+    - 5.4
+    - 5.5
+    - hhvm
+
+env:
+  - SYMFONY_VERSION=2.2.*
+  - SYMFONY_VERSION=2.3.*
+  - SYMFONY_VERSION=2.4.*
+  - SYMFONY_VERSION=dev-master
+
+before_script:
+  - composer self-update
+  - composer require symfony/symfony:${SYMFONY_VERSION} --prefer-source
+
+script: phpunit
+
+matrix:
+  allow_failures:
+    # Symfony DEV and hvvm are allowed to fail
+    - env: SYMFONY_VERSION=dev-master
+    - hhvm
+  exclude:
+    # only test Symfony 2.3.* against HHVM
+    - php: hhvm
+      env: SYMFONY_VERSION=2.2.*
+    - php: hhvm
+      env: SYMFONY_VERSION=2.4.*
+    - php: hhvm
+      env: SYMFONY_VERSION=dev-master
