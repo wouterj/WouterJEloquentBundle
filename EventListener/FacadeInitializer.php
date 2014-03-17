@@ -13,6 +13,7 @@ namespace WouterJ\EloquentBundle\EventListener;
 
 use WouterJ\EloquentBundle\Facade\Facade;
 use WouterJ\EloquentBundle\Facade\AliasesLoader;
+use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\DependencyInjection\Container;
@@ -28,6 +29,7 @@ class FacadeInitializer implements EventSubscriberInterface
     private $loader;
     /** @var Container */
     private $container;
+    private $run = false;
 
     /**
      * {@inheritDoc}
@@ -36,6 +38,7 @@ class FacadeInitializer implements EventSubscriberInterface
     {
         return array(
             KernelEvents::REQUEST => 'initialize',
+            ConsoleEvents::COMMAND => 'initializeConsole',
         );
     }
 
@@ -58,6 +61,16 @@ class FacadeInitializer implements EventSubscriberInterface
         if (null !== $loader = $this->getLoader()) {
             $loader->register();
         }
+    }
+
+    public function initializeConsole()
+    {
+        if ($this->run) {
+            return;
+        }
+
+        $this->initialize();
+        $this->run = true;
     }
 
     protected function getLoader()

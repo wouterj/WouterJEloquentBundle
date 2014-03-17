@@ -16,7 +16,8 @@
         "matthiasnoback/symfony-dependency-injection-test": "0.*",
         "symfony/symfony": "~2.3",
         "phpspec/prophecy": "1.1.*",
-        "illuminate/cache": "4.1.*"
+        "illuminate/cache": "4.1.*",
+        "illuminate/console": "4.*"
     },
 
     "autoload": {

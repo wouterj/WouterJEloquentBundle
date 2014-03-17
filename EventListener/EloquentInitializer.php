@@ -11,6 +11,7 @@
 
 namespace WouterJ\EloquentBundle\EventListener;
 
+use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Illuminate\Database\Capsule\Manager as Capsule;
@@ -24,6 +25,7 @@ class EloquentInitializer implements EventSubscriberInterface
 {
     /** @var Capsule */
     private $capsule;
+    private $run = false;
 
     /**
      * @param Capsule $capsule
@@ -41,6 +43,16 @@ class EloquentInitializer implements EventSubscriberInterface
         $this->getCapsule()->bootEloquent();
     }
 
+    public function initializeConsole()
+    {
+        if ($this->run) {
+            return;
+        }
+
+        $this->initialize();
+        $this->run = true;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -48,6 +60,7 @@ class EloquentInitializer implements EventSubscriberInterface
     {
         return array(
             KernelEvents::REQUEST => 'initialize',
+            ConsoleEvents::COMMAND => 'initializeConsole',
         );
     }
 
