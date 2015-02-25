@@ -11,9 +11,9 @@ Full configuration
 
             # Prototype
             name:
+                database:  ~     # the only required option
                 driver:    mysql
                 host:      localhost
-                database:  ~                # Required
                 username:  root
                 password:  ''
                 charset:   utf8
@@ -42,7 +42,7 @@ setting directly to the root configuration:
         password: pass
         prefix: symfo_
 
-This will create a connection called "default". If the defaults fits your
+This will create a connection called ``default``. If the defaults fits your
 needs, the minimal configuration to get started is:
 
 .. code-block:: yaml
@@ -53,17 +53,17 @@ needs, the minimal configuration to get started is:
 Drivers
 ~~~~~~~
 
-The Eloquent ORM supports 4 drivers:
+The Eloquent ORM supports four database drivers:
 
 * mysql
 * postgres
-* sql server
+* sqlserver
 * sqlite
 
 Default Connection
 ------------------
 
-If your default connection is not "default", you can specify its name using
+If your default connection is not ``default``, you can specify its name using
 this option.
 
 Eloquent
@@ -82,12 +82,20 @@ have to set the ``eloquent`` option to ``true``:
 Aliases
 -------
 
-The EloquentBundle provides 2 facades: ``DB`` and ``Schema``. You can also
-enabled aliasing these facades, this means that you can always use ``DB`` and
-``Schema`` directly, without including a use statement.
+The EloquentBundle provides two facades: ``DB`` and ``Schema``. You can also
+alias these facades, which means that you can always use ``DB`` and ``Schema``
+directly, without including a ``use`` statement.
 
 You can activate both facades to be aliases by setting ``aliases`` to
-``true``, you can also specify either ``DB`` or ``Schema`` to be aliased:
+``true``:
+
+.. code-block:: yaml
+
+    wouterj_eloquent:
+        # ...
+        aliases: true
+
+You can also specify either ``DB`` or ``Schema`` to be aliased:
 
 .. code-block:: yaml
 
