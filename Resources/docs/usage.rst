@@ -1,8 +1,7 @@
 Usage
 -----
 
-Using this bundle is almost equal to how you use the Eloquent ORM in
-laravel_.
+Using this bundle is almost equal to how you `use the Eloquent ORM in laravel`_.
 
 Query Builder
 -------------
@@ -29,9 +28,9 @@ You can use the `Query Builder`_:
 
 .. caution::
 
-    Don't forget to enable the ``DB`` aliases if you want to use the ``DB``
+    Don't forget to `enable the DB aliases`_ if you want to use the ``DB``
     class directly. Otherwise, you have to include the
-    ``WouterJ\EloquentBundle\Facade\DB``.
+    ``WouterJ\EloquentBundle\Facade\DB`` class with a ``use`` statement.
 
 Eloquent ORM
 ------------
@@ -71,13 +70,14 @@ Using Services instead of Facades
 ---------------------------------
 
 You may prefer to use services instead of the magic Facades. The bundle
-provides 2 usefull services:
+provides two useful services:
 
 * ``wouterj_eloquent`` - This is the ``Capsule`` class, it can handle all core
   methods of the ``Schema`` and ``DB`` facades;
 * ``wouterj_eloquent.database_manager`` - This service is equal to the ``DB``
   facade.
 
-.. _laravel: http://laravel.com/docs/database
+.. _`use the Eloquent ORM in laravel`: http://laravel.com/docs/database
 .. _`Query Builder`: http://laravel.com/docs/queries
+.. _`enable the DB aliases`: configuration.rst
 .. _`Eloquent models`: http://laravel.com/docs/eloquent
