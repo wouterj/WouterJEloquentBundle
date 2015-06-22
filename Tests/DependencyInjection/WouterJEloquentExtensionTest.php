@@ -35,8 +35,8 @@ class WouterJEloquentExtensionTest extends AbstractExtensionTestCase
     {
         $this->load(array('connections' => $this->getConnectionConfig()));
 
-        $this->assertContainerBuilderHasService('wouterj_eloquent', '%wouterj_eloquent.class%');
-        $this->assertContainerBuilderHasService('wouterj_eloquent.database_manager', '%wouterj_eloquent.database_manager.class%');
+        $this->assertContainerBuilderHasService('wouterj_eloquent', 'Illuminate\Database\Capsule\Manager');
+        $this->assertContainerBuilderHasService('wouterj_eloquent.database_manager', 'Illuminate\Database\DatabaseManager');
         $this->assertFalse($this->container->has('wouterj_eloquent.initializer'));
     }
 
@@ -48,7 +48,7 @@ class WouterJEloquentExtensionTest extends AbstractExtensionTestCase
             'eloquent'    => array('enabled' => true),
         ));
 
-        $this->assertContainerBuilderHasService('wouterj_eloquent.initializer', '%wouterj_eloquent.initializer.class%');
+        $this->assertContainerBuilderHasService('wouterj_eloquent.initializer', 'WouterJ\EloquentBundle\EventListener\EloquentInitializer');
     }
 
     /**
