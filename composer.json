@@ -15,10 +15,7 @@
     },
     "require-dev": {
         "matthiasnoback/symfony-dependency-injection-test": "0.*",
-        "symfony/symfony": "~2.3",
-        "phpspec/prophecy": "1.1.*",
-        "illuminate/cache": "~5.0",
-        "illuminate/console": "5.*"
+        "phpspec/prophecy": "1.1.*"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
