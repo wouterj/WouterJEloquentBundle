@@ -1,13 +1,12 @@
 <?xml version="1.0" ?>
 <container xmlns="http://symfony.com/schema/dic/services">
 
-    <parameters>
-        <parameter key="wouterj_eloquent.initializer.class">WouterJ\EloquentBundle\EventListener\EloquentInitializer</parameter>
-    </parameters>
-
     <services>
-        <service id="wouterj_eloquent.initializer" class="%wouterj_eloquent.initializer.class%">
+        <service id="wouterj_eloquent.initializer"
+            class="WouterJ\EloquentBundle\EventListener\EloquentInitializer"
+        >
             <argument type="service" id="wouterj_eloquent" />
+
             <tag name="kernel.event_subscriber" />
         </service>
     </services>

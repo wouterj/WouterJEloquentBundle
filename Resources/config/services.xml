@@ -1,15 +1,11 @@
 <?xml version="1.0" ?>
 <container xmlns="http://symfony.com/schema/dic/services">
 
-    <parameters>
-        <parameter key="wouterj_eloquent.class">Illuminate\Database\Capsule\Manager</parameter>
-        <parameter key="wouterj_eloquent.database_manager.class">Illuminate\Database\DatabaseManager</parameter>
-    </parameters>
-
     <services>
-        <service id="wouterj_eloquent" class="%wouterj_eloquent.class%" />
+        <service id="wouterj_eloquent" class="Illuminate\Database\Capsule\Manager" />
 
-        <service id="wouterj_eloquent.database_manager" class="%wouterj_eloquent.database_manager.class%"
-            factory-service="wouterj_eloquent" factory-method="getDatabaseManager" />
+        <service id="wouterj_eloquent.database_manager" class="Illuminate\Database\DatabaseManager">
+            <factory service="wouterj_eloquent" method="getDatabaseManager" />
+        </service>
     </services>
 </container>

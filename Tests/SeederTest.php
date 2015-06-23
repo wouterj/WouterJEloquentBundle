@@ -14,6 +14,8 @@ namespace WouterJ\EloquentBundle\Tests;
 use WouterJ\EloquentBundle\Seeder;
 use WouterJ\EloquentBundle\Tests\Promise;
 
+require_once __DIR__.'/Fixtures/ConsoleCommandFixture.php';
+
 class SeederTest extends ProphecyTestCase
 {
     protected $subject;

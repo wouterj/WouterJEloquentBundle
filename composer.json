@@ -10,15 +10,15 @@
     "license": "MIT",
 
     "require": {
-        "illuminate/database": "~4.1.4"
+        "illuminate/database": "~5.0",
+        "symfony/framework-bundle": "~2.7"
     },
     "require-dev": {
         "matthiasnoback/symfony-dependency-injection-test": "0.*",
-        "symfony/symfony": "~2.3",
-        "phpspec/prophecy": "1.1.*",
-        "illuminate/cache": "4.1.*",
-        "illuminate/console": "4.*"
+        "phpspec/prophecy": "1.1.*"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
 
     "autoload": {
         "psr-4": { "WouterJ\\EloquentBundle\\": "" }
