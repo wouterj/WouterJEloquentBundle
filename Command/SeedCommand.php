@@ -1,6 +1,6 @@
 <?php
 
-namespace Wouterj\EloquentBundle\Command;
+namespace WouterJ\EloquentBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputOption;
