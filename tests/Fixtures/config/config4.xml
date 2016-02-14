@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services">
+
+    <config xmlns="http://wouterj.nl/schema/dic/eloquent"
+        default-connection="foo">
+        <connection name="default" database="database" />
+
+        <connection name="foo"
+            driver="sqlite"
+            host="local"
+            database="foo.db"
+            username="user"
+            password="pass"
+            prefix="symfo_"
+        />
+    </config>
+</container>

@@ -1,0 +1,3 @@
+wouterj_eloquent:
+    database: database
+    aliases: { schema: true }

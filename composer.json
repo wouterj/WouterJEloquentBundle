@@ -1,31 +1,28 @@
 {
-    "name": "wouterj/eloquent-bundle",
-    "description": "Implementing the Eloquent ORM into Symfony2",
-    "authors": [
-        {
-            "name": "Wouter J",
-            "email": "wouter@wouterj.nl"
-        }
-    ],
-    "license": "MIT",
+      "name": "wouterj/eloquent-bundle"
+    , "description": "Implementing the Eloquent ORM into Symfony2"
+    , "authors": [{ "name": "Wouter de Jong", "email": "wouter@wouterj.nl" }]
+    , "license": "MIT"
 
-    "require": {
-        "illuminate/database": "~5.0",
-        "symfony/framework-bundle": "~2.7"
-    },
-    "require-dev": {
-        "matthiasnoback/symfony-dependency-injection-test": "0.*",
-        "phpspec/prophecy": "1.1.*"
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    , "require": {
+          "php": "^5.5|^7.0"
+        , "illuminate/database": "^5.0"
+        , "symfony/dependency-injection": "^2.3|^3.0"
+    }
+    , "require-dev": {
+          "matthiasnoback/symfony-dependency-injection-test": "0.*"
+        , "symfony/console": "^2.7|^3.0"
+        , "symfony/event-dispatcher": "^2.3|^3.0"
+        , "symfony/framework-bundle": "^2.3|^3.0"
+    }
+    , "suggests": {
+          "symfony/console": "To use commands for seeding and migration. (^2.7|^3.0)"
+        , "symfony/event-dispatcher": "To auto initialize the Eloquent ORM. (^2.3|^3.0)"
+    }
 
-    "autoload": {
-        "psr-4": { "WouterJ\\EloquentBundle\\": "" }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        }
+    , "autoload": { "psr-4": { "WouterJ\\EloquentBundle\\": "src" } }
+    , "autoload-dev": { "psr-4": { "WouterJ\\EloquentBundle\\": "tests" } }
+    , "extra": {
+        "branch-alias": { "dev-master": "1.0-dev" }
     }
 }

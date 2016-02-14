@@ -11,6 +11,7 @@
 
 namespace WouterJ\EloquentBundle\EventListener;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\Facade\Facade;
 use WouterJ\EloquentBundle\Facade\AliasesLoader;
 use Symfony\Component\Console\ConsoleEvents;
@@ -27,27 +28,22 @@ class FacadeInitializer implements EventSubscriberInterface
 {
     /** @var null|AliasesLoader */
     private $loader;
-    /** @var Container */
+    /** @var ContainerInterface */
     private $container;
     private $run = false;
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public static function getSubscribedEvents()
     {
-        return array(
-            KernelEvents::REQUEST => 'initialize',
+        return [
+            KernelEvents::REQUEST  => 'initialize',
             ConsoleEvents::COMMAND => 'initializeConsole',
-        );
+        ];
     }
 
-    /**
-     * @param Container $container
-     */
-    public function __construct($container)
+    public function __construct(ContainerInterface $container)
     {
-        $this->setContainer($container);
+        $this->container = $container;
     }
 
     /**
@@ -56,9 +52,9 @@ class FacadeInitializer implements EventSubscriberInterface
      */
     public function initialize()
     {
-        Facade::setContainer($this->getContainer());
+        Facade::setContainer($this->container);
 
-        if (null !== $loader = $this->getLoader()) {
+        if (null !== $loader = $this->loader) {
             $loader->register();
         }
     }
@@ -73,23 +69,8 @@ class FacadeInitializer implements EventSubscriberInterface
         $this->run = true;
     }
 
-    protected function getLoader()
-    {
-        return $this->loader;
-    }
-
     public function setLoader(AliasesLoader $loader)
     {
         $this->loader = $loader;
-    }
-
-    protected function getContainer()
-    {
-        return $this->container;
-    }
-
-    private function setContainer(Container $container)
-    {
-        $this->container = $container;
     }
 }

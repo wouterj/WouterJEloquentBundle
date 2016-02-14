@@ -18,11 +18,11 @@ use Illuminate\Database\ConnectionInterface;
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
-class Seeder extends BaseSeeder
+abstract class Seeder extends BaseSeeder
 {
     /** @var null|ContainerInterface */
     protected $container;
-    protected $seededClasses = array();
+    protected $seededClasses = [];
     /** @var ConnectionInterface */
     protected $connection;
 

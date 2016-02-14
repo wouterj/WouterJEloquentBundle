@@ -11,7 +11,7 @@
 
 namespace WouterJ\EloquentBundle\Facade;
 
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * The base Facade class.
@@ -22,12 +22,12 @@ use Symfony\Component\DependencyInjection\Container;
  */
 abstract class Facade
 {
-    /** @var Container */
+    /** @var null|ContainerInterface */
     protected static $container;
     /** @var object[] */
-    protected static $facadeInstances = array();
+    protected static $facadeInstances = [];
 
-    public static function setContainer(Container $container)
+    public static function setContainer(ContainerInterface $container)
     {
         static::$container = $container;
     }
@@ -63,7 +63,7 @@ abstract class Facade
     {
         $instance = static::resolveFacadeInstance(static::getFacadeAccessor());
 
-        return call_user_func_array(array($instance, $method), $parameters);
+        return call_user_func_array([$instance, $method], $parameters);
     }
 
     /**

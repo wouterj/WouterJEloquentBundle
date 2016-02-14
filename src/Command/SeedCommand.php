@@ -34,19 +34,10 @@ If you want to use another connection, use the <comment>--database</comment> opt
     <info>php %command.full_name% --database test</info>
 EOT
             )
-            ->setDefinition(array(
-                new InputArgument(
-                    'class',
-                    InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
-                    'The database seeder classes to run'
-                ),
-                new InputOption(
-                    'database',
-                    null,
-                    InputOption::VALUE_REQUIRED,
-                    'The database connection to seed'
-                ),
-            ))
+            ->setDefinition([
+                new InputArgument('class', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'The database seeder classes to run'),
+                new InputOption('database', null, InputOption::VALUE_REQUIRED, 'The database connection to seed'),
+            ])
         ;
     }
 
@@ -74,33 +65,48 @@ EOT
         }
     }
 
-    protected function getSeeders($classes = null)
+    private function getSeeders($classes = null)
     {
-        $seeders = array();
         if (0 === count($classes)) {
-            foreach ($this->getContainer()->getParameter('kernel.bundles') as $bundle) {
-                $class = substr($bundle, 0, strrpos($bundle, '\\')).'\Seed\DatabaseSeeder';
+            return $this->getDatabaseSeederFromBundles();
+        }
 
-                if (class_exists($class)) {
-                    $seeders[] = $class;
-                }
-            }
-        } else {
-            foreach ($classes as $class) {
-                if (class_exists($class)) {
-                    $seeders[] = $class;
-                }
+        $seeders = [];
+        foreach ($classes as $class) {
+            if (class_exists($class)) {
+                $seeders[] = $class;
             }
         }
 
         return $seeders;
     }
 
-    protected function resolve($class)
+    private function getDatabaseSeederFromBundles()
     {
-        $s = new Seeder;
+        $seeders = [];
+
+        foreach ($this->getContainer()->getParameter('kernel.bundles') as $bundle) {
+            $class = substr($bundle, 0, strrpos($bundle, '\\')).'\Seed\DatabaseSeeder';
+
+            if (class_exists($class)) {
+                $seeders[] = $class;
+            }
+        }
+
+        return $seeders;
+    }
+
+    private function resolve($class)
+    {
+        $s = new NoActionSeeder();
         $s->setSfContainer($this->getContainer());
 
         return $s->resolve($class);
     }
+}
+
+class NoActionSeeder extends Seeder
+{
+    public function run()
+    { }
 }

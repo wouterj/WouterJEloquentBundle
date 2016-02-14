@@ -9,18 +9,20 @@
  * file that was distributed with this source code.
  */
 
-namespace WouterJ\EloquentBundle\Facade;
+namespace WouterJ\EloquentBundle\Fixtures\Facade;
 
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
-class Db extends Facade
+use WouterJ\EloquentBundle\Facade\Facade;
+
+class ObjectFacade extends Facade
 {
-    /**
-     * {@inheritDoc}
-     */
     protected static function getFacadeAccessor()
     {
-        return 'wouterj_eloquent.database_manager';
+        return new Dummy();
     }
+}
+
+class Dummy
+{
+    public function foo()
+    { }
 }
