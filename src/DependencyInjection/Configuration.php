@@ -44,26 +44,18 @@ class Configuration implements ConfigurationInterface
                     ->beforeNormalization()
                         ->always()
                         ->then(function ($v) {
-                            if (is_bool($v)) {
-                                $u = array();
-                                $u['db'] = $v;
-                                $u['schema'] = $v;
+                            if (null === $v) {
+                                return ['db' => true, 'schema' => true];
+                            }
 
-                                return $u;
+                            if (is_bool($v)) {
+                                return ['db' => $v, 'schema' => $v];
                             }
 
                             if (isset($v['enabled'])) {
                                 $v['db'] = $v['enabled'];
                                 $v['schema'] = $v['enabled'];
                                 unset($v['enabled']);
-
-                                return $v;
-                            }
-
-                            if (null === $v) {
-                                $v = array();
-                                $v['db'] = true;
-                                $v['schema'] = true;
 
                                 return $v;
                             }
@@ -87,12 +79,12 @@ class Configuration implements ConfigurationInterface
                 ->ifTrue(function ($v) {
                     return is_array($v)
                         && !array_key_exists('connections', $v) && !array_key_exists('connection', $v)
-                        && count($v) !== count(array_diff(array_keys($v), array('driver', 'host', 'database', 'username', 'password', 'charset', 'collation', 'prefix')));
+                        && count($v) !== count(array_diff(array_keys($v), ['driver', 'host', 'database', 'username', 'password', 'charset', 'collation', 'prefix']));
                 })
                 ->then(function ($v) {
                     // Key that should be rewritten to the connection config
-                    $includedKeys = array('driver', 'host', 'database', 'username', 'password', 'charset', 'collation', 'prefix');
-                    $connection = array();
+                    $includedKeys = ['driver', 'host', 'database', 'username', 'password', 'charset', 'collation', 'prefix'];
+                    $connection = [];
                     foreach ($v as $key => $value) {
                         if (in_array($key, $includedKeys)) {
                             $connection[$key] = $v[$key];
@@ -100,7 +92,7 @@ class Configuration implements ConfigurationInterface
                         }
                     }
                     $v['default_connection'] = isset($v['default_connection']) ? $v['default_connection'] : 'default';
-                    $v['connections'] = array($v['default_connection'] => $connection);
+                    $v['connections'] = [$v['default_connection'] => $connection];
 
                     return $v;
                 })
@@ -115,14 +107,14 @@ class Configuration implements ConfigurationInterface
                         ->beforeNormalization()
                             ->ifString()
                             ->then(function ($v) {
-                                return array('database' => $v);
+                                return ['database' => $v];
                             })
                         ->end()
                         ->addDefaultsIfNotSet()
                         ->children()
                             ->scalarNode('driver')
                                 ->validate()
-                                    ->ifNotInArray(array('mysql', 'postgres', 'sql server', 'sqlite'))
+                                    ->ifNotInArray(['mysql', 'postgres', 'sql server', 'sqlite'])
                                     ->thenInvalid('Invalid database driver "%s".')
                                 ->end()
                                 ->defaultValue('mysql')

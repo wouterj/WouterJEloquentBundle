@@ -27,12 +27,18 @@ class EloquentInitializer implements EventSubscriberInterface
     private $capsule;
     private $run = false;
 
-    /**
-     * @param Capsule $capsule
-     */
-    public function __construct($capsule)
+    /** {@inheritDoc} */
+    public static function getSubscribedEvents()
     {
-        $this->setCapsule($capsule);
+        return [
+            KernelEvents::REQUEST  => 'initialize',
+            ConsoleEvents::COMMAND => 'initializeConsole',
+        ];
+    }
+
+    public function __construct(Capsule $capsule)
+    {
+        $this->capsule = $capsule;
     }
 
     /**
@@ -40,7 +46,7 @@ class EloquentInitializer implements EventSubscriberInterface
      */
     public function initialize()
     {
-        $this->getCapsule()->bootEloquent();
+        $this->capsule->bootEloquent();
     }
 
     public function initializeConsole()
@@ -51,26 +57,5 @@ class EloquentInitializer implements EventSubscriberInterface
 
         $this->initialize();
         $this->run = true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public static function getSubscribedEvents()
-    {
-        return array(
-            KernelEvents::REQUEST => 'initialize',
-            ConsoleEvents::COMMAND => 'initializeConsole',
-        );
-    }
-
-    protected function getCapsule()
-    {
-        return $this->capsule;
-    }
-
-    private function setCapsule(Capsule $capsule)
-    {
-        $this->capsule = $capsule;
     }
 }

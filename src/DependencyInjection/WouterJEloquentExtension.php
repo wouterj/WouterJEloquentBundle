@@ -35,7 +35,9 @@ class WouterJEloquentExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../../resources/config'));
+
+        $loader->load('migrations.xml');
 
         $this->loadCapsule($config, $container, $loader);
         $this->loadEloquent($config, $container, $loader);
@@ -52,11 +54,11 @@ class WouterJEloquentExtension extends Extension
 
         $capsuleDefinition = $container->getDefinition('wouterj_eloquent');
         foreach ($config['connections'] as $name => $connection) {
-            $capsuleDefinition->addMethodCall('addConnection', array($connection, $name));
+            $capsuleDefinition->addMethodCall('addConnection', [$connection, $name]);
         }
 
         if ('default' !== $config['default_connection']) {
-            $container->getDefinition('wouterj_eloquent.database_manager')->addMethodCall('setDefaultConnection', array($config['default_connection']));
+            $container->getDefinition('wouterj_eloquent.database_manager')->addMethodCall('setDefaultConnection', [$config['default_connection']]);
         }
     }
 
@@ -80,13 +82,13 @@ class WouterJEloquentExtension extends Extension
         if ($config['aliases']['db'] || $config['aliases']['schema']) {
             $aliasesLoaderDefinition = $container->getDefinition('wouterj_eloquent.aliases.loader');
             if ($config['aliases']['db']) {
-                $aliasesLoaderDefinition->addMethodCall('addAlias', array('DB', 'WouterJ\EloquentBundle\Facade\Db'));
+                $aliasesLoaderDefinition->addMethodCall('addAlias', ['DB', 'WouterJ\EloquentBundle\Facade\Db']);
             }
             if ($config['aliases']['schema']) {
-                $aliasesLoaderDefinition->addMethodCall('addAlias', array('Schema', 'WouterJ\EloquentBundle\Facade\Schema'));
+                $aliasesLoaderDefinition->addMethodCall('addAlias', ['Schema', 'WouterJ\EloquentBundle\Facade\Schema']);
             }
 
-            $container->getDefinition('wouterj_eloquent.facade.initializer')->addMethodCall('setLoader', array(new Reference('wouterj_eloquent.aliases.loader')));
+            $container->getDefinition('wouterj_eloquent.facade.initializer')->addMethodCall('setLoader', [new Reference('wouterj_eloquent.aliases.loader')]);
         }
     }
 

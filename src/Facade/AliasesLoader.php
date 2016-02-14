@@ -20,16 +20,16 @@ namespace WouterJ\EloquentBundle\Facade;
  */
 class AliasesLoader
 {
-    private $aliases = array();
+    private $aliases = [];
 
-    public function __construct($aliases = array())
+    public function __construct($aliases = [])
     {
-        $this->setAliases($aliases);
+        $this->aliases = $aliases;
     }
 
     public function register()
     {
-        spl_autoload_register(array($this, 'load'));
+        spl_autoload_register([$this, 'load']);
     }
 
     public function load($class)
@@ -55,10 +55,5 @@ class AliasesLoader
     protected function hasAlias($alias)
     {
         return isset($this->aliases[$alias]);
-    }
-
-    private function setAliases(array $aliases)
-    {
-        $this->aliases = $aliases;
     }
 }

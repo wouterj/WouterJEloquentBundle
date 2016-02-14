@@ -16,9 +16,7 @@ namespace WouterJ\EloquentBundle\Facade;
  */
 class Schema extends Facade
 {
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     protected static function getFacadeAccessor()
     {
         return static::$container->get('wouterj_eloquent.database_manager')->getSchemaBuilder();
