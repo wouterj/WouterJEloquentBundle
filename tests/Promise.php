@@ -26,6 +26,12 @@ class Promise
         $container->has($service)->willReturn(false);
     }
 
+    public static function containerHasParameter(ObjectProphecy $container, $name, $value)
+    {
+        $container->hasParameter($name)->willReturn(true);
+        $container->getParameter($name)->willReturn($value);
+    }
+
     public static function inputHasArgument(ObjectProphecy $input, $name, $value)
     {
         $input->hasArgument($name)->willReturn(true);

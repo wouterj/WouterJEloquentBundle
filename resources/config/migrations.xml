@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services">
+
+    <parameters>
+        <parameter key="wouterj_eloquent.migrations.table">migrations</parameter>
+    </parameters>
+
+    <services>
+        <service id="wouterj_eloquent.migrations.creator" class="WouterJ\EloquentBundle\Migrations\Creator" />
+
+        <service id="wouterj_eloquent.migrations.repository" class="Illuminate\Database\Migrations\DatabaseMigrationRepository">
+            <argument type="service" id="wouterj_eloquent.database_manager"/>
+            <argument>%wouterj_eloquent.migrations.table%</argument>
+        </service>
+
+        <service id="wouterj_eloquent.migrator" class="WouterJ\EloquentBundle\Migrations\Migrator">
+            <argument type="service" id="wouterj_eloquent.migrations.repository"/>
+            <argument type="service" id="wouterj_eloquent.database_manager"/>
+        </service>
+    </services>
+</container>
