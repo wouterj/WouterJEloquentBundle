@@ -16,4 +16,8 @@
             </exclude>
         </whitelist>
     </filter>
+
+    <listeners>
+        <listener class="WouterJ\EloquentBundle\FunctionalTestListener"/>
+    </listeners>
 </phpunit>

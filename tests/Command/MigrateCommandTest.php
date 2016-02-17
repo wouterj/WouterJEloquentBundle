@@ -101,7 +101,7 @@ class MigrateCommandTest extends \PHPUnit_Framework_TestCase
         $this->migrator->run(Argument::cetera())->shouldBeCalled();
 
         $seedCommand = $this->prophesize(Command::class);
-        $seedCommand->run(new ArrayInput(['--force' => true]), Argument::any())->shouldBeCalled();
+        $seedCommand->run(new ArrayInput([]), Argument::any())->shouldBeCalled();
 
         $app = $this->prophesize(Application::class);
         $app->getHelperSet()->willReturn(new HelperSet());

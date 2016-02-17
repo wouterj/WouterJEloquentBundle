@@ -1,0 +1,12 @@
+#!/usr/env bin
+<?php
+
+require_once __DIR__.'/../../../../vendor/autoload.php';
+require_once __DIR__.'/../TestKernel.php';
+
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+
+$kernel = new TestKernel('test', true);
+$app = new Application($kernel);
+
+$app->run();

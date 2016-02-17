@@ -21,7 +21,10 @@
     }
 
     , "autoload": { "psr-4": { "WouterJ\\EloquentBundle\\": "src" } }
-    , "autoload-dev": { "psr-4": { "WouterJ\\EloquentBundle\\": "tests" } }
+    , "autoload-dev": {
+          "psr-4": { "WouterJ\\EloquentBundle\\": "tests", "": "tests/Functional/app/src" }
+        , "classmap": ["tests/Functional/app/migrations"]
+    }
     , "extra": {
         "branch-alias": { "dev-master": "1.0-dev" }
     }
