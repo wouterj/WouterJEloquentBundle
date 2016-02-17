@@ -7,41 +7,57 @@ into the Symfony2 framework.
 
 ## Installation
 
-The recommend way to install the bundle is using [Composer][composer]. Since
-this bundle uses the PSR-4 autoloading, be sure to **always update Composer**
-to the latest version before installing the bundle:
+### Step 1: Download the Bundle
 
-    $ php composer.phar require wouterj/eloquent-bundle 0.1.*
+Open a command console, enter your project directory and execute the
+following command to download the latest stable version of this bundle:
 
-After the bundle and the Eloquent ORM are installed, register the bundle in
-your kernel:
+```bash
+$ composer require wouterj/eloquent-bundle "^0.2"
+```
 
-    // app/AppKernel.php
+This command requires you to have Composer installed globally, as explained
+in the [installation chapter][composer] of the Composer documentation.
 
-    // ...
+### Step 2: Enable the Bundle
+
+Then, enable the bundle by adding it to the list of registered bundles
+in the `app/AppKernel.php` file of your project:
+
+```php
+<?php
+// app/AppKernel.php
+
+// ...
+class AppKernel extends Kernel
+{
     public function registerBundles()
     {
         $bundles = array(
             // ...
-            new Wj\EloquentBundle\WjEloquentBundle(),
+
+            new WouterJ\EloquentBundle\WouterJEloquentBundle(),
         );
 
         // ...
-        return $bundles;
     }
 
-### Configuration
+    // ...
+}
+```
+
+### Step 3: Configure the Database
 
 To use the Eloquent ORM and its database features, you need to configure the
 bundle with the database information:
 
     wouterj_eloquent:
-        driver: mysql
-        host: localhost
+        driver:   mysql
+        host:     localhost
         database: db_name
         username: root
         password: pass
-        prefix: ''
+        prefix:   ~
 
 ## Documentation
 
@@ -54,12 +70,9 @@ This project is licensed under the MIT license. For more information, see the
 
 ## Contributing
 
-I love contributors. You can submit fixes, report bugs, give your opinion,
-advocate this bundle or just say "hello" to me. Feel free to do anything you
-want, as long as you stick to the [Symfony Coding Standards][cs].
-
-> Discussions about the CS used or PRs adding PHPdoc comments have a high risk
-> to be rejected.
+I love contributors. You can submit fixes, report bugs, share your opinion,
+advocate this bundle or just say "hello". I welcome anything that makes this
+project better.
 
 ## Roadmap
 
@@ -67,7 +80,7 @@ To view the roadmap to a full featured Eloquent bundle, see the
 [roadmap][roadmap].
 
  [eloquent]: http://laravel.com/docs/database
- [composer]: https://getcomposer.org/
+ [composer]: https://getcomposer.org/doc/00-intro.md
  [docs]: resources/docs/index.rst
  [license]: LICENSE
  [cs]: http://symfony.com/doc/current/contributing/code/standards.html
