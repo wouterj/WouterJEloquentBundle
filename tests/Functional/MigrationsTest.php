@@ -33,7 +33,7 @@ class MigrationsTest extends KernelTestCase
         // reset, in case tests were run previously
         $container->get('wouterj_eloquent.migrator')->reset();
 
-        $app->run(['command' => 'eloquent:migrate', '--seed' => 'true'], ['decorated' => false]);
+        $app->run(['command' => 'eloquent:migrate', '--seed' => true], ['decorated' => false]);
 
         $this->assertContains('Migrated: 2015_02_16_203700_CreateUsersTable', $app->getDisplay());
 

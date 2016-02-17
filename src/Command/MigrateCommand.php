@@ -51,7 +51,7 @@ EOT
 
         if ($i->getOption('seed')) {
             $command = $this->getApplication()->find('eloquent:seed');
-            $command->run(new ArrayInput([]), $o);
+            $command->run(new ArrayInput(['command' => 'eloquent:seed']), $o);
         }
     }
 }
