@@ -64,11 +64,11 @@ want, as long as you stick to the [Symfony Coding Standards][cs].
 ## Roadmap
 
 To view the roadmap to a full featured Eloquent bundle, see the
-[roadmap][roadmap]. 
+[roadmap][roadmap].
 
  [eloquent]: http://laravel.com/docs/database
  [composer]: https://getcomposer.org/
- [docs]: Resources/docs/index.rst
- [license]: Resources/meta/LICENSE
+ [docs]: resources/docs/index.rst
+ [license]: LICENSE
  [cs]: http://symfony.com/doc/current/contributing/code/standards.html
- [roadmap]: Resources/docs/roadmap.rst
+ [roadmap]: resources/docs/roadmap.rst
