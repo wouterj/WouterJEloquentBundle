@@ -1,8 +1,6 @@
 <?php
 
 use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
-use Symfony\Component\Routing\RouteCollectionBuilder;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
@@ -11,8 +9,6 @@ use Symfony\Component\Config\Loader\LoaderInterface;
  */
 class TestKernel extends Kernel
 {
-    use MicroKernelTrait;
-
     public function registerBundles()
     {
         return [
@@ -22,20 +18,18 @@ class TestKernel extends Kernel
         ];
     }
 
-    protected function configureRoutes(RouteCollectionBuilder $routes)
+    public function registerContainerConfiguration(LoaderInterface $loader)
     {
-    }
+        $loader->load(function (ContainerBuilder $container) {
+            $container->loadFromExtension('framework', [
+                'secret' => 'abc123',
+            ]);
 
-    protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader)
-    {
-        $c->loadFromExtension('framework', [
-            'secret' => 'abc123',
-        ]);
-
-        $c->loadFromExtension('wouterj_eloquent', [
-            'driver'   => 'sqlite',
-            'database' => '%kernel.root_dir%/test.sqlite',
-            'aliases'  => true,
-        ]);
+            $container->loadFromExtension('wouterj_eloquent', [
+                'driver'   => 'sqlite',
+                'database' => '%kernel.root_dir%/test.sqlite',
+                'aliases'  => true,
+            ]);
+        });
     }
 }
