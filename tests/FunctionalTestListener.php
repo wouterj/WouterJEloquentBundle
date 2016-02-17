@@ -24,8 +24,8 @@ class FunctionalTestListener extends \PHPUnit_Framework_BaseTestListener
             // set up database
             touch(__DIR__.'/Functional/app/test.sqlite');
             exec('php "'.__DIR__.'/Functional/app/bin/console" eloquent:migrate:install', $output);
-            if (false === strpos($output, 'successfully')) {
-                die("Could not set-up the database:\n".$output);
+            if (false === strpos(current(array_filter($output)), 'successfully')) {
+                die("Could not set-up the database:\n".implode("\n", $output));
             }
         }
     }
