@@ -77,7 +77,7 @@ provides two useful services:
 * ``wouterj_eloquent.database_manager`` - This service is equal to the ``DB``
   facade.
 
-.. _`use the Eloquent ORM in laravel`: http://laravel.com/docs/database
-.. _`Query Builder`: http://laravel.com/docs/queries
-.. _`enable the DB aliases`: configuration.rst
-.. _`Eloquent models`: http://laravel.com/docs/eloquent
+.. _use the Eloquent ORM in laravel: http://laravel.com/docs/database
+.. _Query Builder: http://laravel.com/docs/queries
+.. _enable the DB aliases: configuration.rst
+.. _Eloquent models: http://laravel.com/docs/eloquent

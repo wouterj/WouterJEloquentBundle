@@ -10,8 +10,8 @@ Versions
 * Integrating the Query Builder
 * Integrating the Eloquent ORM
 
-0.2
-~~~
+0.2 (released)
+~~~~~~~~~~~~~~
 
 * Integrating migrations
 * Integrating seeding
