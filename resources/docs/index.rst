@@ -51,6 +51,7 @@ Chapters
 --------
 
 * :doc:`usage`
+* :doc:`migrations`
 * :doc:`configuration`
 * :doc:`roadmap`
 
