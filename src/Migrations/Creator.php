@@ -39,6 +39,6 @@ class Creator extends MigrationCreator
             $file = $create ? 'create.stub' : 'update.stub';
         }
 
-        file_get_contents($this->getStubPath().'/'.$file);
+        return file_get_contents($this->getStubPath().'/'.$file);
     }
 }
