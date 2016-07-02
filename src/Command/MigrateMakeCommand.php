@@ -21,7 +21,7 @@ The <info>%command.name%</info> creates a new migration file.
 EOT
             )
             ->setDefinition(array(
-                new InputArgument('name', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'The name of the migration'),
+                new InputArgument('name', InputArgument::OPTIONAL, 'The name of the migration'),
                 new InputOption('database', null, InputOption::VALUE_REQUIRED, 'The database connection to seed'),
                 new InputOption('table', null, InputOption::VALUE_REQUIRED, 'An optional table name that is updated during the migration'),
                 new InputOption('create', null, InputOption::VALUE_OPTIONAL, 'An optional table name that is created during the migration'),
