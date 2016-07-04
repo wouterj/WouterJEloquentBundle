@@ -11,7 +11,6 @@
 
 namespace WouterJ\EloquentBundle\DependencyInjection;
 
-use WouterJ\EloquentBundle\Facade\Facade;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -25,8 +24,6 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class WouterJEloquentExtension extends Extension
 {
-    private $capsuleEnabled = false;
-
     /**
      * {@inheritDoc}
      */
@@ -38,6 +35,7 @@ class WouterJEloquentExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../../resources/config'));
 
         $loader->load('migrations.xml');
+        $loader->load('events.xml');
 
         $this->loadCapsule($config, $container, $loader);
         $this->loadEloquent($config, $container, $loader);
@@ -57,7 +55,9 @@ class WouterJEloquentExtension extends Extension
             $capsuleDefinition->addMethodCall('addConnection', [$connection, $name]);
         }
 
-        $container->setParameter('wouterj_eloquent.default_connection', $config['default_connection']);
+        if ('default' !== $config['default_connection']) {
+            $container->getDefinition('wouterj_eloquent.database_manager')->addMethodCall('setDefaultConnection', [$config['default_connection']]);
+        }
     }
 
     protected function loadEloquent(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader)
