@@ -57,9 +57,7 @@ class WouterJEloquentExtension extends Extension
             $capsuleDefinition->addMethodCall('addConnection', [$connection, $name]);
         }
 
-        if ('default' !== $config['default_connection']) {
-            $container->getDefinition('wouterj_eloquent.database_manager')->addMethodCall('setDefaultConnection', [$config['default_connection']]);
-        }
+        $container->setParameter('wouterj_eloquent.default_connection', $config['default_connection']);
     }
 
     protected function loadEloquent(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader)
