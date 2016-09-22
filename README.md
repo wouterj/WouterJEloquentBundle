@@ -51,13 +51,15 @@ class AppKernel extends Kernel
 To use the Eloquent ORM and its database features, you need to configure the
 bundle with the database information:
 
-    wouterj_eloquent:
-        driver:   mysql
-        host:     localhost
-        database: db_name
-        username: root
-        password: pass
-        prefix:   ~
+```yaml
+wouterj_eloquent:
+    driver:   mysql
+    host:     localhost
+    database: db_name
+    username: root
+    password: pass
+    prefix:   ~
+```
 
 ## Documentation
 
