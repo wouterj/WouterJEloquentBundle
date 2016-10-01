@@ -1,6 +1,6 @@
 {
       "name": "wouterj/eloquent-bundle"
-    , "description": "Implementing the Eloquent ORM into Symfony2"
+    , "description": "Implementing the Eloquent ORM into Symfony"
     , "authors": [{ "name": "Wouter de Jong", "email": "wouter@wouterj.nl" }]
     , "license": "MIT"
 
