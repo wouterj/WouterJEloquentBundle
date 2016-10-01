@@ -146,5 +146,4 @@ PHP
         // enable only db: 'aliases' => ['db' => true]
     ]);
 
-Previous chapter: [Migrations](migrations.rst)<br />
-[Back to the table of contents](../../README.md#table-of-contents)
+« `Migrations <migrations.rst>`_ • `Back to the table of contents <../../README.md#table-of-contents>`_ »

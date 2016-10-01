@@ -129,8 +129,7 @@ Option                Description
 ``--seeder``          The class name of the seeder.
 ====================  =======================================================================
 
-Next chapter: [Usage](usage.rst)<br />
-Previous chapter: [Configuration](configuration.rst)
+« `Usage <usage.rst>`_ • `Configuration <configuration.rst>`_ »
 
  .. _migrations: https://laravel.com/docs/migrations
  .. _seeding: https://laravel.com/docs/seeding

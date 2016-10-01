@@ -81,4 +81,4 @@ provides two useful services:
 .. _Query Builder: http://laravel.com/docs/queries
 .. _Eloquent models: http://laravel.com/docs/eloquent
 
-« `Migrations <migrations.rst>`_ • `Installation <../../README.md#installation>`_ »
+« `Installation <../../README.md#installation>`_ • `Migrations <migrations.rst>`_ »
