@@ -6,7 +6,6 @@
             class="WouterJ\EloquentBundle\EventListener\EloquentInitializer"
         >
             <argument type="service" id="wouterj_eloquent" />
-            <argument>%wouterj_eloquent.default_connection%</argument>
 
             <tag name="kernel.event_subscriber" />
         </service>

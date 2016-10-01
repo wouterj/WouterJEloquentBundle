@@ -26,7 +26,6 @@ class EloquentInitializer implements EventSubscriberInterface
     /** @var Capsule */
     private $capsule;
     private $run = false;
-    private $defaultConnection;
 
     /** {@inheritDoc} */
     public static function getSubscribedEvents()
@@ -37,10 +36,9 @@ class EloquentInitializer implements EventSubscriberInterface
         ];
     }
 
-    public function __construct(Capsule $capsule, $defaultConnection = 'default')
+    public function __construct(Capsule $capsule)
     {
         $this->capsule = $capsule;
-        $this->defaultConnection = $defaultConnection;
     }
 
     /**
@@ -49,10 +47,6 @@ class EloquentInitializer implements EventSubscriberInterface
     public function initialize()
     {
         $this->capsule->bootEloquent();
-
-        if ('default' !== $this->defaultConnection) {
-            $this->capsule->getDatabaseManager()->setDefaultConnection($this->defaultConnection);
-        }
     }
 
     public function initializeConsole()

@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services">
+
+    <services>
+        <service id="wouterj_eloquent.event.illuminate_dispatcher_bridge_configurator" class="WouterJ\EloquentBundle\DependencyInjection\Configurator\IlluminateDispatcherBridgeConfigurator" />
+
+        <service id="wouterj_eloquent.event.illuminate_dispatcher_bridge" class="WouterJ\EloquentBundle\EventDispatcher\IlluminateDispatcherBridge">
+            <argument type="service" id="event_dispatcher" />
+            <configurator service="wouterj_eloquent.event.illuminate_dispatcher_bridge_configurator" method="configure" />
+        </service>
+    </services>
+</container>
