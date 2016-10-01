@@ -46,12 +46,23 @@ class WouterJEloquentExtensionTest extends AbstractExtensionTestCase
 
     /**
      * @test
-     * @expectedException LogicException
-     * @expectedExceptionMessage There should be at least one connection configured on "wouterj_eloquent.connections" in order to use the Eloquent ORM.
+     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
+     * @expectedExceptionMessage At least one connection must be configured
      */
-    public function it_fails_to_enable_eloquent_without_connections()
+    public function it_requires_at_least_one_connection()
     {
-        $this->load(['eloquent' => ['enabled' => true]]);
+        $this->load([]);
+    }
+
+    public function it_only_requires_a_database_option()
+    {
+        $this->load([
+            'connections' => [
+                'default' => ['database' => 'some_db'],
+            ]
+        ]);
+
+        $this->assertContainerBuilderHasService('wouterj_eloquent');
     }
 
     protected function getConnectionConfig()

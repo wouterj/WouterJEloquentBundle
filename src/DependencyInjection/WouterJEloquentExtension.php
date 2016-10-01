@@ -11,6 +11,7 @@
 
 namespace WouterJ\EloquentBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use WouterJ\EloquentBundle\Facade\Facade;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -46,8 +47,8 @@ class WouterJEloquentExtension extends Extension
 
     protected function loadCapsule(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader)
     {
-        if (0 === count($config['connections'])) {
-            return;
+        if (0 === count($config['connections']) || !isset(current($config['connections'])['database'])) {
+            throw new InvalidConfigurationException('At least one connection must be configured in order to use WouterJEloquentBundle.');
         }
 
         $loader->load('services.xml');
