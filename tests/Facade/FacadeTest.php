@@ -14,6 +14,9 @@ namespace WouterJ\EloquentBundle\Facade;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\Fixtures\Facade as Fixture;
 
+/**
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class FacadeTest extends \PHPUnit_Framework_TestCase
 {
     /** @test */

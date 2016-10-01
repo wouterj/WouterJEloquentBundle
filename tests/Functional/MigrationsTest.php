@@ -1,13 +1,19 @@
 <?php
 
+/*
+ * This file is part of the WouterJEloquentBundle package.
+ *
+ * (c) 2014 Wouter de Jong
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace WouterJ\EloquentBundle\Functional;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Tester\ApplicationTester;
-use Symfony\Component\HttpFoundation\Request;
 use WouterJ\EloquentBundle\Facade\Db;
 
 /**

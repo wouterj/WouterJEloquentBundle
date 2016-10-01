@@ -11,6 +11,9 @@
 
 namespace WouterJ\EloquentBundle\Facade;
 
+/**
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class AliasesLoaderTest extends \PHPUnit_Framework_TestCase
 {
     protected $subject;

@@ -11,9 +11,6 @@
 
 namespace WouterJ\EloquentBundle\EventListener;
 
-use Symfony\Component\Console\ConsoleEvents;
-use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 /**

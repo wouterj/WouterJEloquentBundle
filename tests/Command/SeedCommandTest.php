@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the WouterJEloquentBundle package.
+ *
+ * (c) 2014 Wouter de Jong
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace WouterJ\EloquentBundle\Command;
 
 use WouterJ\EloquentBundle\Seeder;
@@ -9,6 +18,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class SeedCommandTest extends \PHPUnit_Framework_TestCase
 {
     protected $container;

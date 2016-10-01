@@ -12,7 +12,6 @@
 namespace WouterJ\EloquentBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
-use WouterJ\EloquentBundle\Facade\Facade;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -26,8 +25,6 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class WouterJEloquentExtension extends Extension
 {
-    private $capsuleEnabled = false;
-
     /**
      * {@inheritDoc}
      */
@@ -91,11 +88,17 @@ class WouterJEloquentExtension extends Extension
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getNamespace()
     {
         return 'http://wouterj.nl/schema/dic/eloquent';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getAlias()
     {
         return 'wouterj_eloquent';
