@@ -29,6 +29,7 @@ class TestKernel extends Kernel
                 'driver'   => 'sqlite',
                 'database' => '%kernel.root_dir%/test.sqlite',
                 'aliases'  => true,
+                'eloquent' => true,
             ]);
         });
     }

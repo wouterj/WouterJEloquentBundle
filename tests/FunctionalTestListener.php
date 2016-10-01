@@ -11,26 +11,41 @@ namespace WouterJ\EloquentBundle;
 class FunctionalTestListener extends \PHPUnit_Framework_BaseTestListener
 {
     private static $started = false;
+    private static $dbFile;
+    private static $backupFile;
 
     public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         if (!self::$started) {
             self::$started = true;
-            $cmdPrefix = 'php "'.__DIR__.'/Functional/app/bin/console"';
+            static::$dbFile = __DIR__.'/Functional/app/test.sqlite';
+            static::$backupFile = __DIR__.'/Functional/app/_test.sqlite';
 
+            // clear cache
+            $cmdPrefix = 'php "'.__DIR__.'/Functional/app/bin/console"';
             exec($cmdPrefix.' cache:clear');
 
-            $dbFile = __DIR__.'/Functional/app/test.sqlite';
-            if (file_exists($dbFile)) {
-                unlink($dbFile);
+            // create initial db
+            if (file_exists(static::$dbFile)) {
+                unlink(static::$dbFile);
+            }
+            if (file_exists(static::$backupFile)) {
+                unlink(static::$backupFile);
             }
 
-            // set up database
-            touch($dbFile);
+            touch(static::$dbFile);
             exec($cmdPrefix.' eloquent:migrate:install', $output);
-            if (false === strpos(current(array_filter($output)), 'successfully')) {
+            if (false === strpos(implode("\n", $output), 'successfully')) {
                 die("Could not set-up the database:\n".implode("\n", $output));
             }
+
+            copy(static::$dbFile, static::$backupFile);
         }
+    }
+
+    public function startTest(\PHPUnit_Framework_Test $test)
+    {
+        // reset to initial file
+        copy(static::$backupFile, static::$dbFile);
     }
 }
