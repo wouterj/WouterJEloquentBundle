@@ -28,7 +28,7 @@ You can use the `Query Builder`_:
 
 .. caution::
 
-    Don't forget to `enable the DB aliases <configuration.rst>`_ if you want to use the ``DB``
+    Don't forget to `enable the DB aliases <configuration.rst#aliases>`_ if you want to use the ``DB``
     class directly. Otherwise, you have to include the
     ``WouterJ\EloquentBundle\Facade\DB`` class with a ``use`` statement.
 
@@ -81,5 +81,4 @@ provides two useful services:
 .. _Query Builder: http://laravel.com/docs/queries
 .. _Eloquent models: http://laravel.com/docs/eloquent
 
-Next chapter: [Migrations](migrations.rst)<br />
-Previous chapter: [Installation](../../README.md#installation)
+« `Migrations <migrations.rst>`_ • `Installation <../../README.md#installation>`_ »
