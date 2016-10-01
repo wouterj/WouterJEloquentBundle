@@ -21,21 +21,11 @@ use Illuminate\Database\Capsule\Manager as Capsule;
  *
  * @author Wouter J <wouter@wouterj.nl>
  */
-class EloquentInitializer implements EventSubscriberInterface
+class EloquentInitializer
 {
     /** @var Capsule */
     private $capsule;
-    private $run = false;
     private $defaultConnection;
-
-    /** {@inheritDoc} */
-    public static function getSubscribedEvents()
-    {
-        return [
-            KernelEvents::REQUEST  => 'initialize',
-            ConsoleEvents::COMMAND => 'initializeConsole',
-        ];
-    }
 
     public function __construct(Capsule $capsule, $defaultConnection = 'default')
     {
@@ -53,15 +43,5 @@ class EloquentInitializer implements EventSubscriberInterface
         if ('default' !== $this->defaultConnection) {
             $this->capsule->getDatabaseManager()->setDefaultConnection($this->defaultConnection);
         }
-    }
-
-    public function initializeConsole()
-    {
-        if ($this->run) {
-            return;
-        }
-
-        $this->initialize();
-        $this->run = true;
     }
 }

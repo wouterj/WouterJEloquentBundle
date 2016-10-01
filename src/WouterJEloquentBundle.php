@@ -22,4 +22,15 @@ class WouterJEloquentBundle extends Bundle
     {
         return new DependencyInjection\WouterJEloquentExtension();
     }
+
+    public function boot()
+    {
+        if ($this->container->has('wouterj_eloquent.initializer')) {
+            $this->container->get('wouterj_eloquent.initializer')->initialize();
+        }
+
+        if ($this->container->has('wouterj_eloquent.facade.initializer')) {
+            $this->container->get('wouterj_eloquent.facade.initializer')->initialize();
+        }
+    }
 }

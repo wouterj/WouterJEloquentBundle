@@ -25,7 +25,7 @@ class MigrationsTest extends KernelTestCase
     public function testRunningMigrations()
     {
         static::bootKernel();
-        Db::setContainer($container = static::$kernel->getContainer());
+        $container = static::$kernel->getContainer();
 
         $app = new ApplicationTester($a = new Application(static::$kernel));
         $a->setAutoExit(false);

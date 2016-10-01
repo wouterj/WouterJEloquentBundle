@@ -24,22 +24,12 @@ use Symfony\Component\DependencyInjection\Container;
  *
  * @author Wouter J <wouter@wouterj.nl>
  */
-class FacadeInitializer implements EventSubscriberInterface
+class FacadeInitializer
 {
     /** @var null|AliasesLoader */
     private $loader;
     /** @var ContainerInterface */
     private $container;
-    private $run = false;
-
-    /** {@inheritDoc} */
-    public static function getSubscribedEvents()
-    {
-        return [
-            KernelEvents::REQUEST  => 'initialize',
-            ConsoleEvents::COMMAND => 'initializeConsole',
-        ];
-    }
 
     public function __construct(ContainerInterface $container)
     {
@@ -57,16 +47,6 @@ class FacadeInitializer implements EventSubscriberInterface
         if (null !== $loader = $this->loader) {
             $loader->register();
         }
-    }
-
-    public function initializeConsole()
-    {
-        if ($this->run) {
-            return;
-        }
-
-        $this->initialize();
-        $this->run = true;
     }
 
     public function setLoader(AliasesLoader $loader)
