@@ -28,7 +28,7 @@ You can use the `Query Builder`_:
 
 .. caution::
 
-    Don't forget to [enable the DB aliases](configuration.rst) if you want to use the ``DB``
+    Don't forget to `enable the DB aliases <configuration.rst>`_ if you want to use the ``DB``
     class directly. Otherwise, you have to include the
     ``WouterJ\EloquentBundle\Facade\DB`` class with a ``use`` statement.
 
