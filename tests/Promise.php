@@ -13,6 +13,9 @@ namespace WouterJ\EloquentBundle;
 
 use Prophecy\Prophecy\ObjectProphecy;
 
+/**
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class Promise
 {
     public static function containerHasService(ObjectProphecy $container, $service, $instance)

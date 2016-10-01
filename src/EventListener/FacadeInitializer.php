@@ -14,10 +14,6 @@ namespace WouterJ\EloquentBundle\EventListener;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\Facade\Facade;
 use WouterJ\EloquentBundle\Facade\AliasesLoader;
-use Symfony\Component\Console\ConsoleEvents;
-use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\DependencyInjection\Container;
 
 /**
  * Initializes the facades.

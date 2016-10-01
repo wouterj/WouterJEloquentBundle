@@ -13,6 +13,9 @@ namespace WouterJ\EloquentBundle;
 
 use Prophecy\Prophecy\ObjectProphecy;
 
+/**
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class Prediction
 {
     public static function outputWritesLine(ObjectProphecy $output, $line)

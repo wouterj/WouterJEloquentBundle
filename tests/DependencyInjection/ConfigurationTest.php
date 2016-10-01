@@ -13,6 +13,9 @@ namespace WouterJ\EloquentBundle\DependencyInjection;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionConfigurationTestCase;
 
+/**
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class ConfigurationTest extends AbstractExtensionConfigurationTestCase
 {
     protected function getContainerExtension()

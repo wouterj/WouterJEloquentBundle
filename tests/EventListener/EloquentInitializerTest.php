@@ -13,6 +13,9 @@ namespace WouterJ\EloquentBundle\EventListener;
 
 use Illuminate\Database\Capsule\Manager;
 
+/**
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class EloquentInitializerTest extends \PHPUnit_Framework_TestCase
 {
     protected $capsule;

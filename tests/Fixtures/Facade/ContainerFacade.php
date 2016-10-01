@@ -13,6 +13,9 @@ namespace WouterJ\EloquentBundle\Fixtures\Facade;
 
 use WouterJ\EloquentBundle\Facade\Facade;
 
+/**
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class ContainerFacade extends Facade
 {
     protected static function getFacadeAccessor()

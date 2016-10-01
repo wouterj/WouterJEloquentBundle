@@ -1,11 +1,19 @@
 <?php
 
+/*
+ * This file is part of the WouterJEloquentBundle package.
+ *
+ * (c) 2014 Wouter de Jong
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace WouterJ\EloquentBundle\Functional;
 
 use AppBundle\Model\User;
 use Illuminate\Database\Schema\Blueprint;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use WouterJ\EloquentBundle\Facade\Db;
 use WouterJ\EloquentBundle\Facade\Schema;
 
 /**

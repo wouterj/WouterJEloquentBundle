@@ -15,6 +15,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\Facade\Facade;
 use WouterJ\EloquentBundle\Facade\AliasesLoader;
 
+/**
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class FacadeInitializerTest extends \PHPUnit_Framework_TestCase
 {
     protected $loader;

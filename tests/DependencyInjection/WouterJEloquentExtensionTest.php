@@ -16,6 +16,9 @@ use Illuminate\Database\DatabaseManager;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use WouterJ\EloquentBundle\EventListener\EloquentInitializer;
 
+/**
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class WouterJEloquentExtensionTest extends AbstractExtensionTestCase
 {
     public function getContainerExtensions()

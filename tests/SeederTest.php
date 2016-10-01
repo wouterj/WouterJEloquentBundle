@@ -11,12 +11,13 @@
 
 namespace WouterJ\EloquentBundle;
 
-use WouterJ\EloquentBundle\Seeder;
-use WouterJ\EloquentBundle\Promise;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 require_once __DIR__.'/Fixtures/ConsoleCommandFixture.php';
 
+/**
+ * @author Wouter J <wouter@wouterj.nl>
+ */
 class SeederTest extends \PHPUnit_Framework_TestCase
 {
     protected $subject;
