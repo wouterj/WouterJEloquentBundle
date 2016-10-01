@@ -20,12 +20,13 @@ class FunctionalTestListener extends \PHPUnit_Framework_BaseTestListener
 
             exec($cmdPrefix.' cache:clear');
 
-            if (file_exists(__DIR__.'/Functional/app/test.sqlite')) {
-                return;
+            $dbFile = __DIR__.'/Functional/app/test.sqlite';
+            if (file_exists($dbFile)) {
+                unlink($dbFile);
             }
 
             // set up database
-            touch(__DIR__.'/Functional/app/test.sqlite');
+            touch($dbFile);
             exec($cmdPrefix.' eloquent:migrate:install', $output);
             if (false === strpos(current(array_filter($output)), 'successfully')) {
                 die("Could not set-up the database:\n".implode("\n", $output));
