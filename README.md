@@ -3,7 +3,7 @@
 The WouterJEloquentBundle claims to integrate the [Eloquent ORM][eloquent]
 into the Symfony2 framework.
 
-[![Build Status](https://travis-ci.org/WouterJ/WouterJEloquentBundle.png?branch=master)](https://travis-ci.org/WouterJ/WouterJEloquentBundle)
+[![Build Status](https://travis-ci.org/wouterj/WouterJEloquentBundle.svg?branch=master)](https://travis-ci.org/wouterj/WouterJEloquentBundle)
 
 ## Installation
 
