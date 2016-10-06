@@ -61,7 +61,7 @@ The Eloquent ORM supports four database drivers:
 * sqlite
 
 Default Connection
-------------------
+~~~~~~~~~~~~~~~~~~
 
 If your default connection is not ``default``, you can specify its name using
 this option.
@@ -145,3 +145,5 @@ PHP
         'aliases'  => true,   // enables aliases
         // enable only db: 'aliases' => ['db' => true]
     ]);
+
+« `Migrations <migrations.rst>`_ • `Back to the table of contents <../../README.md#table-of-contents>`_ »

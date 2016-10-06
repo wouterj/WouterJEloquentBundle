@@ -1,5 +1,5 @@
 Usage
------
+=====
 
 Using this bundle is almost equal to how you `use the Eloquent ORM in laravel`_.
 
@@ -28,7 +28,7 @@ You can use the `Query Builder`_:
 
 .. caution::
 
-    Don't forget to `enable the DB aliases`_ if you want to use the ``DB``
+    Don't forget to `enable the DB aliases <configuration.rst#aliases>`_ if you want to use the ``DB``
     class directly. Otherwise, you have to include the
     ``WouterJ\EloquentBundle\Facade\DB`` class with a ``use`` statement.
 
@@ -79,5 +79,6 @@ provides two useful services:
 
 .. _use the Eloquent ORM in laravel: http://laravel.com/docs/database
 .. _Query Builder: http://laravel.com/docs/queries
-.. _enable the DB aliases: configuration.rst
 .. _Eloquent models: http://laravel.com/docs/eloquent
+
+« `Installation <../../README.md#installation>`_ • `Migrations <migrations.rst>`_ »
