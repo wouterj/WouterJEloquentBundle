@@ -27,8 +27,6 @@ use Prophecy\Argument;
 class MigrateCommandTest extends \PHPUnit_Framework_TestCase
 {
     private $command;
-    /** @var Container */
-    private $container;
     private $migrator;
 
     protected function setUp()
@@ -36,18 +34,20 @@ class MigrateCommandTest extends \PHPUnit_Framework_TestCase
         $this->migrator = $this->prophesize(Migrator::class);
         $this->migrator->getNotes()->willReturn([]);
 
-        $this->container = new Container();
-        $this->prepareContainer($this->container);
-        $this->container->set('wouterj_eloquent.migrator', $this->migrator->reveal());
+        $container = $this->createContainer();
+        $container->compile();
 
         $this->command = new MigrateCommand();
-        $this->command->setContainer($this->container);
+        $this->command->setContainer($container);
     }
 
     /** @test */
     public function it_asks_for_confirmation_in_prod()
     {
-        $this->container->setParameter('kernel.environment', 'prod');
+        $container = $this->createContainer();
+        $container->setParameter('kernel.environment', 'prod');
+        $container->compile();
+        $this->command->setContainer($container);
 
         $this->migrator->run(Argument::cetera())->shouldNotBeCalled();
 
@@ -70,7 +70,10 @@ class MigrateCommandTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_always_continues_when_force_is_passed()
     {
-        $this->container->setParameter('kernel.environment', 'prod');
+        $container = $this->createContainer();
+        $container->setParameter('kernel.environment', 'prod');
+        $container->compile();
+        $this->command->setContainer($container);
 
         $this->migrator->run(Argument::cetera())->shouldBeCalled();
 
@@ -137,9 +140,14 @@ class MigrateCommandTest extends \PHPUnit_Framework_TestCase
             ->outputs("Migrated: CreateFlightsTable\nMigrated: SomethingToTest");
     }
 
-    private function prepareContainer(ContainerInterface $container)
+    private function createContainer()
     {
+        $container = new Container();
+        $container->set('wouterj_eloquent.migrator', $this->migrator->reveal());
+        $container->setParameter('wouterj_eloquent.migration_path', '%kernel.root_dir%/migrations');
         $container->setParameter('kernel.environment', 'dev');
         $container->setParameter('kernel.root_dir', __DIR__.'/../Fixtures/app');
+
+        return $container;
     }
 }

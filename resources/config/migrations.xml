@@ -3,6 +3,7 @@
 
     <parameters>
         <parameter key="wouterj_eloquent.migrations.table">migrations</parameter>
+        <parameter key="wouterj_eloquent.migration_path">%kernel.root_dir%/migrations</parameter>
     </parameters>
 
     <services>
