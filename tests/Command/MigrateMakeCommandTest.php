@@ -36,7 +36,7 @@ class MigrateMakeCommandTest extends \PHPUnit_Framework_TestCase
         $this->output = $this->prophesize(OutputInterface::class);
 
         Promise::containerHasService($this->container, 'wouterj_eloquent.migrations.creator', $this->creator->reveal());
-        Promise::containerHasParameter($this->container, 'kernel.root_dir', __DIR__);
+        Promise::containerHasParameter($this->container, 'wouterj_eloquent.migration_path', __DIR__.'/migrations');
 
         $this->subject = new MigrateMakeCommand();
         $this->subject->setcontainer($this->container->reveal());

@@ -1,10 +1,6 @@
 <?xml version="1.0" ?>
 <container xmlns="http://symfony.com/schema/dic/services">
 
-    <parameters>
-        <parameter key="wouterj_eloquent.migration_path" type="string">%kernel.root_dir%/migrations</parameter>
-    </parameters>
-
     <services>
         <service id="wouterj_eloquent" class="Illuminate\Database\Capsule\Manager" />
 
