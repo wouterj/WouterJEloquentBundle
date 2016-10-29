@@ -11,6 +11,8 @@
 
 namespace WouterJ\EloquentBundle\Migrations;
 
+use Illuminate\Database\Schema\Blueprint;
+
 class CreatorTest extends \PHPUnit_Framework_TestCase
 {
     protected $subject;
@@ -48,7 +50,15 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
 
         $normalize = function ($str) { return preg_replace('/\R/', "\n", $str); };
 
-        $expected = $normalize(file_get_contents(__DIR__.'/../Fixtures/migrations/'.$name.'.php'));
+        switch ($name) {
+            case 'create':
+                $version = method_exists(Blueprint::class, 'dropSoftDeletesTz') ? 'new' : 'old';
+                $expected = $normalize(file_get_contents(__DIR__.'/../Fixtures/migrations/'.$name.'-'.$version.'.php'));
+
+                break;
+            default:
+                $expected = $normalize(file_get_contents(__DIR__.'/../Fixtures/migrations/'.$name.'.php'));
+        }
         $actual = $normalize(file_get_contents($actual));
 
         $this->assertEquals($expected, $actual);
