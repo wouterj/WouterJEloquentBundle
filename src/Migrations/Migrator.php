@@ -32,6 +32,10 @@ class Migrator extends LaravelMigrator
 
     public function getMigrationFiles($path)
     {
+        if (0 === count((array) $path)) {
+            return [];
+        }
+
         $files = Finder::create()->name('*_*.php')->in($path)->sortByName();
 
         if (0 === count($files)) {
@@ -41,16 +45,16 @@ class Migrator extends LaravelMigrator
         $migrations = [];
         /** @var SplFileInfo $file */
         foreach ($files as $file) {
-            $migrations[] = $file->getBasename('.php');
+            $migrations[] = $file->getRealPath();
         }
 
         return $migrations;
     }
 
-    public function requireFiles($path, array $files)
+    public function requireFiles(array $files)
     {
         foreach ($files as $file) {
-            require_once $path.'/'.$file.'.php';
+            require_once $file;
         }
     }
 }
