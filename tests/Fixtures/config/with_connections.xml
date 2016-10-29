@@ -2,10 +2,9 @@
 <container xmlns="http://symfony.com/schema/dic/services">
 
     <config xmlns="http://wouterj.nl/schema/dic/eloquent"
-        default-connection="foo">
-        <connection name="default" database="database" />
-
-        <connection name="foo"
+        default-connection="connection_1">
+        <connection name="default" database="db"/>
+        <connection name="connection_1"
             driver="sqlite"
             host="local"
             database="foo.db"

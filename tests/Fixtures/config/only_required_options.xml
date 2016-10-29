@@ -2,7 +2,6 @@
 <container xmlns="http://symfony.com/schema/dic/services">
 
     <config xmlns="http://wouterj.nl/schema/dic/eloquent"
-        database="database">
-        <aliases schema="true" />
-    </config>
+        database="some_db"
+    />
 </container>

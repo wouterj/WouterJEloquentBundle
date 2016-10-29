@@ -2,10 +2,8 @@
 
 $container->loadFromExtension('wouterj_eloquent', [
     'connections' => [
-        'default' => [
-            'database' => 'database',
-        ],
-        'foo' => [
+        'default' => ['database' => 'db'],
+        'connection_1' => [
             'driver' => 'sqlite',
             'host' => 'local',
             'database' => 'foo.db',
@@ -14,5 +12,5 @@ $container->loadFromExtension('wouterj_eloquent', [
             'prefix' => 'symfo_',
         ],
     ],
-    'default_connection' => 'foo',
+    'default_connection' => 'connection_1',
 ]);

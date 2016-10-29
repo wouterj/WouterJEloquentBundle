@@ -11,40 +11,96 @@
 
 namespace WouterJ\EloquentBundle\DependencyInjection;
 
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use WouterJ\EloquentBundle\EventListener\EloquentInitializer;
+use WouterJ\EloquentBundle\Facade\Schema;
+use WouterJ\EloquentBundle\Facade\AliasesLoader;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Database\DatabaseManager;
-use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
-use WouterJ\EloquentBundle\EventListener\EloquentInitializer;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
-class WouterJEloquentExtensionTest extends AbstractExtensionTestCase
+abstract class WouterJEloquentExtensionTest extends \PHPUnit_Framework_TestCase
 {
-    public function getContainerExtensions()
+    protected $container;
+
+    protected function setUp()
     {
-        return [new WouterJEloquentExtension()];
+        $this->container = new ContainerBuilder();
+        $this->container->setParameter('kernel.root_dir', sys_get_temp_dir());
+        $this->container->registerExtension(new WouterJEloquentExtension());
+    }
+
+    private function compile()
+    {
+        $this->container->compile();
+    }
+
+    private function load($config, $compile = true)
+    {
+        $this->loadConfig($this->container, $config);
+
+        if ($compile) {
+            $this->compile();
+        }
+    }
+
+    abstract protected function loadConfig(ContainerBuilder $container, $name);
+
+    private function assertContainerHasService($id, $class)
+    {
+        $this->assertTrue($this->container->has($id));
+        $this->assertEquals($class, $this->container->findDefinition($id)->getClass());
     }
 
     /** @test */
     public function it_creates_capsule_with_connections()
     {
-        $this->load(['connections' => $this->getConnectionConfig()]);
+        $this->load('with_connections');
 
-        $this->assertContainerBuilderHasService('wouterj_eloquent', Manager::class);
-        $this->assertContainerBuilderHasService('wouterj_eloquent.database_manager', DatabaseManager::class);
+        $this->assertContainerHasService('wouterj_eloquent', Manager::class);
+        $this->assertContainerHasService('wouterj_eloquent.database_manager', DatabaseManager::class);
         $this->assertFalse($this->container->has('wouterj_eloquent.initializer'));
+        $this->assertEquals('connection_1', $this->container->getParameter('wouterj_eloquent.default_connection'));
+
+        $connectionCalls = array_map(
+            function ($c) { return $c[1]; },
+            array_filter(
+                $this->container->getDefinition('wouterj_eloquent')->getMethodCalls(),
+                function ($c) { return $c[0] === 'addConnection'; }
+            )
+        );
+        $this->assertEquals([
+            [[
+                'driver' => 'mysql',
+                'host' => 'localhost',
+                'database' => 'db',
+                'username' => 'root',
+                'password' => null,
+                'charset' => 'utf8',
+                'collation' => 'utf8_unicode_ci',
+                'prefix' => null
+            ], 'default'],
+            [[
+                'driver' => 'sqlite',
+                'host' => 'local',
+                'database' => 'foo.db',
+                'username' => 'user',
+                'password' => 'pass',
+                'charset' => 'utf8',
+                'collation' => 'utf8_unicode_ci',
+                'prefix' => 'symfo_',
+            ], 'connection_1'],
+        ], $connectionCalls);
     }
 
     /** @test */
     public function it_can_enable_eloquent()
     {
-        $this->load([
-            'connections' => $this->getConnectionConfig(),
-            'eloquent'    => ['enabled' => true],
-        ]);
+        $this->load('eloquent_enabled');
 
-        $this->assertContainerBuilderHasService('wouterj_eloquent.initializer', EloquentInitializer::class);
+        $this->assertContainerHasService('wouterj_eloquent.initializer', EloquentInitializer::class);
     }
 
     /**
@@ -54,33 +110,23 @@ class WouterJEloquentExtensionTest extends AbstractExtensionTestCase
      */
     public function it_requires_at_least_one_connection()
     {
-        $this->load([]);
+        $this->load('no_connection');
     }
 
+    /** @test */
     public function it_only_requires_a_database_option()
     {
-        $this->load([
-            'connections' => [
-                'default' => ['database' => 'some_db'],
-            ]
-        ]);
+        $this->load('only_required_options');
 
-        $this->assertContainerBuilderHasService('wouterj_eloquent');
+        $this->assertContainerHasService('wouterj_eloquent', Manager::class);
     }
 
-    protected function getConnectionConfig()
+    /** @test */
+    public function it_can_enable_facade_aliases()
     {
-        return [
-            'default' => [
-                'driver'    => 'mysql',
-                'host'      => 'localhost',
-                'database'  => 'db',
-                'username'  => 'root',
-                'password'  => '',
-                'charset'   => 'utf8',
-                'collation' => 'utf8_unicode_ci',
-                'prefix'    => '',
-            ],
-        ];
+        $this->load('with_aliases');
+
+        $this->assertContainerHasService('wouterj_eloquent.aliases.loader', AliasesLoader::class);
+        $this->assertEquals([['addAlias', ['Schema', Schema::class]]], $this->container->getDefinition('wouterj_eloquent.aliases.loader')->getMethodCalls());
     }
 }
