@@ -33,6 +33,7 @@ class MigrateCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->migrator = $this->prophesize(Migrator::class);
         $this->migrator->getNotes()->willReturn([]);
+        $this->migrator->paths()->willReturn([]);
 
         $container = $this->createContainer();
         $container->compile();
@@ -86,7 +87,7 @@ class MigrateCommandTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_uses_the_default_migration_path()
     {
-        $this->migrator->run(__DIR__.'/../Fixtures/app/migrations', Argument::cetera())->shouldBeCalled();
+        $this->migrator->run([__DIR__.'/migrations'], Argument::cetera())->shouldBeCalled();
 
         TestCommand::create($this->command)->execute();
     }
@@ -94,9 +95,19 @@ class MigrateCommandTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_allows_to_specify_another_path()
     {
-        $this->migrator->run(getcwd().'/db', Argument::cetera())->shouldBeCalled();
+        $this->migrator->run([getcwd().'/db'], Argument::cetera())->shouldBeCalled();
 
         TestCommand::create($this->command)->passing('--path', 'db')->duringExecute();
+    }
+
+    /** @test */
+    public function it_allows_multiple_migration_directories()
+    {
+        $this->migrator->paths()->willReturn(['/somewhere/migrations']);
+
+        $this->migrator->run([__DIR__.'/migrations', '/somewhere/migrations'], Argument::cetera())->shouldBeCalled();
+
+        TestCommand::create($this->command)->execute();
     }
 
     /** @test */
@@ -144,9 +155,8 @@ class MigrateCommandTest extends \PHPUnit_Framework_TestCase
     {
         $container = new Container();
         $container->set('wouterj_eloquent.migrator', $this->migrator->reveal());
-        $container->setParameter('wouterj_eloquent.migration_path', '%kernel.root_dir%/migrations');
+        $container->setParameter('wouterj_eloquent.migration_path', __DIR__.'/migrations');
         $container->setParameter('kernel.environment', 'dev');
-        $container->setParameter('kernel.root_dir', __DIR__.'/../Fixtures/app');
 
         return $container;
     }

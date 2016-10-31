@@ -54,6 +54,7 @@ EOH
         $this->call($o, 'eloquent:migrate:reset', [
             '--database' => $database,
             '--force'    => $force,
+            '--path'     => $i->getOption('path'),
         ]);
 
         $this->call($o, 'eloquent:migrate', [

@@ -47,7 +47,7 @@ class TestCommand
 
     public function passing($name, $value = true)
     {
-        if ('-' !== $name[1]) {
+        if ('-' !== $name[0]) {
             $this->arguments[] = $value;
         }
 

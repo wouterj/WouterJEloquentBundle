@@ -47,13 +47,7 @@ EOT
             return;
         }
 
-        if (null !== $path = $i->getOption('path')) {
-            $path = getcwd().'/'.$path;
-        } else {
-            $path = $this->getMigrationPath();
-        }
-
-        $this->getMigrator()->run($path, [
+        $this->getMigrator()->run($this->getMigrationPaths($i), [
             'pretend' => $i->getOption('pretend'),
         ]);
 

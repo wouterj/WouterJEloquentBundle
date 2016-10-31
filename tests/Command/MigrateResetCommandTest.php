@@ -12,6 +12,7 @@
 namespace WouterJ\EloquentBundle\Command;
 
 use Symfony\Component\DependencyInjection\Container;
+use WouterJ\EloquentBundle\Promise;
 use WouterJ\EloquentBundle\Migrations\Migrator;
 use Prophecy\Argument;
 
@@ -29,12 +30,14 @@ class MigrateResetCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->migrator = $this->prophesize(Migrator::class);
         $this->migrator->getNotes()->willReturn([]);
+        $this->migrator->paths()->willReturn([]);
         $this->migrator->setConnection(Argument::any())->willReturn();
         $this->migrator->repositoryExists()->willReturn(true);
 
         $this->container = new Container();
         $this->container->setParameter('kernel.environment', 'dev');
         $this->container->set('wouterj_eloquent.migrator', $this->migrator->reveal());
+        $this->container->setParameter('wouterj_eloquent.migration_path', __DIR__.'/migrations');
 
         $this->command = new MigrateResetCommand();
         $this->command->setContainer($this->container);
@@ -77,11 +80,37 @@ class MigrateResetCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
+    public function it_uses_the_default_migration_path()
+    {
+        $this->migrator->reset([__DIR__.'/migrations'], Argument::cetera())->shouldBeCalled();
+
+        TestCommand::create($this->command)->execute();
+    }
+
+    /** @test */
+    public function it_allows_to_specify_another_path()
+    {
+        $this->migrator->reset([getcwd().'/db'], Argument::cetera())->shouldBeCalled();
+
+        TestCommand::create($this->command)->passing('--path', 'db')->duringExecute();
+    }
+
+    /** @test */
+    public function it_allows_multiple_migration_directories()
+    {
+        $this->migrator->paths()->willReturn(['/somewhere/migrations']);
+
+        $this->migrator->reset([__DIR__.'/migrations', '/somewhere/migrations'], Argument::cetera())->shouldBeCalled();
+
+        TestCommand::create($this->command)->execute();
+    }
+
+    /** @test */
     public function it_allows_changing_the_connection()
     {
         $this->migrator->setConnection('something')->shouldBeCalled();
 
-        $this->migrator->reset(false)->shouldBeCalled();
+        $this->migrator->reset(Argument::any(), false)->shouldBeCalled();
 
         TestCommand::create($this->command)->passing('--database', 'something')->duringExecute();
     }
@@ -89,7 +118,7 @@ class MigrateResetCommandTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_can_pretend_migrations_were_resetted()
     {
-        $this->migrator->reset(true)->shouldBeCalled();
+        $this->migrator->reset(Argument::any(), true)->shouldBeCalled();
 
         TestCommand::create($this->command)->passing('--pretend')->duringExecute();
     }

@@ -34,6 +34,7 @@ EOH
                 new InputOption('database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'),
                 new InputOption('force', null, InputOption::VALUE_NONE, 'Force the operation to run in production.'),
                 new InputOption('pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.'),
+                new InputOption('path', null, InputOption::VALUE_REQUIRED, 'The path of migrations files to be executed'),
             ])
         ;
     }
@@ -53,7 +54,7 @@ EOH
             return 1;
         }
 
-        $migrator->reset($i->getOption('pretend'));
+        $migrator->reset($this->getMigrationPaths($i), $i->getOption('pretend'));
 
         foreach ($migrator->getNotes() as $note) {
             $o->writeln($note);

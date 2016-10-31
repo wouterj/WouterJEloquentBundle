@@ -36,6 +36,7 @@ EOT
                 new InputOption('database', null, InputOption::VALUE_REQUIRED, 'The database connection to seed'),
                 new InputOption('table', null, InputOption::VALUE_REQUIRED, 'An optional table name that is updated during the migration'),
                 new InputOption('create', null, InputOption::VALUE_OPTIONAL, 'An optional table name that is created during the migration'),
+                new InputOption('path', null, InputOption::VALUE_REQUIRED, 'The location where the migration file should be created'),
             ))
         ;
     }
@@ -50,20 +51,21 @@ EOT
         $name = $i->getArgument('name');
         $table = $i->getOption('table');
         $create = $i->getOption('create');
+        $paths = $this->getMigrationPaths($i);
 
         if (!$table && is_string($create)) {
             $table = $create;
         }
 
-        $file = $this->writeMigrations($name, $table, (bool) $create);
+        $file = $this->writeMigrations($name, array_shift($paths), $table, (bool) $create);
 
         $o->writeln(sprintf('Migration `%s` is created!', $file));
     }
 
-    private function writeMigrations($name, $table, $create)
+    private function writeMigrations($name, $path, $table, $create)
     {
         return pathinfo(
-            $this->getCreator()->create($name, $this->getMigrationPath(), $table, $create),
+            $this->getCreator()->create($name, $path, $table, $create),
             PATHINFO_FILENAME
         );
     }
