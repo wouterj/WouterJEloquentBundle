@@ -37,6 +37,7 @@ EOT
                 new InputOption('path', null, InputOption::VALUE_REQUIRED, 'The path of migrations files to be executed'),
                 new InputOption('pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run'),
                 new InputOption('seed', null, InputOption::VALUE_NONE, 'Indicates if the seed task should be re-run'),
+                new InputOption('step', null, InputOption::VALUE_NONE, 'Force the migrations to be run so they can be rolled back individually'),
             ])
         ;
     }
@@ -49,6 +50,7 @@ EOT
 
         $this->getMigrator()->run($this->getMigrationPaths($i), [
             'pretend' => $i->getOption('pretend'),
+            'step'    => $i->getOption('step'),
         ]);
 
         foreach ($this->getMigrator()->getNotes() as $note) {

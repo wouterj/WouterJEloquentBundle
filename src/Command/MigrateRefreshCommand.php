@@ -36,6 +36,7 @@ EOH
                 new InputOption('force', null, InputOption::VALUE_NONE, 'Force the operation to run in production.'),
                 new InputOption('pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.'),
                 new InputOption('path', null, InputOption::VALUE_REQUIRED, 'The path of migrations files to be executed'),
+                new InputOption('step', null, InputOption::VALUE_REQUIRED, 'The number of migrations to be reverted'),
                 new InputOption('seed', null, InputOption::VALUE_NONE, 'Indicates if the seed task should be re-run'),
                 new InputOption('seeder', null, InputOption::VALUE_REQUIRED, 'The class name of the root seeder.'),
             ])
@@ -50,12 +51,22 @@ EOH
         }
 
         $database = $i->getOption('database');
+        $step = (int) $i->getOption('step');
 
-        $this->call($o, 'eloquent:migrate:reset', [
-            '--database' => $database,
-            '--force'    => $force,
-            '--path'     => $i->getOption('path'),
-        ]);
+        if ($step > 0) {
+            $this->call($o, 'eloquent:migrate:rollback', [
+                '--database' => $database,
+                '--force'    => $force,
+                '--path'     => $i->getOption('path'),
+                '--step'     => $step,
+            ]);
+        } else {
+            $this->call($o, 'eloquent:migrate:reset', [
+                '--database' => $database,
+                '--force'    => $force,
+                '--path'     => $i->getOption('path'),
+            ]);
+        }
 
         $this->call($o, 'eloquent:migrate', [
             '--database' => $database,

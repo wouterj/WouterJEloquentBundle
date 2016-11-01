@@ -35,6 +35,7 @@ EOH
                 new InputOption('force', null, InputOption::VALUE_NONE, 'Force the operation to run in production.'),
                 new InputOption('pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.'),
                 new InputOption('path', null, InputOption::VALUE_REQUIRED, 'The path of migrations files to be executed'),
+                new InputOption('step', null, InputOption::VALUE_REQUIRED, 'The number of migrations to be reverted'),
             ])
         ;
     }
@@ -47,7 +48,10 @@ EOH
 
         $migrator = $this->getMigrator();
         $migrator->setConnection($i->getOption('database'));
-        $migrator->rollback($this->getMigrationPaths($i), ['pretend' => $i->getOption('pretend')]);
+        $migrator->rollback($this->getMigrationPaths($i), [
+            'pretend' => $i->getOption('pretend'),
+            'step'    => (int) $i->getOption('step'),
+        ]);
 
         foreach ($migrator->getNotes() as $note) {
             $o->writeln($note);

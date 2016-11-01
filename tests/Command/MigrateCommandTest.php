@@ -111,9 +111,17 @@ class MigrateCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
+    public function it_allows_batching_migrations_one_by_one()
+    {
+        $this->migrator->run(Argument::any(), ['pretend' => false, 'step' => true])->shouldBeCalled();
+
+        TestCommand::create($this->command)->passing('--step')->duringExecute();
+    }
+
+    /** @test */
     public function it_can_pretend_migrations_were_run()
     {
-        $this->migrator->run(Argument::any(), ['pretend' => true])->shouldBeCalled();
+        $this->migrator->run(Argument::any(), ['pretend' => true, 'step' => false])->shouldBeCalled();
 
         TestCommand::create($this->command)->passing('--pretend')->duringExecute();
     }

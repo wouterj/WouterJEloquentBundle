@@ -108,15 +108,23 @@ class MigrateRollbackCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->migrator->setConnection('something')->shouldBeCalled();
 
-        $this->migrator->rollback(Argument::any(), ['pretend' => false])->shouldBeCalled();
+        $this->migrator->rollback(Argument::any(), ['pretend' => false, 'step' => 0])->shouldBeCalled();
 
         TestCommand::create($this->command)->passing('--database', 'something')->duringExecute();
     }
 
     /** @test */
+    public function it_allows_to_revert_multiple_migrations()
+    {
+        $this->migrator->rollback(Argument::any(), ['pretend' => false, 'step' => 4])->shouldBeCalled();
+
+        TestCommand::create($this->command)->passing('--step', 4)->duringExecute();
+    }
+
+    /** @test */
     public function it_can_pretend_migrations_were_rolled_back()
     {
-        $this->migrator->rollback(Argument::any(), ['pretend' => true])->shouldBeCalled();
+        $this->migrator->rollback(Argument::any(), ['pretend' => true, 'step' => 0])->shouldBeCalled();
 
         TestCommand::create($this->command)->passing('--pretend')->duringExecute();
     }
