@@ -27,6 +27,15 @@ abstract class BaseMigrateCommand extends ContainerAwareCommand
         return $this->getContainer()->getParameter('wouterj_eloquent.migration_path');
     }
 
+    protected function getMigrationPaths(InputInterface $input = null)
+    {
+        if (null !== $input && $input->hasOption('path') && null !== $path = $input->getOption('path')) {
+            return [getcwd().'/'.$path];
+        }
+
+        return array_merge([$this->getMigrationPath()], $this->getMigrator()->paths());
+    }
+
     protected function askConfirmationInProd(InputInterface $i, OutputInterface $o)
     {
         if ('prod' !== $this->getContainer()->getParameter('kernel.environment')) {

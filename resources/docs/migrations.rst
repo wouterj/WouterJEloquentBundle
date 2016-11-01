@@ -70,6 +70,15 @@ specify which table will be created by the migrations:
     $ php bin/console eloquent:migrate:make --create=flights create_flights_table
     $ php bin/console eloquent:migrate:make --table=flights add_aircraft_to_flights_table
 
+======================  ==========================================================================================================
+Option                  Description
+======================  ==========================================================================================================
+``--database=<NAME>``   The connection to use.
+``--path=<PATH>``       The location where the migration file should be created, defaults to the main migration path.
+``--table=<NAME>``      The name of a table that is updated during the migration.
+``--create[=<TABLE>]``  Indicates that the migration will create a table. The value is a shortcut for ``--create --table=<NAME>``.
+======================  ==========================================================================================================
+
 Running Migrations
 ------------------
 
@@ -80,15 +89,16 @@ Running Migrations
 Use the ``--force`` option to suppress the confirmation question when running
 this command in production. Other options are:
 
-====================  =======================================================================
-Option                Description
-====================  =======================================================================
-``-database=<NAME>``  The connection to use.
-``--path=<PATH>``     The path to the migrations files (in case it's not ``app/migrations``).
-``--force``           Suppress the confirmation question when executing this in production.
-``--pretend``         Do not run the migrations, only dump the SQL queries that would be run.
-``--seed``            To automatically seed the database after running the migrations.
-====================  =======================================================================
+====================   =======================================================================
+Option                 Description
+====================   =======================================================================
+``--database=<NAME>``  The connection to use.
+``--path=<PATH>``      The path to the migrations files (in case it's not ``app/migrations``).
+``--step``             Run the migrations one by one so they can be rolled back individually.
+``--force``            Suppress the confirmation question when executing this in production.
+``--pretend``          Do not run the migrations, only dump the SQL queries that would be run.
+``--seed``             To automatically seed the database after running the migrations.
+====================   =======================================================================
 
 Rolling Back Migrations
 -----------------------
@@ -100,13 +110,14 @@ Rolling Back Migrations
 This commands rolls back the last executed batch of migrations. To rollback
 *all* migrations, use ``eloquent:migrate:reset``.
 
-====================  =======================================================================
-Option                Description
-====================  =======================================================================
-``-database=<NAME>``  The connection to use.
-``--force``           Suppress the confirmation question when executing this in production.
-``--pretend``         Do not run the migrations, only dump the SQL queries that would be run.
-====================  =======================================================================
+====================   ==============================================================================
+Option                 Description
+====================   ==============================================================================
+``--database=<NAME>``  The connection to use.
+``--step=<STEP>``      The number of migration batches to be reverted, defaults to only the last one.
+``--force``            Suppress the confirmation question when executing this in production.
+``--pretend``          Do not run the migrations, only dump the SQL queries that would be run.
+====================   ==============================================================================
 
 Refreshing the Database
 -----------------------
@@ -118,18 +129,44 @@ Refreshing the Database
 This is a shortcut for running ``eloquent:migrate:reset``,
 ``eloquent:migrate`` and ``eloquent:seed``.
 
-====================  =======================================================================
-Option                Description
-====================  =======================================================================
-``-database=<NAME>``  The connection to use.
-``--path=<PATH>``     The path to the migrations files (in case it's not ``app/migrations``).
-``--force``           Suppress the confirmation question when executing this in production.
-``--pretend``         Do not run the migrations, only dump the SQL queries that would be run.
-``--seed``            To automatically seed the database after running the migrations.
-``--seeder``          The class name of the seeder.
-====================  =======================================================================
+=====================  ===============================================================================
+Option                 Description
+=====================  ===============================================================================
+``--database=<NAME>``  The connection to use.
+``--step=<STEP>``      The number of migration batches to be refreshed, defaults to only the last one.
+``--path=<PATH>``      The path to the migrations files (in case it's not ``app/migrations``).
+``--force``            Suppress the confirmation question when executing this in production.
+``--pretend``          Do not run the migrations, only dump the SQL queries that would be run.
+``--seed``             To automatically seed the database after running the migrations.
+``--seeder``           The class name of the seeder.
+=====================  ===============================================================================
+
+How to Configure Migration Paths in a Bundle
+--------------------------------------------
+
+If you share a bundle in multiple application, the migration files would not
+live in ``app/migrations`` but in your bundle. To make the migrator aware of
+this migration directory, call the ``MigrationPathsPass::add()`` method in your
+bundle's `extension`_:
+
+.. code-block:: php
+
+    // ...
+    use WouterJ\EloquentBundle\DependencyInjection\Compiler\MigrationPathsPass;
+
+    class YourExtension extends Extension
+    {
+        public function load(array $configs, ContainerBuilder $container)
+        {
+            // adds the /Resources/migrations directory as migration path
+            MigrationPathsPass::add(__DIR__.'/../Resources/migrations');
+
+            // ...
+        }
+    }
 
 « `Usage <usage.rst>`_ • `Configuration <configuration.rst>`_ »
 
  .. _migrations: https://laravel.com/docs/migrations
  .. _seeding: https://laravel.com/docs/seeding
+ .. _bundles extension: https://symfony.com/doc/current/bundles/extension

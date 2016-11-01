@@ -47,7 +47,7 @@ class TestCommand
 
     public function passing($name, $value = true)
     {
-        if ('-' !== $name[1]) {
+        if ('-' !== $name[0]) {
             $this->arguments[] = $value;
         }
 
@@ -70,7 +70,7 @@ class TestCommand
             $helper->setInputStream($this->getInputStream($this->inputStream));
         }
 
-        $this->tester->execute(array_merge($this->options, $this->arguments));
+        $this->tester->execute(array_merge($this->options, $this->arguments), ['decorated' => false]);
 
         return $this;
     }
