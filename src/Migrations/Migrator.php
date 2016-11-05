@@ -45,7 +45,7 @@ class Migrator extends LaravelMigrator
         $migrations = [];
         /** @var SplFileInfo $file */
         foreach ($files as $file) {
-            $migrations[] = $file->getRealPath();
+            $migrations[str_replace('.php', '', $file->getBasename())] = $file->getRealPath();
         }
 
         return $migrations;
