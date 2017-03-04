@@ -114,7 +114,7 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->scalarNode('driver')
                                 ->validate()
-                                    ->ifNotInArray(['mysql', 'postgres', 'sql server', 'sqlite'])
+                                    ->ifNotInArray(['mysql', 'postgres','pgsql', 'sql server', 'sqlite'])
                                     ->thenInvalid('Invalid database driver "%s".')
                                 ->end()
                                 ->defaultValue('mysql')
