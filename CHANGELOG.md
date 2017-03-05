@@ -1,6 +1,9 @@
 Changelog
 =========
 
+ * Deprecated `postgres` and `sql server` driver names in favor of `pgsql` and
+   `sqlsrv`. The old names will be unsupported as of 1.0.
+
 0.3.0
 -----
 

@@ -114,8 +114,22 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->scalarNode('driver')
                                 ->validate()
-                                    ->ifNotInArray(['mysql', 'postgres','pgsql', 'sql server', 'sqlite'])
+                                    ->ifNotInArray(['mysql', 'postgres', 'pgsql', 'sql server', 'sqlsrv', 'sqlite'])
                                     ->thenInvalid('Invalid database driver "%s".')
+                                ->end()
+                                ->beforeNormalization()
+                                    ->ifInArray(['sql server', 'postgres'])
+                                    ->then(function ($value) {
+                                        $names = ['sql server' => 'sqlsrv', 'postgres' => 'pgsql'];
+
+                                        @trigger_error(sprintf(
+                                            'Driver name "%s" is deprecated as of version 0.4 and will be removed in 1.0. Use "%s" instead.',
+                                            $value,
+                                            $names[$value]
+                                        ), E_USER_DEPRECATED);
+
+                                        return $names[$value];
+                                    })
                                 ->end()
                                 ->defaultValue('mysql')
                             ->end()

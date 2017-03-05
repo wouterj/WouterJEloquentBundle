@@ -129,4 +129,15 @@ abstract class WouterJEloquentExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertContainerHasService('wouterj_eloquent.aliases.loader', AliasesLoader::class);
         $this->assertEquals([['addAlias', ['Schema', Schema::class]]], $this->container->getDefinition('wouterj_eloquent.aliases.loader')->getMethodCalls());
     }
+
+    /**
+     * @test
+     * @group legacy
+     * @expectedDeprecation Driver name "postgres" is deprecated as of version 0.4 and will be removed in 1.0. Use "pgsql" instead.
+     * @expectedDeprecation Driver name "sql server" is deprecated as of version 0.4 and will be removed in 1.0. Use "sqlsrv" instead.
+     */
+    public function it_notifies_and_aliases_deprecated_driver_names()
+    {
+        $this->load('deprecated_drivers');
+    }
 }
