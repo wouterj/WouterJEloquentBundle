@@ -11,10 +11,12 @@
 
 namespace WouterJ\EloquentBundle\Facade;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
-class AliasesLoaderTest extends \PHPUnit_Framework_TestCase
+class AliasesLoaderTest extends TestCase
 {
     protected $subject;
 

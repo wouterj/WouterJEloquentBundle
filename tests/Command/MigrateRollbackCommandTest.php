@@ -13,12 +13,13 @@ namespace WouterJ\EloquentBundle\Command;
 
 use Symfony\Component\DependencyInjection\Container;
 use WouterJ\EloquentBundle\Migrations\Migrator;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
-class MigrateRollbackCommandTest extends \PHPUnit_Framework_TestCase
+class MigrateRollbackCommandTest extends TestCase
 {
     private $command;
     /** @var Container */

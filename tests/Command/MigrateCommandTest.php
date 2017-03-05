@@ -19,12 +19,13 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\Migrations\Migrator;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
-class MigrateCommandTest extends \PHPUnit_Framework_TestCase
+class MigrateCommandTest extends TestCase
 {
     private $command;
     private $migrator;

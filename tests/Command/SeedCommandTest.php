@@ -17,11 +17,12 @@ use WouterJ\EloquentBundle\Prediction;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
-class SeedCommandTest extends \PHPUnit_Framework_TestCase
+class SeedCommandTest extends TestCase
 {
     protected $container;
     protected $input;

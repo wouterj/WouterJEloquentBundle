@@ -16,7 +16,7 @@
         , "symfony/http-kernel": "^2.3|^3.0"
         , "symfony/finder": "^2.3|^3.0"
         , "symfony/yaml": "^2.3|^3.0"
-        , "symfony/phpunit-bridge": "^3.2"
+        , "symfony/phpunit-bridge": "^3.3@dev"
     }
     , "conflict": { "hhvm": "*" }
     , "suggests": {
@@ -28,6 +28,7 @@
     , "autoload-dev": {
           "psr-4": { "WouterJ\\EloquentBundle\\": "tests", "": "tests/Functional/app/src" }
         , "classmap": ["tests/Functional/app/migrations"]
+        , "files": ["tests/phpunit6.php"]
     }
     , "extra": {
         "branch-alias": { "dev-master": "1.0-dev" }

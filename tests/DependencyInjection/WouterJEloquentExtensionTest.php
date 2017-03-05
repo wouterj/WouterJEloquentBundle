@@ -17,11 +17,12 @@ use WouterJ\EloquentBundle\Facade\Schema;
 use WouterJ\EloquentBundle\Facade\AliasesLoader;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Database\DatabaseManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
-abstract class WouterJEloquentExtensionTest extends \PHPUnit_Framework_TestCase
+abstract class WouterJEloquentExtensionTest extends TestCase
 {
     protected $container;
 
