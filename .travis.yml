@@ -1,7 +1,5 @@
 language: php
 
-sudo: false
-
 cache:
   directories:
     - $HOME/.composer/cache/files
@@ -9,25 +7,48 @@ cache:
 
 env:
   global:
-    - SYMFONY_PHPUNIT_REMOVE="symfony/yaml" SYMFONY_PHPUNIT_DIR="./.phpunit"
+    - SYMFONY_PHPUNIT_REMOVE="symfony/yaml"
+    - SYMFONY_PHPUNIT_DIR=".phpunit"
+
+branches:
+    only:
+        - master
+
+php:
+  - '7.1'
+  - nightly
 
 matrix:
   fast_finish: true
   include:
-    - php: 7.0
-      env: DEPS=dev
-    - php: 5.6
+    - php: '5.6'
       env: COMPOSER_FLAGS="--prefer-lowest"
-    - php: 7.0
-      env: SYMFONY_VERSION=2.7.*
-    - php: 7.0
-      env: SYMFONY_VERSION=2.8.*
+
+    - php: '7.0'
+      env: DEPS=dev
+
+    - php: '7.0'
+      env: SYMFONY_VERSION='~2.7.0'
+    - php: '7.0'
+      env: SYMFONY_VERSION='~2.8.0'
+    - php: '7.0'
+      env: SYMFONY_VERSION='~3.1.0'
+    - php: '7.0'
+      env: SYMFONY_VERSION='~3.2.0@dev'
+
+  allow_failures:
+    - php: nightly
+    - env: SYMFONY_VERSION='~3.2.0@dev'
 
 before_install:
+  - set -eo pipefail
   - phpenv config-rm xdebug.ini || true
-  - composer self-update
-  - if [ "$DEPS" = "dev" ]; then perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json; fi
-  - if [ "$SYMFONY_VERSION" != "" ]; then composer require symfony/symfony:${SYMFONY_VERSION} --no-update; fi
+  - if [ -n "$SYMFONY_VERSION" ]; then
+        composer require "symfony/symfony:${SYMFONY_VERSION}" --no-update;
+    fi
+  - if [ "$DEPS" = "dev" ]; then
+        perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json;
+    fi
 
 install: composer update --prefer-dist $COMPOSER_FLAGS
 
