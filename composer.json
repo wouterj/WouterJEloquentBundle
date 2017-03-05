@@ -16,11 +16,9 @@
         , "symfony/http-kernel": "^2.3|^3.0"
         , "symfony/finder": "^2.3|^3.0"
         , "symfony/yaml": "^2.3|^3.0"
-        , "symfony/phpunit-bridge": "^3.2@beta"
+        , "symfony/phpunit-bridge": "^3.2"
     }
-    , "conflict": {
-        "hhvm": "*"
-    }
+    , "conflict": { "hhvm": "*" }
     , "suggests": {
           "symfony/console": "To use commands for seeding and migration. (^2.7|^3.0)"
         , "symfony/event-dispatcher": "To auto initialize the Eloquent ORM. (^2.3|^3.0)"
