@@ -33,7 +33,7 @@ class ServiceContainerDispatcher extends Dispatcher
         parent::__construct();
     }
 
-    protected function createClassCallable($listener, $container)
+    protected function createClassCallable($listener)
     {
         list($class, $method) = $this->parseClassCallable($listener);
 
@@ -41,6 +41,6 @@ class ServiceContainerDispatcher extends Dispatcher
             return [$this->symfonyContainer->get($this->observers[$class]), $method];
         }
 
-        return parent::createClassCallable($listener, $container);
+        return parent::createClassCallable($listener);
     }
 }

@@ -50,7 +50,7 @@ class Creator extends MigrationCreator
             $file = $create ? 'create.stub' : 'update.stub';
         }
 
-        $stubContents = file_get_contents($this->getStubPath().'/'.$file);
+        $stubContents = file_get_contents($this->stubPath().'/'.$file);
         $stubContents = str_replace('Illuminate\Support\Facades', 'WouterJ\EloquentBundle\Facade', $stubContents);
 
         return $stubContents;
