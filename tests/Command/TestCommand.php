@@ -60,14 +60,18 @@ class TestCommand
     {
         $this->tester = new CommandTester($this->command);
 
-        if ('' !== $this->inputStream) {
-            if ($this->command->getHelperSet()) {
-                $helper = $this->command->getHelper('question');
-            } else {
-                $this->command->setHelperSet(new HelperSet([$helper = new QuestionHelper()]));
-            }
+        if (!$this->command->getHelperSet()) {
+            $this->command->setHelperSet(new HelperSet([new QuestionHelper()]));
+        }
 
-            $helper->setInputStream($this->getInputStream($this->inputStream));
+        if ('' !== $this->inputStream) {
+            if (method_exists($this->tester, 'setInputs')) {
+                $this->tester->setInputs(explode($this->inputStream, "\n"));
+            } else {
+                // todo Remove if Symfony <3.2 support is dropped
+                $this->command->getHelper('question')
+                    ->setInputStream($this->getInputStream($this->inputStream));
+            }
         }
 
         $this->tester->execute(array_merge($this->options, $this->arguments), ['decorated' => false]);
