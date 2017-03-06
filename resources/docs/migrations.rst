@@ -165,7 +165,7 @@ bundle's `extension`_:
         }
     }
 
-« `Usage <usage.rst>`_ • `Configuration <configuration.rst>`_ »
+« `Usage <usage.rst>`_ • `Events and Observers <events.rst>`_ »
 
  .. _migrations: https://laravel.com/docs/migrations
  .. _seeding: https://laravel.com/docs/seeding
