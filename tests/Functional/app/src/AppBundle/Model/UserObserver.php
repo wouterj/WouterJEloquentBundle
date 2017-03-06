@@ -16,53 +16,88 @@ namespace AppBundle\Model;
  */
 class UserObserver
 {
+    /** Used to test Symfony service observers */
+    public $fired = [];
+    /** Used to test class observers */
+    public static $logs = [];
+
     public function creating(User $user)
     {
-        echo 'creating '.$user->name."\n";
+        $m = 'creating '.$user->name;
+
+        self::$logs[] = $m;
+        $this->fired[] = $m;
     }
 
     public function created(User $user)
     {
-        echo 'created '.$user->name."\n";
+        $m = 'created '.$user->name;
+
+        self::$logs[] = $m;
+        $this->fired[] = $m;
     }
 
     public function updating(User $user)
     {
-        echo 'updating '.$user->name."\n";
+        $m = 'updating '.$user->name;
+
+        self::$logs[] = $m;
+        $this->fired[] = $m;
     }
 
     public function updated(User $user)
     {
-        echo 'updated '.$user->name."\n";
+        $m = 'updated '.$user->name;
+
+        self::$logs[] = $m;
+        $this->fired[] = $m;
     }
 
     public function saving(User $user)
     {
-        echo 'saving '.$user->name."\n";
+        $m = 'saving '.$user->name;
+
+        self::$logs[] = $m;
+        $this->fired[] = $m;
     }
 
     public function saved(User $user)
     {
-        echo 'saved '.$user->name."\n";
+        $m = 'saved '.$user->name;
+
+        self::$logs[] = $m;
+        $this->fired[] = $m;
     }
 
     public function deleting(User $user)
     {
-        echo 'deleting '.$user->name."\n";
+        $m = 'deleting '.$user->name;
+
+        self::$logs[] = $m;
+        $this->fired[] = $m;
     }
 
     public function deleted(User $user)
     {
-        echo 'deleted '.$user->name."\n";
+        $m = 'deleted '.$user->name;
+
+        self::$logs[] = $m;
+        $this->fired[] = $m;
     }
 
     public function restoring(User $user)
     {
-        echo 'restoring '.$user->name."\n";
+        $m = 'restoring '.$user->name;
+
+        self::$logs[] = $m;
+        $this->fired[] = $m;
     }
 
     public function restored(User $user)
     {
-        echo 'restored '.$user->name."\n";
+        $m = 'restored '.$user->name;
+
+        self::$logs[] = $m;
+        $this->fired[] = $m;
     }
 }

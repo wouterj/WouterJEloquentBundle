@@ -11,7 +11,10 @@
 
 namespace WouterJ\EloquentBundle;
 
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use WouterJ\EloquentBundle\DependencyInjection\Compiler\ObserverPass;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
@@ -21,6 +24,13 @@ class WouterJEloquentBundle extends Bundle
     public function getContainerExtension()
     {
         return new DependencyInjection\WouterJEloquentExtension();
+    }
+
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new ObserverPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 80);
     }
 
     public function boot()

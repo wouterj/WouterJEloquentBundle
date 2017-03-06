@@ -20,7 +20,7 @@ use WouterJ\EloquentBundle\Facade\Schema;
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
-class EventsTest extends KernelTestCase
+abstract class EventsTest extends KernelTestCase
 {
     protected static function getKernelClass()
     {
@@ -28,6 +28,9 @@ class EventsTest extends KernelTestCase
 
         return 'TestKernel';
     }
+
+    protected function reset() { }
+    abstract protected function getLogs();
 
     protected function setUp()
     {
@@ -44,111 +47,116 @@ class EventsTest extends KernelTestCase
                 $table->timestamps();
             });
         }
+
+        $this->reset();
     }
 
-    /** @dataProvider getEventsData */
-    public function testEvents($setup, $execute, array $expectedEvents)
+    public function testCreationEvents()
     {
-        ob_start();
-        $setup();
-        ob_clean();
+        User::create([
+            'name'     => 'John Doe',
+            'email'    => 'j.doe@example.com',
+            'password' => 'pa$$word',
+        ]);
 
-        $execute();
-        $this->assertEquals(implode("\n", $expectedEvents)."\n", ob_get_contents());
-
-        ob_end_clean();
+        $this->assertEquals([
+            'saving John Doe',
+            'creating John Doe',
+            'created John Doe',
+            'saved John Doe',
+        ], $this->getLogs());
     }
 
-    public function getEventsData()
+    public function testUpdateEvents()
     {
-        return [
-            'creation' => [
-                function () {},
-                function () {
-                    User::create([
-                        'name'     => 'John Doe',
-                        'email'    => 'j.doe@example.com',
-                        'password' => 'pa$$word',
-                    ]);
-                },
-                [
-                    'saving John Doe',
-                    'creating John Doe',
-                    'created John Doe',
-                    'saved John Doe',
-                ]
-            ],
-            'update' => [
-                function () {
-                    User::create([
-                        'name'     => 'John Doe',
-                        'email'    => 'j.doe@example.com',
-                        'password' => 'pa$$word',
-                    ]);
-                },
-                function () {
-                    $user = User::where('name', 'John Doe')->first();
-                    $user->name = 'Ben Doe';
+        User::create([
+            'name'     => 'John Doe',
+            'email'    => 'j.doe@example.com',
+            'password' => 'pa$$word',
+        ]);
 
-                    $user->save();
-                },
-                [
-                    'saving Ben Doe',
-                    'updating Ben Doe',
-                    'updated Ben Doe',
-                    'saved Ben Doe',
-                ]
-            ],
-            'deletion' => [
-                function () {
-                    User::create([
-                        'name'     => 'John Doe',
-                        'email'    => 'j.doe@example.com',
-                        'password' => 'pa$$word',
-                    ]);
-                },
-                function () {
-                    $user = User::where('name', 'John Doe')->first();
-                    $user->delete();
-                },
-                [
-                    'deleting John Doe',
-                    'deleted John Doe',
-                ]
-            ],
-            'restore' => [
-                function () {
-                    Schema::create('soft_delete_users', function (Blueprint $table) {
-                        $table->increments('id');
-                        $table->string('name');
-                        $table->string('email');
-                        $table->string('password');
-                        $table->timestamps();
-                        $table->softDeletes();
-                    });
+        $this->reset();
 
-                    SoftDeleteUser::create([
-                        'name'     => 'John Doe',
-                        'email'    => 'j.doe@example.com',
-                        'password' => 'pa$$word',
-                    ]);
+        $user = User::where('name', 'John Doe')->first();
+        $user->name = 'Ben Doe';
 
-                    $user = SoftDeleteUser::where('name', 'John Doe')->first();
-                    $user->delete();
-                },
-                function () {
-                    $user = SoftDeleteUser::withTrashed()->where('name', 'John Doe')->first();
-                    $user->restore();
-                },
-                [
-                    'restoring John Doe',
-                    'saving John Doe',
-                    'updating John Doe',
-                    'updated John Doe',
-                    'saved John Doe',
-                    'restored John Doe',
-                ]
-            ],
-        ];
+        $user->save();
+
+        $this->assertEquals([
+            'saving Ben Doe',
+            'updating Ben Doe',
+            'updated Ben Doe',
+            'saved Ben Doe',
+        ], $this->getLogs());
+    }
+
+    public function testDeletionEvents()
+    {
+        User::create([
+            'name'     => 'John Doe',
+            'email'    => 'j.doe@example.com',
+            'password' => 'pa$$word',
+        ]);
+
+        $this->reset();
+
+        $user = User::where('name', 'John Doe')->first();
+        $user->delete();
+
+        $this->assertEquals([
+            'deleting John Doe',
+            'deleted John Doe',
+        ], $this->getLogs());
+    }
+
+    public function testRestoreEvents()
+    {
+        Schema::create('soft_delete_users', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('email');
+            $table->string('password');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        SoftDeleteUser::create([
+            'name'     => 'John Doe',
+            'email'    => 'j.doe@example.com',
+            'password' => 'pa$$word',
+        ]);
+
+        $user = SoftDeleteUser::where('name', 'John Doe')->first();
+        $user->delete();
+
+        $this->reset();
+
+        $user = SoftDeleteUser::withTrashed()->where('name', 'John Doe')->first();
+        $user->restore();
+
+        $this->assertEquals([
+            'restoring John Doe',
+            'saving John Doe',
+            'updating John Doe',
+            'updated John Doe',
+            'saved John Doe',
+            'restored John Doe',
+        ], $this->getLogs());
+    }
+
+    public function testListeners()
+    {
+        $created = false;
+        User::created(function () use (&$created) {
+            $created = true;
+        });
+
+        User::create([
+            'name'     => 'John Doe',
+            'email'    => 'j.doe@example.com',
+            'password' => 'pa$$word',
+        ]);
+
+        $this->assertTrue($created);
     }
 }
