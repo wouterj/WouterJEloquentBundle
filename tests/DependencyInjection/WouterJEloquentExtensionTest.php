@@ -65,13 +65,13 @@ abstract class WouterJEloquentExtensionTest extends TestCase
         $this->assertFalse($this->container->has('wouterj_eloquent.initializer'));
         $this->assertEquals('connection_1', $this->container->getParameter('wouterj_eloquent.default_connection'));
 
-        $connectionCalls = array_map(
+        $connectionCalls = array_values(array_map(
             function ($c) { return $c[1]; },
             array_filter(
                 $this->container->getDefinition('wouterj_eloquent')->getMethodCalls(),
                 function ($c) { return $c[0] === 'addConnection'; }
             )
-        );
+        ));
         $this->assertEquals([
             [[
                 'driver' => 'mysql',
