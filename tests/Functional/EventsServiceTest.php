@@ -16,7 +16,7 @@ use AppBundle\Model\UserObserver;
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
-class Events_ServiceTest extends EventsTest
+class EventsServiceTest extends EventsTest
 {
     protected function reset()
     {
