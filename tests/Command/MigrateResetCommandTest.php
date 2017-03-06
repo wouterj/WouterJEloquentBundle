@@ -14,12 +14,13 @@ namespace WouterJ\EloquentBundle\Command;
 use Symfony\Component\DependencyInjection\Container;
 use WouterJ\EloquentBundle\Promise;
 use WouterJ\EloquentBundle\Migrations\Migrator;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
-class MigrateResetCommandTest extends \PHPUnit_Framework_TestCase
+class MigrateResetCommandTest extends TestCase
 {
     private $command;
     /** @var Container */

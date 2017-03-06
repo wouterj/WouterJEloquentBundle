@@ -11,19 +11,23 @@
 
 namespace WouterJ\EloquentBundle;
 
+use PHPUnit\Framework\BaseTestListener;
+use PHPUnit\Framework\TestSuite;
+use PHPUnit\Framework\Test;
+
 /**
  * Automatically creates the database that's
  * required for the functional tests.
  *
  * @author Wouter J <wouter@wouterj.nl>
  */
-class FunctionalTestListener extends \PHPUnit_Framework_BaseTestListener
+class FunctionalTestListener extends BaseTestListener
 {
     private static $started = false;
     private static $dbFile;
     private static $backupFile;
 
-    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
+    public function startTestSuite(TestSuite $suite)
     {
         if (!self::$started) {
             self::$started = true;
@@ -52,7 +56,7 @@ class FunctionalTestListener extends \PHPUnit_Framework_BaseTestListener
         }
     }
 
-    public function startTest(\PHPUnit_Framework_Test $test)
+    public function startTest(Test $test)
     {
         // reset to initial file
         copy(static::$backupFile, static::$dbFile);

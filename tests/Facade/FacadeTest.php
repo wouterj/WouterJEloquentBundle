@@ -13,11 +13,12 @@ namespace WouterJ\EloquentBundle\Facade;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\Fixtures\Facade as Fixture;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
-class FacadeTest extends \PHPUnit_Framework_TestCase
+class FacadeTest extends TestCase
 {
     /** @test */
     public function it_accepts_object_accessors()

@@ -13,8 +13,9 @@ namespace WouterJ\EloquentBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use PHPUnit\Framework\TestCase;
 
-class MigrationPathsPassTest extends \PHPUnit_Framework_TestCase
+class MigrationPathsPassTest extends TestCase
 {
     private $container;
 

@@ -14,11 +14,12 @@ namespace WouterJ\EloquentBundle\EventListener;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\Facade\Facade;
 use WouterJ\EloquentBundle\Facade\AliasesLoader;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
-class FacadeInitializerTest extends \PHPUnit_Framework_TestCase
+class FacadeInitializerTest extends TestCase
 {
     protected $loader;
     protected $container;

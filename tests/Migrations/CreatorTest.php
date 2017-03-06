@@ -12,8 +12,9 @@
 namespace WouterJ\EloquentBundle\Migrations;
 
 use Illuminate\Database\Schema\Blueprint;
+use PHPUnit\Framework\TestCase;
 
-class CreatorTest extends \PHPUnit_Framework_TestCase
+class CreatorTest extends TestCase
 {
     protected $subject;
     protected $migrationsPath;

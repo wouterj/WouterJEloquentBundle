@@ -11,6 +11,7 @@
 
 namespace WouterJ\EloquentBundle\Command;
 
+use PHPUnit\Framework\Assert;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -86,21 +87,21 @@ class TestCommand
 
     public function outputs($expected)
     {
-        \PHPUnit_Framework_Assert::assertContains($expected, $this->tester->getDisplay(true));
+        Assert::assertContains($expected, $this->tester->getDisplay(true));
 
         return $this;
     }
 
     public function doesNotOutput($notExpected)
     {
-        \PHPUnit_Framework_Assert::assertNotContains($notExpected, $this->tester->getDisplay(true));
+        Assert::assertNotContains($notExpected, $this->tester->getDisplay(true));
 
         return $this;
     }
 
     public function exitsWith($code)
     {
-        \PHPUnit_Framework_Assert::assertSame($code, $this->tester->getStatusCode());
+        Assert::assertSame($code, $this->tester->getStatusCode());
 
         return $this;
     }

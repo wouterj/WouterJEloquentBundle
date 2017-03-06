@@ -20,12 +20,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\Migrations\Migrator;
 use WouterJ\EloquentBundle\Promise;
 use Illuminate\Database\Migrations\MigrationRepositoryInterface;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
-class MigrateStatusCommandTest extends \PHPUnit_Framework_TestCase
+class MigrateStatusCommandTest extends TestCase
 {
     private $command;
     private $repository;

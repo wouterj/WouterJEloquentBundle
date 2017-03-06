@@ -12,22 +12,21 @@
 namespace WouterJ\EloquentBundle;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/Fixtures/ConsoleCommandFixture.php';
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
-class SeederTest extends \PHPUnit_Framework_TestCase
+class SeederTest extends TestCase
 {
     protected $subject;
     protected $container;
     protected $seeder;
 
-    public function setUp()
+    protected function setUp()
     {
-        parent::setUp();
-
         $this->container = $this->prophesize(ContainerInterface::class);
         $this->seeder = $this->prophesize(Seeder::class);
 
@@ -57,7 +56,7 @@ class SeederTest extends \PHPUnit_Framework_TestCase
     {
         Promise::containerHasService($this->container, 'foo_service', new SeederTest_WrongSeeder());
 
-        $this->setExpectedException('LogicException');
+        $this->expectException(\LogicException::class);
 
         $this->subject->resolve('foo_service');
     }

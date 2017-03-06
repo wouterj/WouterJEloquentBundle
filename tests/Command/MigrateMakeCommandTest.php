@@ -17,12 +17,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\Migrations\Creator;
 use WouterJ\EloquentBundle\Migrations\Migrator;
 use WouterJ\EloquentBundle\Promise;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
-class MigrateMakeCommandTest extends \PHPUnit_Framework_TestCase
+class MigrateMakeCommandTest extends TestCase
 {
     private $command;
     private $container;

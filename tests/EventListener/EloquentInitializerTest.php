@@ -12,11 +12,12 @@
 namespace WouterJ\EloquentBundle\EventListener;
 
 use Illuminate\Database\Capsule\Manager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
-class EloquentInitializerTest extends \PHPUnit_Framework_TestCase
+class EloquentInitializerTest extends TestCase
 {
     protected $capsule;
     protected $subject;
