@@ -17,7 +17,9 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use WouterJ\EloquentBundle\DependencyInjection\Compiler\ObserverPass;
 
 /**
- * @author Wouter J <wouter@wouterj.nl>
+ * @final
+ * @internal
+ * @author Wouter de Jong <wouter@wouterj.nl>
  */
 class WouterJEloquentBundle extends Bundle
 {

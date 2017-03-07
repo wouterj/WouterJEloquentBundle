@@ -16,7 +16,7 @@ use Illuminate\Database\Seeder as BaseSeeder;
 use Illuminate\Database\ConnectionInterface;
 
 /**
- * @author Wouter J <wouter@wouterj.nl>
+ * @author Wouter de Jong <wouter@wouterj.nl>
  */
 abstract class Seeder extends BaseSeeder
 {

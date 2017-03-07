@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * This class is based on the Facade class in the illuminate/support package.
  *
- * @author Wouter J <wouter@wouterj.nl>
+ * @author Wouter de Jong <wouter@wouterj.nl>
  */
 abstract class Facade
 {

@@ -18,7 +18,9 @@ use WouterJ\EloquentBundle\Facade\AliasesLoader;
 /**
  * Initializes the facades.
  *
- * @author Wouter J <wouter@wouterj.nl>
+ * @final
+ * @internal
+ * @author Wouter de Jong <wouter@wouterj.nl>
  */
 class FacadeInitializer
 {

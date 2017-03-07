@@ -16,7 +16,9 @@ namespace WouterJ\EloquentBundle\Facade;
  *
  * Based on the AliasLoader in the illuminate/foundation package.
  *
- * @author Wouter J <wouter@wouterj.nl>
+ * @final
+ * @internal
+ * @author Wouter de Jong <wouter@wouterj.nl>
  */
 class AliasesLoader
 {

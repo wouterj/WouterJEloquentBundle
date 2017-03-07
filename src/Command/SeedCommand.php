@@ -19,7 +19,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use WouterJ\EloquentBundle\Seeder;
 
 /**
- * @author Wouter J <wouter@wouterj.nl>
+ * @final
+ * @internal
+ * @author Wouter de Jong <wouter@wouterj.nl>
  */
 class SeedCommand extends ContainerAwareCommand
 {

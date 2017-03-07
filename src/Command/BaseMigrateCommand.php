@@ -18,7 +18,8 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use WouterJ\EloquentBundle\Migrations\Migrator;
 
 /**
- * @author Wouter J <wouter@wouterj.nl>
+ * @internal
+ * @author Wouter de Jong <wouter@wouterj.nl>
  */
 abstract class BaseMigrateCommand extends ContainerAwareCommand
 {

@@ -15,9 +15,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
 /**
- * {@inheritDoc}
- *
- * @author Wouter J <wouter@wouterj.nl>
+ * @final
+ * @author Wouter de Jong <wouter@wouterj.nl>
  */
 class MigrationPathsPass implements CompilerPassInterface
 {
