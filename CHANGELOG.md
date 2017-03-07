@@ -1,6 +1,9 @@
 Changelog
 =========
 
+0.4.0
+-----
+
  * Added `@internal` and `@final` PHPdoc annotations
  * Added model events integration
  * Deprecated `postgres` and `sql server` driver names in favor of `pgsql` and
