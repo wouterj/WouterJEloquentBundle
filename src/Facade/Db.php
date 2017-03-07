@@ -12,7 +12,8 @@
 namespace WouterJ\EloquentBundle\Facade;
 
 /**
- * @author Wouter J <wouter@wouterj.nl>
+ * @final
+ * @author Wouter de Jong <wouter@wouterj.nl>
  */
 class Db extends Facade
 {

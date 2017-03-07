@@ -14,6 +14,12 @@ namespace WouterJ\EloquentBundle\Events;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Illuminate\Events\Dispatcher;
 
+/**
+ * A Laravel Events dispatcher using Symfony Dependency Injection.
+ *
+ * @final
+ * @author Wouter de Jong <wouter@wouterj.nl>
+ */
 class ServiceContainerDispatcher extends Dispatcher
 {
     private $symfonyContainer;

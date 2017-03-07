@@ -16,7 +16,9 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 /**
  * Initializes the Eloquent ORM.
  *
- * @author Wouter J <wouter@wouterj.nl>
+ * @final
+ * @internal
+ * @author Wouter de Jong <wouter@wouterj.nl>
  */
 class EloquentInitializer
 {

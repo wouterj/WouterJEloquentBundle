@@ -20,7 +20,9 @@ use Symfony\Component\Finder\SplFileInfo;
 /**
  * The LaravelMigrator without the dependency on Laravel filesystem.
  *
- * @author Wouter J <wouter@wouterj.nl>
+ * @final
+ * @internal
+ * @author Wouter de Jong <wouter@wouterj.nl>
  */
 class Migrator extends LaravelMigrator
 {

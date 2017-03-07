@@ -19,6 +19,8 @@ use Illuminate\Database\Migrations\MigrationCreator;
  * This removes the dependency on Illuminate\Filesystem in favor
  * of PHP's file_*_contents() functions for filesystem tasks.
  *
+ * @final
+ * @internal
  * @author Wouter de Jong <wouter@wouterj.nl>
  */
 class Creator extends MigrationCreator

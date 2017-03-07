@@ -98,9 +98,9 @@ For more information, refer to [the documentation](#table-of-content) below.
     1. [Other configuration formats](resources/docs/configuration.rst#other-configuration-formats)
         1. [XML](resources/docs/configuration.rst#xml)
         1. [PHP](resources/docs/configuration.rst#php)
-1. [License](#license)
+1. [License][license]
 1. [Contributing](#contributing)
-1. [Roadmap](#roadmap)
+1. [Backwards Compatibility](#backwards-compatibility)
 
 
 ## License
@@ -116,10 +116,17 @@ advocate this bundle or just say "hello". I welcome anything that makes this
 project better.
 
 
-## Roadmap
+## Backwards Compatibility
 
-To view the roadmap to a full featured Eloquent bundle, see the
-[roadmap][roadmap].
+This bundle follows SemVer, meaning that no minor (`1.x`) release will contain
+BC breaks. A new major version is released as soon as BC breaks are introduced.
+These will be explained in detail in the `UPGRADE-*.md` file shipped with the
+source code.
+
+Classes or methods with the `@internal` PHPdoc annotation are not meant to use
+or extend.  Backwards compatibility is not guaranteed. Classes or methods with
+the `@final` PHPdoc annotation are only meant for usage. Backwards
+compatibility when extending these classes is not guaranteed.
 
 
 [eloquent]: http://laravel.com/docs/database
@@ -127,4 +134,3 @@ To view the roadmap to a full featured Eloquent bundle, see the
 [docs]: resources/docs/index.rst
 [license]: LICENSE
 [cs]: http://symfony.com/doc/current/contributing/code/standards.html
-[roadmap]: resources/docs/roadmap.rst
