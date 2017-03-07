@@ -11,6 +11,9 @@
 
 namespace AppBundle;
 
+use AppBundle\Model\User;
+use AppBundle\Model\SoftDeleteUser;
+use AppBundle\Model\UserObserver;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -18,4 +21,9 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class AppBundle extends Bundle
 {
+    public function boot()
+    {
+        User::observe(UserObserver::class);
+        SoftDeleteUser::observe(UserObserver::class);
+    }
 }

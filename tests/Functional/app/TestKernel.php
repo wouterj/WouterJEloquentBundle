@@ -9,6 +9,7 @@
  * file that was distributed with this source code.
  */
 
+use AppBundle\Model\UserObserver;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -40,6 +41,9 @@ class TestKernel extends Kernel
                 'aliases'  => true,
                 'eloquent' => true,
             ]);
+
+            $container->register('app.user_observer', UserObserver::class)
+                ->addTag('wouterj_eloquent.observer');
         });
     }
 }

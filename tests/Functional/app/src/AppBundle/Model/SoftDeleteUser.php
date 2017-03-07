@@ -11,12 +11,15 @@
 
 namespace AppBundle\Model;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
-class User extends Model
+class SoftDeleteUser extends User
 {
+    use SoftDeletes;
+
+    public $dates = ['deleted_at'];
     public $fillable = ['name', 'email', 'password'];
 }
