@@ -11,10 +11,12 @@
 
 namespace WouterJ\EloquentBundle;
 
+use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use WouterJ\EloquentBundle\DependencyInjection\Compiler\ObserverPass;
+use WouterJ\EloquentBundle\Command;
 
 /**
  * @final
@@ -35,6 +37,18 @@ class WouterJEloquentBundle extends Bundle
         $container->addCompilerPass(new ObserverPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 80);
     }
 
+    public function registerCommands(Application $application)
+    {
+        $application->add(new Command\MigrateCommand);
+        $application->add(new Command\MigrateInstallCommand);
+        $application->add(new Command\MigrateMakeCommand);
+        $application->add(new Command\MigrateRefreshCommand);
+        $application->add(new Command\MigrateResetCommand);
+        $application->add(new Command\MigrateRollbackCommand);
+        $application->add(new Command\MigrateStatusCommand);
+        $application->add(new Command\SeedCommand);
+    }
+
     public function boot()
     {
         if ($this->container->has('wouterj_eloquent.initializer')) {
@@ -44,5 +58,10 @@ class WouterJEloquentBundle extends Bundle
         if ($this->container->has('wouterj_eloquent.facade.initializer')) {
             $this->container->get('wouterj_eloquent.facade.initializer')->initialize();
         }
+    }
+
+    public function getPath()
+    {
+        return dirname(__DIR__);
     }
 }
