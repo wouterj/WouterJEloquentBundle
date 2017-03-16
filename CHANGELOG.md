@@ -1,6 +1,8 @@
 Changelog
 =========
 
+ * Added Laravel 5.4 support
+
 0.4.0
 -----
 
