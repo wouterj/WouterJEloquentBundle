@@ -58,6 +58,11 @@ EOT
         if (!$table && is_string($create)) {
             $table = $create;
         }
+        
+        /**
+         * Fix for symfony 2.8
+         */
+        $name  = (is_array($name)) ? $name[0] : $name;
 
         $file = $this->writeMigrations($name, array_shift($paths), $table, (bool) $create);
 
