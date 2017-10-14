@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services">
+
+    <services>
+        <service id="wouterj_eloquent.data_collector"
+            class="WouterJ\EloquentBundle\DataCollector\EloquentDataCollector"
+            public="false"
+        >
+            <argument type="service" id="wouterj_eloquent" />
+            <argument type="service" id="wouterj_eloquent.query_listener" />
+
+            <tag name="data_collector" id="wouterj_eloquent.eloquent_collector"
+                template="WouterJEloquentBundle:data_collector:eloquent.html.twig" />
+        </service>
+
+        <service id="wouterj_eloquent.query_listener"
+            class="WouterJ\EloquentBundle\DataCollector\QueryListener"
+        />
+
+        <service id="wouterj_eloquent.twig.sql_format_extension"
+            class="WouterJ\EloquentBundle\Twig\SqlFormatterExtension"
+        >
+            <tag name="twig.extension" />
+        </service>
+    </services>
+</container>
+

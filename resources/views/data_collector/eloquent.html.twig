@@ -1,0 +1,123 @@
+{% extends 'WebProfilerBundle:Profiler:layout.html.twig' %}
+
+{% import _self as helper %}
+
+{% block toolbar %}
+    {% if collector.queries|length > 0 %}
+        {% set icon %}
+            <span class="icon">
+            {{ include('@WouterJEloquent/data_collector/icon.svg') }}
+            </span>
+            <span class="sf-toolbar-value">{{ collector.queries|length }}</span>
+        {% endset %}
+
+        {% set text %}
+            <div class="sf-toolbar-info-piece">
+                <b>Connections</b>
+                <span class="sf-toolbar-status">{{ collector.usedConnections|length }}</span>
+            </div>
+
+            <div class="sf-toolbar-info-piece">
+                <b>Queries</b>
+                <span class="sf-toolbar-status">{{ collector.queries|length }}</span>
+            </div>
+        {% endset %}
+
+        {{ include('@WebProfiler/Profiler/toolbar_item.html.twig') }}
+    {% endif %}
+{% endblock %}
+
+{% block menu %}
+    <span class="label {{ collector.queries|length == 0 ? 'disabled' }}">
+        <span class="icon">{{ include('@WouterJEloquent/data_collector/icon.svg') }}</span>
+        <strong>Eloquent</strong>
+    </span>
+{% endblock %}
+
+{% block panel %}
+    <h2>Eloquent</h2>
+
+    <div class="metrics">
+        <div class="metric">
+            <span class="value">{{ collector.connections|length }}</span>
+            <span class="label">Connections</span>
+        </div>
+        <div class="metric">
+            <span class="value">{{ collector.queries|length }}</span>
+            <span class="label">Queries</span>
+        </div>
+    </div>
+
+    <h3>Queries</h3>
+    {% if collector.queries|length == 0 %}
+        <div class="empty">
+            <p>No database queries were performed.</p>
+        </div>
+    {% else %}
+        <table class="alt">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th class="nowrap">Duration</th>
+                <th class="nowrap">Query</th>
+                <th class="nowrap">Connection</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for query in collector.queries %}
+                <tr>
+                    <td class="font-normal text-muted">{{ loop.index }}</td>
+                    <td>{{ '%0.2f'|format(query.time * 1000) }} ms</td>
+                    <td>
+                        <span class="highlight">{{ query.sql|wouterj_format_sql }}</span><br>
+
+                        <div>
+                            <strong class="font-normal text-small">Bindings</strong>: {{ profiler_dump(query.bindings) }}
+                        </div>
+                    </td>
+                    <td>{{ query.connection }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <h3>Connections</h3>
+
+    <h4>Used Connections</h4>
+    {% if collector.usedConnections|length == 0 %}
+        <div class="empty">
+            <p>There are no database connections used in this request.</p>
+        </div>
+    {% else %}
+        {{ helper.connection_table(collector.usedConnections) }}
+    {% endif %}
+
+    <h4>Configured Connections</h4>
+    {% if collector.connections|length == 0 %}
+        <div class="empty">
+            <p>There are no configured database connections.</p>
+        </div>
+    {% else %}
+        {{ helper.connection_table(collector.connections) }}
+    {% endif %}
+{% endblock %}
+
+{% macro connection_table(connections) %}
+    <table>
+        <thead>
+        <tr>
+            <th class="nowrap">Name</th>
+            <th class="nowrap">Configuration</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for name, config in connections %}
+        <tr>
+            <th>{{ name }}</th>
+            <th>{{ profiler_dump(config, maxDepth=1) }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endmacro %}

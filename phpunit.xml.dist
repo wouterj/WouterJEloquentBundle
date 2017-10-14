@@ -14,5 +14,6 @@
 
     <listeners>
         <listener class="WouterJ\EloquentBundle\FunctionalTestListener"/>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
     </listeners>
 </phpunit>

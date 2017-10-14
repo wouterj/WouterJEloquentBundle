@@ -15,19 +15,61 @@ use PHPUnit\Framework\BaseTestListener;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\Test;
 
+if (class_exists('PHPUnit_Runner_Version') && version_compare(\PHPUnit_Runner_Version::id(), '6.0.0', '<')) {
+    class FunctionalTestListener extends \PHPUnit_Framework_BaseTestListener
+    {
+        private $listener;
+
+        public function __construct()
+        {
+            $this->listener = new _FunctionalTestListener();
+        }
+
+        public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
+        {
+            $this->listener->startTestSuite($suite);
+        }
+
+        public function startTest(\PHPUnit_Framework_Test $test)
+        {
+            $this->listener->startTest($test);
+        }
+    }
+} else {
+    class FunctionalTestListener extends BaseTestListener
+    {
+        private $listener;
+
+        public function __construct()
+        {
+            $this->listener = new _FunctionalTestListener();
+        }
+
+        public function startTestSuite(TestSuite $suite)
+        {
+            $this->listener->startTestSuite($suite);
+        }
+
+        public function startTest(Test $test)
+        {
+            $this->listener->startTest($test);
+        }
+    }
+}
+
 /**
  * Automatically creates the database that's
  * required for the functional tests.
  *
  * @author Wouter J <wouter@wouterj.nl>
  */
-class FunctionalTestListener extends BaseTestListener
+class _FunctionalTestListener
 {
     private static $started = false;
     private static $dbFile;
     private static $backupFile;
 
-    public function startTestSuite(TestSuite $suite)
+    public function startTestSuite($suite)
     {
         if (!self::$started) {
             self::$started = true;
@@ -56,7 +98,7 @@ class FunctionalTestListener extends BaseTestListener
         }
     }
 
-    public function startTest(Test $test)
+    public function startTest($test)
     {
         // reset to initial file
         copy(static::$backupFile, static::$dbFile);

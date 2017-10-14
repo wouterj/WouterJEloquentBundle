@@ -17,6 +17,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
+use Illuminate\Database\Events\QueryExecuted;
 
 /**
  * @final
@@ -40,6 +41,18 @@ class WouterJEloquentExtension extends Extension
         $this->loadCapsule($config, $container, $loader);
         $this->loadEloquent($config, $container, $loader);
         $this->loadFacades($config, $container, $loader);
+        $this->loadDataCollector($container, $loader);
+    }
+
+    protected function loadDataCollector(ContainerBuilder $container, Loader\XmlFileLoader $loader)
+    {
+        $loader->load('data_collector.xml');
+
+        $container->getDefinition('wouterj_eloquent.events')
+            ->addMethodCall('listen', [
+                QueryExecuted::class,
+                [new Reference('wouterj_eloquent.query_listener'), 'onQuery']
+            ]);
     }
 
     protected function loadCapsule(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader)

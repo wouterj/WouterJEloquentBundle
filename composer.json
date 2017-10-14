@@ -9,6 +9,7 @@
         , "illuminate/database": "~5.4.0"
         , "illuminate/events": "~5.4.0"
         , "symfony/dependency-injection": "^2.6|^3.0"
+        , "jdorn/sql-formatter": "^1.2"
     }
     , "require-dev": {
           "symfony/console": "^2.7|^3.0"
