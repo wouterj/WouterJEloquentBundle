@@ -26,12 +26,20 @@ abstract class Seeder extends BaseSeeder
     /** @var ConnectionInterface */
     protected $connection;
 
-    public function call($class)
+    public function call($class, $silent = false)
 	{
-        $seeder = $this->resolve($class);
-        $seeder->setConnection($this->connection);
+	    $classes = is_array($class) ? $class : [$class];
 
-        $seeder->run();
+	    foreach ($classes as $class) {
+            $seeder = $this->resolve($class);
+            $seeder->setConnection($this->connection);
+
+            if (false === $silent && isset($this->command)) {
+                $this->command->getOutput()->writeln("<info>Seeding:</info> $class");
+            }
+
+            $seeder->run();
+        }
     }
 
     /**
