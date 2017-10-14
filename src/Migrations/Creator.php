@@ -32,6 +32,10 @@ class Creator extends MigrationCreator
     /** {@inheritdoc} */
     public function create($name, $path, $table = null, $create = false)
     {
+        if (!is_dir($path)) {
+            mkdir($path, 0777, true);
+        }
+
         $path = $this->getPath($name, $path);
         $stub = $this->getStub($table, $create);
 
