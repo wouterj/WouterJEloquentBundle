@@ -10,7 +10,7 @@
             <argument type="service" id="wouterj_eloquent.query_listener" />
 
             <tag name="data_collector" id="wouterj_eloquent.eloquent_collector"
-                template="WouterJEloquentBundle:data_collector:eloquent.html.twig" />
+                template="@WouterJEloquent/data_collector/eloquent.html.twig" />
         </service>
 
         <service id="wouterj_eloquent.query_listener"
