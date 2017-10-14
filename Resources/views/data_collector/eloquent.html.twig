@@ -90,7 +90,7 @@
             <p>There are no database connections used in this request.</p>
         </div>
     {% else %}
-        {{ helper.connection_table(collector.usedConnections) }}
+        {{ helper.connection_table(collector.usedConnections, true) }}
     {% endif %}
 
     <h4>Configured Connections</h4>
@@ -103,7 +103,7 @@
     {% endif %}
 {% endblock %}
 
-{% macro connection_table(connections) %}
+{% macro connection_table(connections, expand = false) %}
     <table>
         <thead>
         <tr>
@@ -115,7 +115,7 @@
         {% for name, config in connections %}
         <tr>
             <th>{{ name }}</th>
-            <th>{{ profiler_dump(config, maxDepth=1) }}</td>
+            <th>{{ profiler_dump(config, maxDepth=expand ? 1 : 0) }}</td>
         </tr>
         {% endfor %}
         </tbody>
