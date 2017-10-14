@@ -45,6 +45,14 @@ class CreatorTest extends TestCase
         ];
     }
 
+    /** @test */
+    public function it_generates_the_migration_directory_if_needed()
+    {
+        $this->subject->create('BlankMigration', $dir = $this->migrationsPath.'/'.uniqid());
+
+        $this->assertDirectoryExists($dir);
+    }
+
     private function assertMigrationEquals($name, $actual)
     {
         $this->assertFileExists($actual);
