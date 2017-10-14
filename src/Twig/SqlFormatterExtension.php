@@ -1,9 +1,26 @@
 <?php
 
+/*
+ * This file is part of the WouterJEloquentBundle package.
+ *
+ * (c) 2017 Wouter de Jong
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace WouterJ\EloquentBundle\Twig;
 
+/**
+ * @private
+ *
+ * @author Wouter de Jong <wouter@wouterj.nl>
+ */
 class SqlFormatterExtension extends \Twig_Extension
 {
+    /**
+     * {@inheritdoc}
+     */
     public function getFilters()
     {
         return [
