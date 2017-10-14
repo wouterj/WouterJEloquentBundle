@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.5.0
+-----
+
+ * Fixed not creating the migrations directory on `eloquent:migrate:make`
+ * Added Data collector
  * Added Laravel 5.4 support
 
 0.4.0
