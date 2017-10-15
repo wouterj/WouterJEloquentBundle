@@ -2,7 +2,10 @@ Changelog
 =========
 
  * Added Var Dumper caster for Eloquent models
+ * Added the `eloquent:make:seeder` command
+ * Added the `eloquent:migrate:fresh` command
  * Added discovery of `App\Seed\DatabaseSeeder` when using Symfony Flex
+ * Added Laravel 5.5 support
 
 0.5.0
 -----
