@@ -107,6 +107,11 @@ EOT
             }
         }
 
+        // add application seeder when using Symfony Flex
+        if (class_exists('App\Seed\DatabaseSeeder')) {
+            $seeders[] = 'App\Seed\DatabaseSeeder';
+        }
+
         return $seeders;
     }
 
