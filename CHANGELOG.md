@@ -1,6 +1,7 @@
 Changelog
 =========
 
+ * Added Var Dumper caster for Eloquent models
  * Added discovery of `App\Seed\DatabaseSeeder` when using Symfony Flex
 
 0.5.0
