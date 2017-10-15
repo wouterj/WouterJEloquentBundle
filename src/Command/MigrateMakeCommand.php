@@ -59,6 +59,15 @@ EOT
             $table = $create;
         }
 
+        // guess table name based on the name
+        if (!$table) {
+            if (preg_match('/^create_(\w+)_table$/', $name, $matches)) {
+                $table = $matches[1];
+
+                $create = true;
+            }
+        }
+
         $file = $this->writeMigrations($name, array_shift($paths), $table, (bool) $create);
 
         $o->writeln(sprintf('Migration `%s` is created!', $file));

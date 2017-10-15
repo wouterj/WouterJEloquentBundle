@@ -11,7 +11,7 @@
 
 namespace WouterJ\EloquentBundle\Command;
 
-use Symfony\Component\Console\Input\ArrayInput;
+use Illuminate\Database\DatabaseManager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,28 +21,28 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @internal
  * @author Wouter de Jong <wouter@wouterj.nl>
  */
-class MigrateRefreshCommand extends BaseMigrateCommand
+class MigrateFreshCommand extends BaseMigrateCommand
 {
+    /** @var DatabaseManager */
+    private $db;
+
     protected function configure()
     {
-        $this->setName('eloquent:migrate:refresh')
-            ->setDescription('Reset and re-run all migrations')
-            ->setHelp(<<<EOH
-The <info>%command.name%</info> rolls back all migrations.
-
-    <info>php %command.full_name%</info>
-EOH
-            )
+        $this->setName('eloquent:migrate:fresh')
+            ->setDescription('Drop all tables and re-run all migrations.')
             ->setDefinition([
                 new InputOption('database', null, InputOption::VALUE_REQUIRED, 'The database connection to use.'),
                 new InputOption('force', null, InputOption::VALUE_NONE, 'Force the operation to run in production.'),
-                new InputOption('pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.'),
                 new InputOption('path', null, InputOption::VALUE_REQUIRED, 'The path of migrations files to be executed'),
-                new InputOption('step', null, InputOption::VALUE_REQUIRED, 'The number of migrations to be reverted'),
                 new InputOption('seed', null, InputOption::VALUE_NONE, 'Indicates if the seed task should be re-run'),
                 new InputOption('seeder', null, InputOption::VALUE_REQUIRED, 'The class name of the root seeder.'),
             ])
         ;
+    }
+
+    protected function initialize(InputInterface $input, OutputInterface $output)
+    {
+        $this->db = $this->getContainer()->get('wouterj_eloquent.database_manager');
     }
 
     protected function execute(InputInterface $i, OutputInterface $o)
@@ -53,22 +53,9 @@ EOH
         }
 
         $database = $i->getOption('database');
-        $step = (int) $i->getOption('step');
+        $this->dropAllTables($database);
 
-        if ($step > 0) {
-            $this->call($o, 'eloquent:migrate:rollback', [
-                '--database' => $database,
-                '--force'    => $force,
-                '--path'     => $i->getOption('path'),
-                '--step'     => $step,
-            ]);
-        } else {
-            $this->call($o, 'eloquent:migrate:reset', [
-                '--database' => $database,
-                '--force'    => $force,
-                '--path'     => $i->getOption('path'),
-            ]);
-        }
+        $o->writeln('Dropped all tables successfully.');
 
         $this->call($o, 'eloquent:migrate', [
             '--database' => $database,
@@ -83,5 +70,12 @@ EOH
                 '--force'    => $force,
             ]);
         }
+    }
+
+    private function dropAllTables($database)
+    {
+        $this->db->connection($database)
+            ->getSchemaBuilder()
+            ->dropAllTables();
     }
 }
