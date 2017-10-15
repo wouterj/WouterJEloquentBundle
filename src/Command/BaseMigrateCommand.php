@@ -52,4 +52,10 @@ abstract class BaseMigrateCommand extends ContainerAwareCommand
     {
         return $this->getContainer()->get('wouterj_eloquent.migrator');
     }
+
+    protected function call(OutputInterface $o, $name, array $arguments)
+    {
+        $command = $this->getApplication()->find($name);
+        $command->run(new ArrayInput($arguments), $o);
+    }
 }
