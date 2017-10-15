@@ -1,6 +1,8 @@
 Changelog
 =========
 
+ * Added discovery of `App\Seed\DatabaseSeeder` when using Symfony Flex
+
 0.5.0
 -----
 
