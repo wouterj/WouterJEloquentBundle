@@ -80,6 +80,16 @@ class MigrateMakeCommandTest extends TestCase
     }
 
     /** @test */
+    public function it_guesses_table_creation_from_migration_name()
+    {
+        $this->creator->create('create_flights_table', __DIR__.'/migrations', 'flights', true)->shouldBeCalled();
+
+        TestCommand::create($this->command)
+            ->passing('name', 'create_flights_table')
+            ->duringExecute();
+    }
+
+    /** @test */
     public function it_creates_a_stub_for_updates()
     {
         $this->creator->create('RenamingNameField', __DIR__.'/migrations', 'flights', false)->shouldBeCalled();
