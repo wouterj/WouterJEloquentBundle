@@ -15,6 +15,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use WouterJ\EloquentBundle\DependencyInjection\Compiler\AddCasterPass;
 use WouterJ\EloquentBundle\DependencyInjection\Compiler\ObserverPass;
 use WouterJ\EloquentBundle\Command;
 
@@ -35,6 +36,7 @@ class WouterJEloquentBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new ObserverPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 80);
+        $container->addCompilerPass(new AddCasterPass());
     }
 
     public function registerCommands(Application $application)
