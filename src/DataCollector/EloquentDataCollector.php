@@ -22,17 +22,21 @@ class EloquentDataCollector extends DataCollector
     private $capsule;
     /** @var QueryListener */
     private $queryListener;
+    /** @var SymfonyVersion */
+    private $symfonyVersion;
+
 
     public function __construct(Manager $capsule, QueryListener $queryListener)
     {
         $this->capsule = $capsule;
         $this->queryListener = $queryListener;
+        $this->symfonyVersion = floatval(\Symfony\Component\HttpKernel\Kernel::VERSION);
     }
 
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $connections = array_map(function ($config) {
-            return $this->cloneVar($config);
+            return ($this->symfonyVersion < 3.2) ? $this->varToString($config) : $this->cloneVar($config);
         }, $this->capsule->getContainer()['config']['database.connections']);
 
         $usedConnections = [];
@@ -43,7 +47,11 @@ class EloquentDataCollector extends DataCollector
         $queries = $this->queryListener->getQueriesByConnection();
         foreach ($queries as $connectionName => $q) {
             foreach ($q as $i => $query) {
-                $queries[$connectionName][$i]['bindings'] = $this->cloneVar($query['bindings']);
+                if ($this->symfonyVersion < 3.2) {
+                    $queries[$connectionName][$i]['bindings'] = $this->varToString($query['bindings']);
+                } else {
+                    $queries[$connectionName][$i]['bindings'] = $this->cloneVar($query['bindings']);
+                }
             }
         }
 
