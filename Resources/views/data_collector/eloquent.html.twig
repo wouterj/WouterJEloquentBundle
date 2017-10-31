@@ -115,7 +115,7 @@
         {% for name, config in connections %}
         <tr>
             <th>{{ name }}</th>
-            <th>{{ profiler_dump(config, maxDepth=expand ? 1 : 0) }}</td>
+            <td>{{ profiler_dump(config, expand ? 1 : 0) }}</td>
         </tr>
         {% endfor %}
         </tbody>
