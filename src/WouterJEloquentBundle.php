@@ -62,7 +62,7 @@ class WouterJEloquentBundle extends Bundle
             $this->container->get('wouterj_eloquent.facade.initializer')->initialize();
         }
         
-        //fixes compatibily symfony v2 issues with misinterpretation of the annotation @mixin within Eloquent's model
+        //fixes compatibility symfony v2 issues with misinterpretation of the annotation @mixin within Eloquent's model
         AnnotationReader::addGlobalIgnoredName('mixin');
     }
 
