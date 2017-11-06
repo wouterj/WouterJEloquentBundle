@@ -7,6 +7,7 @@
         <connection name="connection_1"
             driver="sqlite"
             host="local"
+            port="null"
             database="foo.db"
             username="user"
             password="pass"
