@@ -134,7 +134,7 @@ class Configuration implements ConfigurationInterface
                                 ->defaultValue('mysql')
                             ->end()
                             ->scalarNode('host')->defaultValue('localhost')->end()
-                            ->scalarNode('port')->defaultValue(NULL)->end()
+                            ->scalarNode('port')->defaultValue(null)->end()
                             ->scalarNode('database')->isRequired()->end()
                             ->scalarNode('username')->defaultValue('root')->end()
                             ->scalarNode('password')->defaultValue('')->end()
