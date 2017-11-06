@@ -79,11 +79,11 @@ class Configuration implements ConfigurationInterface
                 ->ifTrue(function ($v) {
                     return is_array($v)
                         && !array_key_exists('connections', $v) && !array_key_exists('connection', $v)
-                        && count($v) !== count(array_diff(array_keys($v), ['driver', 'host', 'database', 'username', 'password', 'charset', 'collation', 'prefix']));
+                        && count($v) !== count(array_diff(array_keys($v), ['driver', 'host', 'port', 'database', 'username', 'password', 'charset', 'collation', 'prefix']));
                 })
                 ->then(function ($v) {
                     // Key that should be rewritten to the connection config
-                    $includedKeys = ['driver', 'host', 'database', 'username', 'password', 'charset', 'collation', 'prefix'];
+                    $includedKeys = ['driver', 'host', 'port', 'database', 'username', 'password', 'charset', 'collation', 'prefix'];
                     $connection = [];
                     foreach ($v as $key => $value) {
                         if (in_array($key, $includedKeys)) {
@@ -134,6 +134,7 @@ class Configuration implements ConfigurationInterface
                                 ->defaultValue('mysql')
                             ->end()
                             ->scalarNode('host')->defaultValue('localhost')->end()
+                            ->scalarNode('port')->defaultValue('3306')->end()
                             ->scalarNode('database')->isRequired()->end()
                             ->scalarNode('username')->defaultValue('root')->end()
                             ->scalarNode('password')->defaultValue('')->end()
