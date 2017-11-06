@@ -6,6 +6,7 @@ $container->loadFromExtension('wouterj_eloquent', [
         'connection_1' => [
             'driver' => 'sqlite',
             'host' => 'local',
+            'port' => NULL,
             'database' => 'foo.db',
             'username' => 'user',
             'password' => 'pass',
