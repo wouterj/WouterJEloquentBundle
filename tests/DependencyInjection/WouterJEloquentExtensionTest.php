@@ -76,6 +76,7 @@ abstract class WouterJEloquentExtensionTest extends TestCase
             [[
                 'driver' => 'mysql',
                 'host' => 'localhost',
+                'port' => null,
                 'database' => 'db',
                 'username' => 'root',
                 'password' => null,
@@ -86,6 +87,7 @@ abstract class WouterJEloquentExtensionTest extends TestCase
             [[
                 'driver' => 'sqlite',
                 'host' => 'local',
+                'port' => null,
                 'database' => 'foo.db',
                 'username' => 'user',
                 'password' => 'pass',
