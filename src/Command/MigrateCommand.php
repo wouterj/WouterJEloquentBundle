@@ -60,8 +60,7 @@ EOT
         }
 
         if ($i->getOption('seed')) {
-            $command = $this->getApplication()->find('eloquent:seed');
-            $command->run(new ArrayInput(['command' => 'eloquent:seed']), $o);
+            $this->call($o, 'eloquent:seed', ['--force' => true]);
         }
     }
 }

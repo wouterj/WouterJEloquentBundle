@@ -2,7 +2,7 @@
 
 namespace WouterJ\EloquentBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -10,9 +10,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Illuminate\Database\Seeder as IlluminateSeeder;
 use WouterJ\EloquentBundle\Seeder;
 
-class SeederMakeCommand extends ContainerAwareCommand
+class SeederMakeCommand extends Command
 {
     private $stubPath;
+    /** @var string */
+    private $appDir;
+    /** @var array */
+    private $bundles;
+
+    public function __construct($appDir, array $bundles)
+    {
+        parent::__construct();
+
+        $this->appDir = $appDir;
+        $this->bundles = $bundles;
+    }
 
     protected function configure()
     {
@@ -70,7 +82,7 @@ class SeederMakeCommand extends ContainerAwareCommand
         $fileName = 'Seed/'.substr($name, $lastPos + 1).'.php';
 
         // is it part of a bundle?
-        foreach ($this->getContainer()->getParameter('kernel.bundles') as $bundle) {
+        foreach ($this->bundles as $bundle) {
             if (false !== strpos($bundle, $namespace)) {
                 return dirname((new \ReflectionClass($bundle))->getFileName()).'/'.$fileName;
             }
@@ -78,7 +90,7 @@ class SeederMakeCommand extends ContainerAwareCommand
 
         // is it in the App namespace?
         if ('App\\' === substr($name, 0, 4)) {
-            return $this->getContainer()->getParameter('kernel.root_dir').'/src/App/'.$fileName;
+            return $this->appDir.'/'.$fileName;
         }
 
         throw new \InvalidArgumentException('Cannot guess the seeder file name, please specify the --target option.');

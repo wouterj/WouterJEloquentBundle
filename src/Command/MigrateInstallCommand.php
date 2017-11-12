@@ -12,7 +12,7 @@
 namespace WouterJ\EloquentBundle\Command;
 
 use Illuminate\Database\Migrations\MigrationRepositoryInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,8 +22,18 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @internal
  * @author Wouter de Jong <wouter@wouterj.nl>
  */
-class MigrateInstallCommand extends ContainerAwareCommand
+class MigrateInstallCommand extends Command
 {
+    /** @var MigrationRepositoryInterface */
+    private $migrationRepository;
+
+    public function __construct(MigrationRepositoryInterface $migrationRepository)
+    {
+        parent::__construct();
+
+        $this->migrationRepository = $migrationRepository;
+    }
+
     protected function configure()
     {
         $this->setName('eloquent:migrate:install')
@@ -34,16 +44,10 @@ class MigrateInstallCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $i, OutputInterface $o)
     {
-        $repository = $this->getRepository();
+        $repository = $this->migrationRepository;
         $repository->setSource($i->getOption('database'));
         $repository->createRepository();
 
         $o->writeln('<comment>Migration table created successfully.</>');
-    }
-
-    /** @return MigrationRepositoryInterface */
-    private function getRepository()
-    {
-        return $this->getContainer()->get('wouterj_eloquent.migrations.repository');
     }
 }

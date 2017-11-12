@@ -11,11 +11,14 @@
 
 namespace WouterJ\EloquentBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Illuminate\Database\DatabaseManager;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\Seeder;
 
 /**
@@ -23,8 +26,27 @@ use WouterJ\EloquentBundle\Seeder;
  * @internal
  * @author Wouter de Jong <wouter@wouterj.nl>
  */
-class SeedCommand extends ContainerAwareCommand
+class SeedCommand extends Command
 {
+    /** @var ContainerInterface */
+    private $container;
+    /** @var DatabaseManager */
+    private $resolver;
+    /** @var array */
+    private $bundles;
+    /** @var */
+    private $kernelEnv;
+
+    public function __construct(ContainerInterface $container, DatabaseManager $resolver, array $bundles, $kernelEnv)
+    {
+        parent::__construct();
+
+        $this->container = $container;
+        $this->resolver = $resolver;
+        $this->bundles = $bundles;
+        $this->kernelEnv = $kernelEnv;
+    }
+
     public function configure()
     {
         $this->setName('eloquent:seed')
@@ -51,21 +73,25 @@ EOT
             ->setDefinition([
                 new InputArgument('class', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'The database seeder classes to run'),
                 new InputOption('database', null, InputOption::VALUE_REQUIRED, 'The database connection to seed'),
+                new InputOption('force', null, InputOption::VALUE_NONE, 'Forces the operation to run when in production')
             ])
         ;
     }
 
     public function execute(InputInterface $i, OutputInterface $o)
     {
+        if (!$i->getOption('force') && !$this->askConfirmationInProd($i, $o)) {
+            return;
+        }
+
         $seeders = $this->getSeeders($i->getArgument('class'));
 
         if (0 === count($seeders)) {
             throw new \RuntimeException('No Seeder classes found.');
         }
 
-        $resolver = $this->getContainer()->get('wouterj_eloquent.database_manager');
         if (null !== $i->getOption('database')) {
-            $resolver->setDefaultConnection($i->getOption('database'));
+            $this->resolver->setDefaultConnection($i->getOption('database'));
         }
 
         foreach ($seeders as $seederClass) {
@@ -99,7 +125,7 @@ EOT
     {
         $seeders = [];
 
-        foreach ($this->getContainer()->getParameter('kernel.bundles') as $bundle) {
+        foreach ($this->bundles as $bundle) {
             $class = substr($bundle, 0, strrpos($bundle, '\\')).'\Seed\DatabaseSeeder';
 
             if (class_exists($class)) {
@@ -118,9 +144,19 @@ EOT
     private function resolve($class)
     {
         $s = new NoActionSeeder();
-        $s->setSfContainer($this->getContainer());
+        $s->setSfContainer($this->container);
 
         return $s->resolve($class);
+    }
+
+    private function askConfirmationInProd(InputInterface $i, OutputInterface $o)
+    {
+        if ('prod' !== $this->kernelEnv) {
+            return true;
+        }
+
+        return $this->getHelper('question')
+            ->ask($i, $o, new ConfirmationQuestion('Are you sure you want to execute the migrations in production?', false));
     }
 }
 

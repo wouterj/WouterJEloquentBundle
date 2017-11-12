@@ -29,6 +29,11 @@ class TestKernel extends Kernel
         ];
     }
 
+    public function getProjectDir()
+    {
+        return __DIR__;
+    }
+
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(function (ContainerBuilder $container) {
@@ -52,7 +57,8 @@ class TestKernel extends Kernel
             ]);
 
             $container->register('app.user_observer', UserObserver::class)
-                ->addTag('wouterj_eloquent.observer');
+                ->addTag('wouterj_eloquent.observer')
+                ->setPublic(true);
         });
     }
 }

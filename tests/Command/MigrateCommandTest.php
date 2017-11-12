@@ -27,7 +27,6 @@ use Prophecy\Argument;
  */
 class MigrateCommandTest extends TestCase
 {
-    private $command;
     private $migrator;
 
     protected function setUp()
@@ -35,25 +34,16 @@ class MigrateCommandTest extends TestCase
         $this->migrator = $this->prophesize(Migrator::class);
         $this->migrator->getNotes()->willReturn([]);
         $this->migrator->paths()->willReturn([]);
-
-        $container = $this->createContainer();
-        $container->compile();
-
-        $this->command = new MigrateCommand();
-        $this->command->setContainer($container);
     }
 
     /** @test */
     public function it_asks_for_confirmation_in_prod()
     {
-        $container = $this->createContainer();
-        $container->setParameter('kernel.environment', 'prod');
-        $container->compile();
-        $this->command->setContainer($container);
+        $command = new MigrateCommand($this->migrator->reveal(), __DIR__.'/migrations', 'prod');
 
         $this->migrator->run(Argument::cetera())->shouldNotBeCalled();
 
-        TestCommand::create($this->command)
+        TestCommand::create($command)
             ->answering("no")
             ->duringExecute()
             ->outputs('Are you sure you want to execute the migrations in production?');
@@ -62,9 +52,11 @@ class MigrateCommandTest extends TestCase
     /** @test */
     public function it_does_not_ask_for_confirmation_in_dev()
     {
+        $command = new MigrateCommand($this->migrator->reveal(), __DIR__.'/migrations', 'dev');
+
         $this->migrator->run(Argument::cetera())->shouldBeCalled();
 
-        TestCommand::create($this->command)
+        TestCommand::create($command)
             ->execute()
             ->doesNotOutput('Are you sure you want to execute the migrations in production?');
     }
@@ -72,14 +64,11 @@ class MigrateCommandTest extends TestCase
     /** @test */
     public function it_always_continues_when_force_is_passed()
     {
-        $container = $this->createContainer();
-        $container->setParameter('kernel.environment', 'prod');
-        $container->compile();
-        $this->command->setContainer($container);
+        $command = new MigrateCommand($this->migrator->reveal(), __DIR__.'/migrations', 'prod');
 
         $this->migrator->run(Argument::cetera())->shouldBeCalled();
 
-        TestCommand::create($this->command)
+        TestCommand::create($command)
             ->passing('--force')
             ->duringExecute()
             ->doesNotOutput('Are you sure you want to execute the migrations in production?');
@@ -88,66 +77,80 @@ class MigrateCommandTest extends TestCase
     /** @test */
     public function it_uses_the_default_migration_path()
     {
+        $command = new MigrateCommand($this->migrator->reveal(), __DIR__.'/migrations', 'dev');
+
         $this->migrator->run([__DIR__.'/migrations'], Argument::cetera())->shouldBeCalled();
 
-        TestCommand::create($this->command)->execute();
+        TestCommand::create($command)->execute();
     }
 
     /** @test */
     public function it_allows_to_specify_another_path()
     {
+        $command = new MigrateCommand($this->migrator->reveal(), __DIR__.'/migrations', 'dev');
+
         $this->migrator->run([getcwd().'/db'], Argument::cetera())->shouldBeCalled();
 
-        TestCommand::create($this->command)->passing('--path', 'db')->duringExecute();
+        TestCommand::create($command)->passing('--path', 'db')->duringExecute();
     }
 
     /** @test */
     public function it_allows_multiple_migration_directories()
     {
+        $command = new MigrateCommand($this->migrator->reveal(), __DIR__.'/migrations', 'dev');
+
         $this->migrator->paths()->willReturn(['/somewhere/migrations']);
 
         $this->migrator->run([__DIR__.'/migrations', '/somewhere/migrations'], Argument::cetera())->shouldBeCalled();
 
-        TestCommand::create($this->command)->execute();
+        TestCommand::create($command)->execute();
     }
 
     /** @test */
     public function it_allows_batching_migrations_one_by_one()
     {
+        $command = new MigrateCommand($this->migrator->reveal(), __DIR__.'/migrations', 'dev');
+
         $this->migrator->run(Argument::any(), ['pretend' => false, 'step' => true])->shouldBeCalled();
 
-        TestCommand::create($this->command)->passing('--step')->duringExecute();
+        TestCommand::create($command)->passing('--step')->duringExecute();
     }
 
     /** @test */
     public function it_can_pretend_migrations_were_run()
     {
+        $command = new MigrateCommand($this->migrator->reveal(), __DIR__.'/migrations', 'dev');
+
         $this->migrator->run(Argument::any(), ['pretend' => true, 'step' => false])->shouldBeCalled();
 
-        TestCommand::create($this->command)->passing('--pretend')->duringExecute();
+        TestCommand::create($command)->passing('--pretend')->duringExecute();
     }
 
     /** @test */
     public function it_seeds_after_migrations_when_seed_is_passed()
     {
+        $command = new MigrateCommand($this->migrator->reveal(), __DIR__.'/migrations', 'dev');
+
         $this->migrator->run(Argument::cetera())->shouldBeCalled();
 
         $seedCommand = $this->prophesize(Command::class);
-        $seedCommand->run(new ArrayInput(['command' => 'eloquent:seed']), Argument::any())->shouldBeCalled();
+        $seedCommand->run(Argument::type(ArrayInput::class), Argument::any())->shouldBeCalled();
 
         $app = $this->prophesize(Application::class);
         $app->getHelperSet()->willReturn(new HelperSet());
         $app->getDefinition()->willReturn(new InputDefinition());
         $app->find('eloquent:seed')->willReturn($seedCommand->reveal());
 
-        $this->command->setApplication($app->reveal());
+        $command->setApplication($app->reveal());
 
-        TestCommand::create($this->command)->passing('--seed')->duringExecute();
+        TestCommand::create($command)->passing('--seed')->duringExecute();
     }
 
     /** @test */
     public function it_outputs_migration_notes()
     {
+        $command = new MigrateCommand($this->migrator->reveal(), __DIR__.'/migrations', 'dev');
+
         $this->migrator->getNotes()->willReturn([
             'Migrated: CreateFlightsTable',
             'Migrated: SomethingToTest',
@@ -155,18 +158,8 @@ class MigrateCommandTest extends TestCase
 
         $this->migrator->run(Argument::cetera())->shouldBeCalled();
 
-        TestCommand::create($this->command)
+        TestCommand::create($command)
             ->execute()
             ->outputs("Migrated: CreateFlightsTable\nMigrated: SomethingToTest");
-    }
-
-    private function createContainer()
-    {
-        $container = new Container();
-        $container->set('wouterj_eloquent.migrator', $this->migrator->reveal());
-        $container->setParameter('wouterj_eloquent.migration_path', __DIR__.'/migrations');
-        $container->setParameter('kernel.environment', 'dev');
-
-        return $container;
     }
 }

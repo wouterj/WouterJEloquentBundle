@@ -15,6 +15,7 @@ use Illuminate\Database\DatabaseManager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use WouterJ\EloquentBundle\Migrations\Migrator;
 
 /**
  * @final
@@ -25,6 +26,13 @@ class MigrateFreshCommand extends BaseMigrateCommand
 {
     /** @var DatabaseManager */
     private $db;
+
+    public function __construct(DatabaseManager $db, Migrator $migrator, $migrationPath, $kernelEnv)
+    {
+        parent::__construct($migrator, $migrationPath, $kernelEnv);
+
+        $this->db = $db;
+    }
 
     protected function configure()
     {
@@ -38,11 +46,6 @@ class MigrateFreshCommand extends BaseMigrateCommand
                 new InputOption('seeder', null, InputOption::VALUE_REQUIRED, 'The class name of the root seeder.'),
             ])
         ;
-    }
-
-    protected function initialize(InputInterface $input, OutputInterface $output)
-    {
-        $this->db = $this->getContainer()->get('wouterj_eloquent.database_manager');
     }
 
     protected function execute(InputInterface $i, OutputInterface $o)

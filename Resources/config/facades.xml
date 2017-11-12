@@ -4,6 +4,7 @@
     <services>
         <service id="wouterj_eloquent.facade.initializer"
             class="WouterJ\EloquentBundle\EventListener\FacadeInitializer"
+            public="true"
         >
             <argument type="service" id="service_container" />
         </service>

@@ -11,18 +11,16 @@
 
 namespace WouterJ\EloquentBundle;
 
-use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use WouterJ\EloquentBundle\DependencyInjection\Compiler\AddCasterPass;
 use WouterJ\EloquentBundle\DependencyInjection\Compiler\ObserverPass;
-use WouterJ\EloquentBundle\Command;
+use WouterJ\EloquentBundle\DependencyInjection\Compiler\SymfonyBackwardsCompatibilityPass;
 use Doctrine\Common\Annotations\AnnotationReader;
 
 /**
  * @final
- * @internal
  * @author Wouter de Jong <wouter@wouterj.nl>
  */
 class WouterJEloquentBundle extends Bundle
@@ -37,19 +35,8 @@ class WouterJEloquentBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new ObserverPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 80);
+        $container->addCompilerPass(new SymfonyBackwardsCompatibilityPass());
         $container->addCompilerPass(new AddCasterPass());
-    }
-
-    public function registerCommands(Application $application)
-    {
-        $application->add(new Command\MigrateCommand);
-        $application->add(new Command\MigrateInstallCommand);
-        $application->add(new Command\MigrateMakeCommand);
-        $application->add(new Command\MigrateRefreshCommand);
-        $application->add(new Command\MigrateResetCommand);
-        $application->add(new Command\MigrateRollbackCommand);
-        $application->add(new Command\MigrateStatusCommand);
-        $application->add(new Command\SeedCommand);
     }
 
     public function boot()
@@ -63,7 +50,6 @@ class WouterJEloquentBundle extends Bundle
         }
 
         if (class_exists(AnnotationReader::class)) {
-            //fixes compatibility symfony v2 issues with misinterpretation of the annotation @mixin within Eloquent's model
             AnnotationReader::addGlobalIgnoredName('mixin');
         }
     }

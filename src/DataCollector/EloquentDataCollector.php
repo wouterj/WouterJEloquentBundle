@@ -62,6 +62,11 @@ class EloquentDataCollector extends DataCollector
         ];
     }
 
+    public function reset()
+    {
+        $this->data = [];
+    }
+
     public function connections()
     {
         return $this->data['connections'];

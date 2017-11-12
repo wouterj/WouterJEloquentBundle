@@ -45,12 +45,7 @@ class MigrateStatusCommandTest extends TestCase
         $this->migrator->getMigrationName(Argument::any())->willReturnArgument(0);
         $this->migrator->getMigrationFiles(Argument::any())->willReturn(['Migration1', 'Migration2']);
 
-        $container = $this->prophesize(ContainerInterface::class);
-        Promise::containerHasService($container, 'wouterj_eloquent.migrator', $this->migrator->reveal());
-        Promise::containerHasParameter($container, 'wouterj_eloquent.migration_path', __DIR__.'/migrations');
-
-        $this->command = new MigrateStatusCommand();
-        $this->command->setContainer($container->reveal());
+        $this->command = new MigrateStatusCommand($this->migrator->reveal(), __DIR__.'/migrations', 'dev');
     }
 
     /** @test */
