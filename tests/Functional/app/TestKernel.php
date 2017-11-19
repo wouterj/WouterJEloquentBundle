@@ -22,9 +22,10 @@ class TestKernel extends Kernel
     public function registerBundles()
     {
         return [
-            new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new \WouterJ\EloquentBundle\WouterJEloquentBundle(),
-            new \AppBundle\AppBundle(),
+            new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
+            new Symfony\Bundle\TwigBundle\TwigBundle(),
+            new WouterJ\EloquentBundle\WouterJEloquentBundle(),
+            new AppBundle\AppBundle(),
         ];
     }
 
@@ -33,6 +34,12 @@ class TestKernel extends Kernel
         $loader->load(function (ContainerBuilder $container) {
             $container->loadFromExtension('framework', [
                 'secret' => 'abc123',
+                'router' => ['resource' => __DIR__.'/routes.yaml'],
+                'test'   => true,
+            ]);
+
+            $container->loadFromExtension('twig', [
+                'paths' => [__DIR__.'/templates'],
             ]);
 
             $container->loadFromExtension('wouterj_eloquent', [

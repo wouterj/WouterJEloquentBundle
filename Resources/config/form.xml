@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services">
+
+    <services>
+        <service id="wouterj_eloquent.form.type_guesser" class="WouterJ\EloquentBundle\Form\EloquentModelTypeGuesser">
+            <tag name="form.type_guesser"/>
+        </service>
+    </services>
+</container>

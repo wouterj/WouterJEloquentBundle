@@ -21,29 +21,27 @@ class EloquentModelTypeGuesser implements FormTypeGuesserInterface
         $model = (new \ReflectionClass($class))->newInstanceWithoutConstructor();
 
         $casts = $model->getCasts();
-        foreach ($casts as $cast) {
-            switch ($cast) {
-                case 'int':
-                case 'integer':
-                    return new Guess\TypeGuess(IntegerType::class, [], Guess\TypeGuess::HIGH_CONFIDENCE);
-                case 'real':
-                case 'float':
-                case 'double':
-                    return new Guess\TypeGuess(NumberType::class, [], Guess\TypeGuess::MEDIUM_CONFIDENCE);
-                case 'string':
-                    return new Guess\TypeGuess(TextType::class, [], Guess\TypeGuess::MEDIUM_CONFIDENCE);
-                case 'bool':
-                case 'boolean':
-                    return new Guess\TypeGuess(CheckboxType::class, [], Guess\TypeGuess::HIGH_CONFIDENCE);
-                case 'date':
-                    return new Guess\TypeGuess(DateType::class, [], Guess\TypeGuess::HIGH_CONFIDENCE);
-                case 'datetime':
-                    return new Guess\TypeGuess(DateTimeType::class, [], Guess\TypeGuess::HIGH_CONFIDENCE);
-                case 'timestamp':
-                    return new Guess\TypeGuess(TimeType::class, [], Guess\TypeGuess::MEDIUM_CONFIDENCE);
-                default:
-                    return new Guess\TypeGuess(TextType::class, [], Guess\TypeGuess::LOW_CONFIDENCE);
-            }
+        switch ($casts[$property] ?? 'other') {
+            case 'int':
+            case 'integer':
+                return new Guess\TypeGuess(IntegerType::class, [], Guess\TypeGuess::HIGH_CONFIDENCE);
+            case 'real':
+            case 'float':
+            case 'double':
+                return new Guess\TypeGuess(NumberType::class, [], Guess\TypeGuess::MEDIUM_CONFIDENCE);
+            case 'string':
+                return new Guess\TypeGuess(TextType::class, [], Guess\TypeGuess::MEDIUM_CONFIDENCE);
+            case 'bool':
+            case 'boolean':
+                return new Guess\TypeGuess(CheckboxType::class, [], Guess\TypeGuess::HIGH_CONFIDENCE);
+            case 'date':
+                return new Guess\TypeGuess(DateType::class, [], Guess\TypeGuess::HIGH_CONFIDENCE);
+            case 'datetime':
+                return new Guess\TypeGuess(DateTimeType::class, [], Guess\TypeGuess::HIGH_CONFIDENCE);
+            case 'timestamp':
+                return new Guess\TypeGuess(TimeType::class, [], Guess\TypeGuess::MEDIUM_CONFIDENCE);
+            default:
+                return new Guess\TypeGuess(TextType::class, [], Guess\TypeGuess::LOW_CONFIDENCE);
         }
     }
 

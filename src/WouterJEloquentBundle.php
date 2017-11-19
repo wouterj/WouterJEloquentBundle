@@ -61,9 +61,11 @@ class WouterJEloquentBundle extends Bundle
         if ($this->container->has('wouterj_eloquent.facade.initializer')) {
             $this->container->get('wouterj_eloquent.facade.initializer')->initialize();
         }
-        
-        //fixes compatibility symfony v2 issues with misinterpretation of the annotation @mixin within Eloquent's model
-        AnnotationReader::addGlobalIgnoredName('mixin');
+
+        if (class_exists(AnnotationReader::class)) {
+            //fixes compatibility symfony v2 issues with misinterpretation of the annotation @mixin within Eloquent's model
+            AnnotationReader::addGlobalIgnoredName('mixin');
+        }
     }
 
     public function getPath()

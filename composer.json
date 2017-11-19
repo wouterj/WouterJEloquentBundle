@@ -20,6 +20,9 @@
         , "symfony/yaml": "^2.3|^3.0"
         , "symfony/form": "^2.3|^3.0"
         , "symfony/phpunit-bridge": "^3.3@dev"
+        , "symfony/browser-kit": "^2.3|^3.0"
+        , "symfony/validator": "^2.3|^3.0"
+        , "symfony/twig-bundle": "^2.3|^3.0"
     }
     , "conflict": { "hhvm": "*" }
     , "suggests": {
@@ -30,7 +33,7 @@
     , "autoload": { "psr-4": { "WouterJ\\EloquentBundle\\": "src" } }
     , "autoload-dev": {
           "psr-4": { "WouterJ\\EloquentBundle\\": "tests", "": "tests/Functional/app/src" }
-        , "classmap": ["tests/Functional/app/migrations"]
+        , "classmap": ["tests/Functional/app/migrations", "tests/Functional/app/TestKernel.php"]
         , "files": ["tests/phpunit6.php"]
     }
     , "extra": {

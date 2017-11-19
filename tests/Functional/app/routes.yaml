@@ -1,0 +1,3 @@
+create_user:
+    path: /user/create
+    defaults: { _controller: 'AppBundle\Controller\FormController::create' }

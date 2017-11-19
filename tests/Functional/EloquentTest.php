@@ -23,8 +23,6 @@ class EloquentTest extends KernelTestCase
 {
     protected static function getKernelClass()
     {
-        require_once __DIR__.'/app/TestKernel.php';
-
         return 'TestKernel';
     }
 
