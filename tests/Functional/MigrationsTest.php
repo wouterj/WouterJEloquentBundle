@@ -29,13 +29,12 @@ class MigrationsTest extends KernelTestCase
     public function testRunningMigrations()
     {
         static::bootKernel();
-        $container = static::$kernel->getContainer();
 
         $app = new ApplicationTester($a = new Application(static::$kernel));
         $a->setAutoExit(false);
 
         // reset, in case tests were run previously
-        $container->get('wouterj_eloquent.migrator')->reset($container->get('wouterj_eloquent.migrator')->paths());
+        $app->run(['command' => 'eloquent:migrate:reset'], ['decorated' => false]);
 
         $app->run(['command' => 'eloquent:migrate', '--seed' => true], ['decorated' => false]);
 

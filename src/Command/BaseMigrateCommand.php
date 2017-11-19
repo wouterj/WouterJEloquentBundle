@@ -11,7 +11,8 @@
 
 namespace WouterJ\EloquentBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -21,11 +22,27 @@ use WouterJ\EloquentBundle\Migrations\Migrator;
  * @internal
  * @author Wouter de Jong <wouter@wouterj.nl>
  */
-abstract class BaseMigrateCommand extends ContainerAwareCommand
+abstract class BaseMigrateCommand extends Command
 {
+    /** @var Migrator */
+    private $migrator;
+    /** @var */
+    private $migrationPath;
+    /** @var */
+    private $kernelEnv;
+
+    public function __construct(Migrator $migrator, $migrationPath, $kernelEnv)
+    {
+        parent::__construct();
+
+        $this->migrator = $migrator;
+        $this->migrationPath = $migrationPath;
+        $this->kernelEnv = $kernelEnv;
+    }
+
     protected function getMigrationPath()
     {
-        return $this->getContainer()->getParameter('wouterj_eloquent.migration_path');
+        return $this->migrationPath;
     }
 
     protected function getMigrationPaths(InputInterface $input = null)
@@ -39,7 +56,7 @@ abstract class BaseMigrateCommand extends ContainerAwareCommand
 
     protected function askConfirmationInProd(InputInterface $i, OutputInterface $o)
     {
-        if ('prod' !== $this->getContainer()->getParameter('kernel.environment')) {
+        if ('prod' !== $this->kernelEnv) {
             return true;
         }
 
@@ -50,7 +67,7 @@ abstract class BaseMigrateCommand extends ContainerAwareCommand
     /** @return Migrator */
     protected function getMigrator()
     {
-        return $this->getContainer()->get('wouterj_eloquent.migrator');
+        return $this->migrator;
     }
 
     protected function call(OutputInterface $o, $name, array $arguments)

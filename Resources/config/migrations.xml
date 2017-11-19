@@ -4,6 +4,7 @@
     <parameters>
         <parameter key="wouterj_eloquent.migrations.table">migrations</parameter>
         <parameter key="wouterj_eloquent.migration_path">%kernel.root_dir%/migrations</parameter>
+        <parameter key="wouterj_eloquent.app_seeder_path">%kernel.project_dir%/src</parameter>
     </parameters>
 
     <services>
@@ -17,6 +18,86 @@
         <service id="wouterj_eloquent.migrator" class="WouterJ\EloquentBundle\Migrations\Migrator">
             <argument type="service" id="wouterj_eloquent.migrations.repository"/>
             <argument type="service" id="wouterj_eloquent.database_manager"/>
+        </service>
+
+        <service id="wouterj_eloquent.commands.migrate" class="WouterJ\EloquentBundle\Command\MigrateCommand">
+            <argument type="service" id="wouterj_eloquent.migrator"/>
+            <argument>%wouterj_eloquent.migration_path%</argument>
+            <argument>%kernel.environment%</argument>
+
+            <tag name="console.command" command="eloquent:migrate"/>
+        </service>
+
+        <service id="wouterj_eloquent.commands.migrate_fresh" class="WouterJ\EloquentBundle\Command\MigrateFreshCommand">
+            <argument type="service" id="wouterj_eloquent.database_manager"/>
+            <argument type="service" id="wouterj_eloquent.migrator"/>
+            <argument>%wouterj_eloquent.migration_path%</argument>
+            <argument>%kernel.environment%</argument>
+
+            <tag name="console.command" command="eloquent:migrate:fresh"/>
+        </service>
+
+        <service id="wouterj_eloquent.commands.migrate_install" class="WouterJ\EloquentBundle\Command\MigrateInstallCommand">
+            <argument type="service" id="wouterj_eloquent.migrations.repository"/>
+
+            <tag name="console.command" command="eloquent:migrate:install"/>
+        </service>
+
+        <service id="wouterj_eloquent.commands.migrate_make" class="WouterJ\EloquentBundle\Command\MigrateMakeCommand">
+            <argument type="service" id="wouterj_eloquent.migrations.creator"/>
+            <argument type="service" id="wouterj_eloquent.migrator"/>
+            <argument>%wouterj_eloquent.migration_path%</argument>
+            <argument>%kernel.environment%</argument>
+
+            <tag name="console.command" command="eloquent:migrate:make"/>
+        </service>
+
+        <service id="wouterj_eloquent.commands.migrate_refresh" class="WouterJ\EloquentBundle\Command\MigrateRefreshCommand">
+            <argument type="service" id="wouterj_eloquent.migrator"/>
+            <argument>%wouterj_eloquent.migration_path%</argument>
+            <argument>%kernel.environment%</argument>
+
+            <tag name="console.command" command="eloquent:migrate:refresh"/>
+        </service>
+
+        <service id="wouterj_eloquent.commands.migrate_reset" class="WouterJ\EloquentBundle\Command\MigrateResetCommand">
+            <argument type="service" id="wouterj_eloquent.migrator"/>
+            <argument>%wouterj_eloquent.migration_path%</argument>
+            <argument>%kernel.environment%</argument>
+
+            <tag name="console.command" command="eloquent:migrate:reset"/>
+        </service>
+
+        <service id="wouterj_eloquent.commands.migrate_rollback" class="WouterJ\EloquentBundle\Command\MigrateRollbackCommand">
+            <argument type="service" id="wouterj_eloquent.migrator"/>
+            <argument>%wouterj_eloquent.migration_path%</argument>
+            <argument>%kernel.environment%</argument>
+
+            <tag name="console.command" command="eloquent:migrate:rollback"/>
+        </service>
+
+        <service id="wouterj_eloquent.commands.migrate_status" class="WouterJ\EloquentBundle\Command\MigrateStatusCommand">
+            <argument type="service" id="wouterj_eloquent.migrator"/>
+            <argument>%wouterj_eloquent.migration_path%</argument>
+            <argument>%kernel.environment%</argument>
+
+            <tag name="console.command" command="eloquent:migrate:status"/>
+        </service>
+
+        <service id="wouterj_eloquent.commands.seed" class="WouterJ\EloquentBundle\Command\SeedCommand">
+            <argument type="service" id="service_container"/>
+            <argument type="service" id="wouterj_eloquent.database_manager"/>
+            <argument>%kernel.bundles%</argument>
+            <argument>%kernel.environment%</argument>
+
+            <tag name="console.command" command="eloquent:seed"/>
+        </service>
+
+        <service id="wouterj_eloquent.commands.seed_make" class="WouterJ\EloquentBundle\Command\SeederMakeCommand">
+            <argument>%kernel.project_dir%</argument>
+            <argument>%kernel.bundles%</argument>
+
+            <tag name="console.command" command="eloquent:make:seeder"/>
         </service>
     </services>
 </container>

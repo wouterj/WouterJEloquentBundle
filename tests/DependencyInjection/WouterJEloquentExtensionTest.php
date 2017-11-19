@@ -13,11 +13,11 @@ namespace WouterJ\EloquentBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use WouterJ\EloquentBundle\EventListener\EloquentInitializer;
-use WouterJ\EloquentBundle\Facade\Schema;
-use WouterJ\EloquentBundle\Facade\AliasesLoader;
+use WouterJ\EloquentBundle\EventListener\FacadeInitializer;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Database\DatabaseManager;
 use PHPUnit\Framework\TestCase;
+use WouterJ\EloquentBundle\WouterJEloquentBundle;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
@@ -30,6 +30,9 @@ abstract class WouterJEloquentExtensionTest extends TestCase
     {
         $this->container = new ContainerBuilder();
         $this->container->setParameter('kernel.root_dir', sys_get_temp_dir());
+        $this->container->setParameter('kernel.project_dir', sys_get_temp_dir());
+        $this->container->setParameter('kernel.environment', 'test');
+        $this->container->setParameter('kernel.bundles', [WouterJEloquentBundle::class]);
         $this->container->registerExtension(new WouterJEloquentExtension());
     }
 
@@ -129,8 +132,7 @@ abstract class WouterJEloquentExtensionTest extends TestCase
     {
         $this->load('with_aliases');
 
-        $this->assertContainerHasService('wouterj_eloquent.aliases.loader', AliasesLoader::class);
-        $this->assertEquals([['addAlias', ['Schema', Schema::class]]], $this->container->getDefinition('wouterj_eloquent.aliases.loader')->getMethodCalls());
+        $this->assertContainerHasService('wouterj_eloquent.facade.initializer', FacadeInitializer::class);
     }
 
     /**

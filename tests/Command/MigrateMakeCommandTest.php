@@ -26,23 +26,17 @@ use Prophecy\Argument;
 class MigrateMakeCommandTest extends TestCase
 {
     private $command;
-    private $container;
     private $creator;
+    private $migrator;
 
     protected function setUp()
     {
         $this->creator = $this->prophesize(Creator::class);
         $this->migrator = $this->prophesize(Migrator::class);
-        $this->container = $this->prophesize(ContainerInterface::class);
 
         $this->migrator->paths()->willReturn([]);
 
-        Promise::containerHasService($this->container, 'wouterj_eloquent.migrations.creator', $this->creator->reveal());
-        Promise::containerHasService($this->container, 'wouterj_eloquent.migrator', $this->migrator->reveal());
-        Promise::containerHasParameter($this->container, 'wouterj_eloquent.migration_path', __DIR__.'/migrations');
-
-        $this->command = new MigrateMakeCommand();
-        $this->command->setcontainer($this->container->reveal());
+        $this->command = new MigrateMakeCommand($this->creator->reveal(), $this->migrator->reveal(), __DIR__.'/migrations', 'dev');
     }
 
     /** @test */

@@ -4,6 +4,7 @@
     <services>
         <service id="wouterj_eloquent.initializer"
             class="WouterJ\EloquentBundle\EventListener\EloquentInitializer"
+            public="true"
         >
             <argument type="service" id="wouterj_eloquent" />
             <argument>%wouterj_eloquent.default_connection%</argument>

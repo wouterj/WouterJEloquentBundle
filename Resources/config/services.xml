@@ -2,19 +2,22 @@
 <container xmlns="http://symfony.com/schema/dic/services">
 
     <services>
-        <service id="wouterj_eloquent" class="Illuminate\Database\Capsule\Manager">
+        <service alias="wouterj_eloquent" id="Illuminate\Database\Capsule\Manager"/>
+        <service alias="wouterj_eloquent.database_manager" id="Illuminate\Database\DatabaseManager"/>
+
+        <service id="wouterj_eloquent" class="Illuminate\Database\Capsule\Manager" public="true">
             <call method="setEventDispatcher">
                 <argument type="service" id="wouterj_eloquent.events" />
             </call>
         </service>
 
-        <service id="wouterj_eloquent.database_manager" class="Illuminate\Database\DatabaseManager">
+        <service id="wouterj_eloquent.database_manager" class="Illuminate\Database\DatabaseManager" public="true">
             <factory service="wouterj_eloquent" method="getDatabaseManager" />
         </service>
 
         <service id="wouterj_eloquent.events" class="WouterJ\EloquentBundle\Events\ServiceContainerDispatcher">
             <argument type="service" id="service_container" />
-            <argument type="collection" /> <!-- observer map -->
+            <argument type="collection" /> <!-- deprecated -->
         </service>
     </services>
 </container>

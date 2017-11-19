@@ -11,8 +11,12 @@
 
 namespace WouterJ\EloquentBundle\DependencyInjection\Compiler;
 
+use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 
 /**
  * @final
@@ -33,11 +37,17 @@ class ObserverPass implements CompilerPassInterface
         $definition = $container->getDefinition('wouterj_eloquent.events');
         $services = $container->findTaggedServiceIds('wouterj_eloquent.observer');
 
+        $lazyInjection = class_exists(ServiceLocator::class);
         $observers = [];
         foreach ($services as $id => $attrs) {
-            $observers[$container->getDefinition($id)->getClass()] = $id;
+            $observers[$container->getDefinition($id)->getClass()] = $lazyInjection ? new ServiceClosureArgument(new Reference($id)) : $id;
         }
 
-        $definition->replaceArgument(1, $observers);
+        if ($lazyInjection) {
+            $definition->replaceArgument(0, (new Definition(ServiceLocator::class, [$observers]))->addTag('container.service_locator'));
+        } else {
+            // Backwards compatibility with Symfony <3.3
+            $definition->replaceArgument(1, $observers);
+        }
     }
 }

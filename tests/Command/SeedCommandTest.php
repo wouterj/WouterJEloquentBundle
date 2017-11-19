@@ -11,6 +11,7 @@
 
 namespace WouterJ\EloquentBundle\Command;
 
+use Illuminate\Database\DatabaseManager;
 use WouterJ\EloquentBundle\Seeder;
 use WouterJ\EloquentBundle\Promise;
 use WouterJ\EloquentBundle\Prediction;
@@ -25,19 +26,15 @@ use PHPUnit\Framework\TestCase;
 class SeedCommandTest extends TestCase
 {
     protected $container;
-    protected $input;
-    protected $output;
-    protected $subject;
+    protected $command;
+    protected $manager;
 
     public function setUp()
     {
-        parent::setUp();
-
         $this->container = $this->prophesize(ContainerInterface::class);
-        $this->input = $this->prophesize(InputInterface::class);
-        $this->output = $this->prophesize(OutputInterface::class);
-        $this->subject = new SeedCommand();
-        $this->subject->setContainer($this->container->reveal());
+        $this->manager = $this->prophesize(DatabaseManager::class);
+
+        $this->command = new SeedCommand($this->container->reveal(), $this->manager->reveal(), [], 'dev');
     }
 
     /** @test */
@@ -46,18 +43,18 @@ class SeedCommandTest extends TestCase
         $seederClass = __CLASS__.'_DummySeeder';
         $seeder1Class = __CLASS__.'_SecondDummySeeder';
 
-        Promise::inputHasArgument($this->input, 'class', [$seederClass, $seeder1Class]);
-        Promise::inputHasOption($this->input, 'database', null);
-
-        $manager = $this->prophesize('Illuminate\Database\DatabaseManager');
-        Promise::containerHasService($this->container, 'wouterj_eloquent.database_manager', $manager->reveal());
         Promise::containerDoesNotHaveService($this->container, $seederClass);
         Promise::containerDoesNotHaveService($this->container, $seeder1Class);
 
-        Prediction::outputWritesLine($this->output, '<info>Seeded:</info> '.$seederClass);
-        Prediction::outputWritesLine($this->output, '<info>Seeded:</info> '.$seeder1Class);
-
-        $this->subject->execute($this->input->reveal(), $this->output->reveal());
+        TestCommand::create($this->command)
+            ->passing('--database')
+            ->passing('class', [$seederClass, $seeder1Class])
+            ->duringExecute()
+            ->outputs(<<<EOT
+Seeded: $seederClass
+Seeded: $seeder1Class
+EOT
+);
     }
 
     public function it_checks_all_bundles()

@@ -14,6 +14,7 @@ namespace WouterJ\EloquentBundle\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\Reference;
 
 class MigrationPathsPassTest extends TestCase
 {
@@ -25,6 +26,10 @@ class MigrationPathsPassTest extends TestCase
         $this->container->addCompilerPass(new MigrationPathsPass(), PassConfig::TYPE_OPTIMIZE);
 
         $this->container->register('wouterj_eloquent.migrator', __CLASS__.'_MigratorStub');
+        $this->container->register('app.service', __CLASS__.'_ServiceStub')
+            ->addArgument(new Reference('wouterj_eloquent.migrator'))
+            ->setPublic(true)
+        ;
     }
 
     /** @test */
@@ -35,14 +40,29 @@ class MigrationPathsPassTest extends TestCase
 
         $this->container->compile();
 
-        $migrator = $this->container->get('wouterj_eloquent.migrator');
+        $migrator = $this->container->get('app.service')->migrator;
         $this->assertEquals(['/package1/migrations', '/package2/Resources/migrations'], $migrator->paths());
+    }
+}
+
+class MigrationPathsPassTest_ServiceStub
+{
+    public $migrator;
+
+    public function __construct(MigrationPathsPassTest_MigratorStub $migrator)
+    {
+        $this->migrator = $migrator;
     }
 }
 
 class MigrationPathsPassTest_MigratorStub
 {
     private $paths = [];
+
+    public function __construct()
+    {
+        $this->paths = [];
+    }
 
     public function path($path)
     {

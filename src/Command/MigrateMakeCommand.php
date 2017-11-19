@@ -15,6 +15,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use WouterJ\EloquentBundle\Migrations\Creator;
+use WouterJ\EloquentBundle\Migrations\Migrator;
 
 /**
  * @final
@@ -23,6 +25,16 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class MigrateMakeCommand extends BaseMigrateCommand
 {
+    /** @var Creator */
+    private $creator;
+
+    public function __construct(Creator $creator, Migrator $migrator, $migrationPath, $kernelEnv)
+    {
+        parent::__construct($migrator, $migrationPath, $kernelEnv);
+
+        $this->creator = $creator;
+    }
+
     public function configure()
     {
         $this->setName('eloquent:migrate:make')
@@ -83,6 +95,6 @@ EOT
 
     private function getCreator()
     {
-        return $this->getContainer()->get('wouterj_eloquent.migrations.creator');
+        return $this->creator;
     }
 }

@@ -18,13 +18,20 @@ use AppBundle\Model\UserObserver;
  */
 class EventsServiceTest extends EventsTest
 {
+    private $userObserver;
+
     protected function reset()
     {
-        static::$kernel->getContainer()->get('app.user_observer')->fired = [];
+        if (null === $this->userObserver) {
+            $this->userObserver = new UserObserver();
+            static::$kernel->getContainer()->set('app.user_observer', $this->userObserver);
+        }
+
+        $this->userObserver->fired = [];
     }
 
     protected function getLogs()
     {
-        return static::$kernel->getContainer()->get('app.user_observer')->fired;
+        return $this->userObserver->fired;
     }
 }

@@ -22,8 +22,6 @@ use Prophecy\Argument;
 class MigrateRollbackCommandTest extends TestCase
 {
     private $command;
-    /** @var Container */
-    private $container;
     private $migrator;
 
     protected function setUp()
@@ -33,23 +31,17 @@ class MigrateRollbackCommandTest extends TestCase
         $this->migrator->paths()->willReturn([]);
         $this->migrator->setConnection(Argument::any())->willReturn();
 
-        $this->container = new Container();
-        $this->container->setParameter('kernel.environment', 'dev');
-        $this->container->setParameter('wouterj_eloquent.migration_path', __DIR__.'/migrations');
-        $this->container->set('wouterj_eloquent.migrator', $this->migrator->reveal());
-
-        $this->command = new MigrateRollbackCommand();
-        $this->command->setContainer($this->container);
+        $this->command = new MigrateRollbackCommand($this->migrator->reveal(), __DIR__.'/migrations', 'dev');
     }
 
     /** @test */
     public function it_asks_for_confirmation_in_prod()
     {
-        $this->container->setParameter('kernel.environment', 'prod');
+        $command = new MigrateRollbackCommand($this->migrator->reveal(), __DIR__.'/migrations', 'prod');
 
         $this->migrator->rollback(Argument::cetera())->shouldNotBeCalled();
 
-        TestCommand::create($this->command)
+        TestCommand::create($command)
             ->answering("no")
             ->duringExecute()
             ->outputs('Are you sure you want to execute the migrations in production?');
@@ -68,11 +60,11 @@ class MigrateRollbackCommandTest extends TestCase
     /** @test */
     public function it_always_continues_when_force_is_passed()
     {
-        $this->container->setParameter('kernel.environment', 'prod');
+        $command = new MigrateRollbackCommand($this->migrator->reveal(), __DIR__.'/migrations', 'prod');
 
         $this->migrator->rollback(Argument::cetera())->shouldBeCalled();
 
-        TestCommand::create($this->command)
+        TestCommand::create($command)
             ->passing('--force')
             ->duringExecute()
             ->doesNotOutput('Are you sure you want to execute the migrations in production?');
