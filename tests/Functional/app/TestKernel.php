@@ -34,8 +34,10 @@ class TestKernel extends Kernel
         $loader->load(function (ContainerBuilder $container) {
             $container->loadFromExtension('framework', [
                 'secret' => 'abc123',
-                'router' => ['resource' => __DIR__.'/routes.yaml'],
+                'router' => ['resource' => __DIR__.'/routes.yml'],
+                'templating' => ['engines' => ['twig']],
                 'test'   => true,
+                'form'   => true,
             ]);
 
             $container->loadFromExtension('twig', [

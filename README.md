@@ -8,6 +8,14 @@ If you wish to use the [Symfony Serializer][serializer] with [Eloquent Models][e
 [![Build Status](https://travis-ci.org/wouterj/WouterJEloquentBundle.svg?branch=master)](https://travis-ci.org/wouterj/WouterJEloquentBundle)
 
 
+## Supported Symfony versions
+
+This bundle is only guaranteed to work on the latest minor releases of the
+2.x, 3.x and 4.x version of Symfony. While other minor releases might be
+supported, support for it isn't explicitly tested. [Contribute to this repository](#contributing)
+to this repository if you want to add support for lower versions.
+
+
 ## Installation
 
 ### Step 1: Download the Bundle
