@@ -79,4 +79,22 @@ class FormTest extends WebTestCase
             'is_admin' => '0',
         ], $user->getAttributes());
     }
+
+    public function testFormValidation()
+    {
+        $client = static::createClient();
+
+        $formView = $client->request('GET', '/user/create');
+        $form = $formView->selectButton('Submit')->form([
+            'form[name]' => '',
+            'form[password]' => 's3cr3t',
+            'form[date_of_birth][year]' => '2017',
+            'form[date_of_birth][month]' => '10',
+            'form[date_of_birth][day]' => '20',
+            'form[is_admin]' => false,
+        ]);
+        $crawler = $client->submit($form);
+
+        $this->assertCount(1, $crawler->filterXPath('//li[text()="The username should not be blank."]'));
+    }
 }

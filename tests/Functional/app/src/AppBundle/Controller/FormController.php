@@ -22,7 +22,7 @@ class FormController extends Controller
             ->getForm();
 
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $user->save();
 
             return new Response('Successfully created user!');

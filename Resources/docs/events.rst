@@ -104,6 +104,6 @@ Then, pass the service ID in the ``Bundle::boot()`` method instead:
         }
     }
 
-« `Migrations and Seeding <migrations.rst>`_ • `Configuration <configuration.rst>`_ »
+« `Using Models in Forms <forms.rst>`_ • `Configuration <configuration.rst>`_ »
 
 .. _events section: https://laravel.com/docs/eloquent#events
