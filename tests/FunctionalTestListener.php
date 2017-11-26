@@ -91,7 +91,8 @@ class _FunctionalTestListener
             touch(static::$dbFile);
             exec($cmdPrefix.' eloquent:migrate:install', $output);
             if (false === strpos(implode("\n", $output), 'successfully')) {
-                die("Could not set-up the database:\n".implode("\n", $output));
+                echo "Could not set-up the database:\n".implode("\n", $output);
+                exit(1);
             }
 
             copy(static::$dbFile, static::$backupFile);
