@@ -40,9 +40,10 @@ class TestKernel extends Kernel
             $container->loadFromExtension('framework', [
                 'secret' => 'abc123',
                 'router' => ['resource' => __DIR__.'/routes.yml'],
-                'templating' => ['engines' => ['twig']],
+                'templating' => (Kernel::MAJOR_VERSION < 2 ? ['engines' => ['twig']] : false),
                 'test'   => true,
                 'form'   => true,
+                'assets' => false,
             ]);
 
             $container->loadFromExtension('twig', [

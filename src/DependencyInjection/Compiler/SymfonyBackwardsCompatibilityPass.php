@@ -18,13 +18,13 @@ class SymfonyBackwardsCompatibilityPass implements CompilerPassInterface
             return;
         }
 
-        foreach (['migration_path', 'app_seeder_path'] as $param) {
+        foreach (['project_path', 'app_seeder_path'] as $param) {
             $container->setParameter(
                 'wouterj_eloquent.'.$param,
                 str_replace(
                     '%kernel.project_dir%',
                     '%kernel.root_dir%/../',
-                    $container->getParameter('wouterj_eloquent.migration_path')
+                    $container->getParameter('wouterj_eloquent.'.$param)
                 )
             );
         }
