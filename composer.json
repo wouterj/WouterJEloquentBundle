@@ -28,6 +28,7 @@
         , "symfony/twig-bridge": "^2.8.12|^3.0"
         , "symfony/var-dumper": "^2.8 || ^3.0 || ^4.0"
         , "twig/twig": "^1.26|^2.0"
+        , "doctrine/annotations": "^1.5"
     }
     , "minimum-stability": "beta"
     , "conflict": { "hhvm": "*" }
