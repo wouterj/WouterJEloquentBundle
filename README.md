@@ -1,7 +1,7 @@
 # WouterJEloquentBundle
 
 The WouterJEloquentBundle claims to integrate the [Eloquent ORM][eloquent]
-into the Symfony2 framework.
+into the Symfony framework.
 
 If you wish to use the [Symfony Serializer][serializer] with [Eloquent Models][eloquent-model] you can check [EloquentSerializer][eloquent-serializer].
 
