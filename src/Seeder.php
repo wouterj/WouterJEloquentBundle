@@ -44,10 +44,8 @@ abstract class Seeder extends BaseSeeder
 
     /**
      * {@inheritDoc}
-     *
-     * @return Seeder
      */
-    public function resolve($class)
+    public function resolve($class): Seeder
     {
         if ($this->getContainer()->has($class)) {
             $seeder = $this->getContainer()->get($class);
