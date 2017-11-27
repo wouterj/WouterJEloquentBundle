@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is part of the WouterJEloquentBundle package.
@@ -34,10 +34,10 @@ The <info>%command.name%</info> creates a new migration file.
     <info>php %command.full_name%</info>
 EOT
             )
-            ->setDefinition(array(
+            ->setDefinition([
                 new InputOption('database', null, InputOption::VALUE_REQUIRED, 'The database connection to seed'),
                 new InputOption('path', null, InputOption::VALUE_REQUIRED, 'The location where the migration file should be created'),
-            ))
+            ])
         ;
     }
 

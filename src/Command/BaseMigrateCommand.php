@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is part of the WouterJEloquentBundle package.
@@ -65,7 +65,7 @@ abstract class BaseMigrateCommand extends Command
     }
 
     /** @return Migrator */
-    protected function getMigrator()
+    protected function getMigrator(): Migrator
     {
         return $this->migrator;
     }

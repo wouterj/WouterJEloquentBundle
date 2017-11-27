@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is part of the WouterJEloquentBundle package.
@@ -45,13 +45,13 @@ The <info>%command.name%</info> creates a new migration file.
     <info>php %command.full_name%</info>
 EOT
             )
-            ->setDefinition(array(
+            ->setDefinition([
                 new InputArgument('name', InputArgument::OPTIONAL, 'The name of the migration'),
                 new InputOption('database', null, InputOption::VALUE_REQUIRED, 'The database connection to seed'),
                 new InputOption('table', null, InputOption::VALUE_REQUIRED, 'An optional table name that is updated during the migration'),
                 new InputOption('create', null, InputOption::VALUE_OPTIONAL, 'An optional table name that is created during the migration'),
                 new InputOption('path', null, InputOption::VALUE_REQUIRED, 'The location where the migration file should be created'),
-            ))
+            ])
         ;
     }
 
@@ -88,7 +88,7 @@ EOT
     private function writeMigrations($name, $path, $table, $create)
     {
         return pathinfo(
-            $this->getCreator()->create($name, $path, $table, $create),
+            (string) $this->getCreator()->create($name, $path, $table, $create),
             PATHINFO_FILENAME
         );
     }
