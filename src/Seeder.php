@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is part of the WouterJEloquentBundle package.
@@ -44,10 +44,8 @@ abstract class Seeder extends BaseSeeder
 
     /**
      * {@inheritDoc}
-     *
-     * @return Seeder
      */
-    public function resolve($class)
+    public function resolve($class): Seeder
     {
         if ($this->getContainer()->has($class)) {
             $seeder = $this->getContainer()->get($class);

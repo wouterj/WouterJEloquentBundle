@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 if (!class_exists('PHPUnit\Framework\TestSuite') && class_exists('PHPUnit_Framework_TestSuite')) {
     class_alias('PHPUnit_Framework_TestSuite', 'PHPUnit\Framework\TestSuite');

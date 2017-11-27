@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is part of the WouterJEloquentBundle package.
@@ -91,7 +91,7 @@ class Configuration implements ConfigurationInterface
                             unset($v[$key]);
                         }
                     }
-                    $v['default_connection'] = isset($v['default_connection']) ? $v['default_connection'] : 'default';
+                    $v['default_connection'] = $v['default_connection'] ?? 'default';
                     $v['connections'] = [$v['default_connection'] => $connection];
 
                     return $v;

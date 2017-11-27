@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is part of the WouterJEloquentBundle package.
@@ -71,7 +71,6 @@ abstract class Facade
      *
      * This can either be an object or a string containing the service id.
      *
-     * @return object|string
      *
      * @throws \LogicException When not overriden by a child facade
      */
