@@ -24,7 +24,7 @@ Open a command console, enter your project directory and execute the
 following command to download the latest stable version of this bundle:
 
 ```bash
-$ composer require wouterj/eloquent-bundle "^0.2"
+$ composer require wouterj/eloquent-bundle
 ```
 
 This command requires you to have Composer installed globally, as explained
@@ -33,8 +33,10 @@ in the [installation chapter][composer] of the Composer documentation.
 
 ### Step 2: Enable the Bundle
 
-Then, enable the bundle by adding it to the list of registered bundles
-in the `app/AppKernel.php` file of your project:
+If you're using [Symfony Flex][symfony-flex], the previous step already got
+you up and running and you can skip this step! Otherwise, enable the bundle
+by adding it to the list of registered bundles in the `app/AppKernel.php`
+file of your project:
 
 ```php
 <?php
@@ -61,10 +63,24 @@ class AppKernel extends Kernel
 
 ### Step 3: Configure the Database
 
-To use the Eloquent ORM and its database features, you need to configure the
-bundle with the database information:
+To use the Eloquent ORM, configure a connection by setting the correct environment
+variables in `.env`:
+
+```ini
+# .env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=symfony
+DB_USERNAME=root
+DB_PASSWORD=s3cr3t
+```
+
+If you're not using [Symfony Flex][symfony-flex], create the configuration file
+yourself:
 
 ```yaml
+# config/packages/eloquent.yaml
 wouterj_eloquent:
     driver:   mysql
     host:     localhost
@@ -145,6 +161,7 @@ compatibility when extending these classes is not guaranteed.
 [eloquent-serializer]: https://github.com/theofidry/EloquentSerializer/blob/master/README.md
 [eloquent]: http://laravel.com/docs/database
 [composer]: https://getcomposer.org/doc/00-intro.md
+[symfony-flex]: https://symfony.com/doc/current/setup/flex.html
 [docs]: Resources/docs/index.rst
 [license]: LICENSE
 [cs]: http://symfony.com/doc/current/contributing/code/standards.html
