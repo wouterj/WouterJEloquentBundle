@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.0.1
+-----
+
+ * Added support for env variable usage in connection settings
+
 1.0.0
 -----
 
