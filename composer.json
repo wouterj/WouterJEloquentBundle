@@ -3,6 +3,7 @@
     , "description": "Implementing the Eloquent ORM into Symfony"
     , "authors": [{ "name": "Wouter de Jong", "email": "wouter@wouterj.nl" }]
     , "license": "MIT"
+    , "type": "symfony-bundle"
 
     , "require": {
           "php": "^7.0"
