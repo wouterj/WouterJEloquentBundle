@@ -35,8 +35,16 @@ You can use the `Query Builder`_:
 Eloquent ORM
 ------------
 
-If you enabled the eloquent ORM, you can also use the `Eloquent models`_. First
-create a model:
+If you enabled the Eloquent ORM, you can also use the `Eloquent models`_. You can
+enable Eloquent in the configuration:
+
+.. code-block:: yaml
+
+    # config/packages/eloquent.yaml
+    wouter_eloquent:
+        eloquent: ~
+
+Then you can create a model:
 
 .. code-block:: php
 

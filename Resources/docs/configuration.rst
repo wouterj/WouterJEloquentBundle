@@ -34,6 +34,7 @@ setting directly to the root configuration:
 
 .. code-block:: yaml
 
+    # config/packages/eloquent.yaml
     wouterj_eloquent:
         driver: sqlite
         host: local
@@ -47,6 +48,7 @@ needs, the minimal configuration to get started is:
 
 .. code-block:: yaml
 
+    # config/packages/eloquent.yaml
     wouterj_eloquent:
         database: the_database_name
 
@@ -91,6 +93,7 @@ You can activate both facades to be aliases by setting ``aliases`` to
 
 .. code-block:: yaml
 
+    # config/packages/eloquent.yaml
     wouterj_eloquent:
         # ...
         aliases: true
@@ -99,51 +102,10 @@ You can also specify either ``DB`` or ``Schema`` to be aliased:
 
 .. code-block:: yaml
 
+    # config/packages/eloquent.yaml
     wouterj_eloquent:
         # ...
         aliases:
             db: true
-
-Other Configuration Formats
----------------------------
-
-XML
-~~~
-
-.. code-block:: xml
-
-    <?xml version="1.0" ?>
-    <container xmlns="http://symfony.com/schema/dic/services">
-
-        <config xmlns="http://wouterj.nl/schema/dic/eloquent"
-            driver="mysql"
-            host="localhost"
-            database="db_name"
-            username="root"
-            password="pass"
-            prefix="symfo_"
-        >
-            <eloquent /> <!-- enables eloquent -->
-            <aliases />  <!-- enables aliasing -->
-            <!-- enable only db: <aliases db="true" /> -->
-        </config>
-    </container>
-
-PHP
-~~~
-
-.. code-block:: php
-
-    $container->loadFromExtension('wouterj_eloquent', [
-        'driver'   => 'mysql',
-        'host'     => 'localhost',
-        'database' => 'db_name',
-        'username' => 'root',
-        'password' => 'pass',
-        'prefix'   => 'symfo_',
-        'eloquent' => true,  // enables eloquent
-        'aliases'  => true,   // enables aliases
-        // enable only db: 'aliases' => ['db' => true]
-    ]);
 
 « `Migrations <migrations.rst>`_ • `Back to the table of contents <../../README.md#table-of-contents>`_ »

@@ -109,10 +109,7 @@ For more information, refer to [the documentation](#table-of-content) below.
         1. [Default connection](Resources/docs/configuration.rst#default-connection)
     1. [Eloquent](Resources/docs/configuration.rst#eloquent)
     1. [Aliases](Resources/docs/configuration.rst#aliases)
-    1. [Other configuration formats](Resources/docs/configuration.rst#other-configuration-formats)
-        1. [XML](Resources/docs/configuration.rst#xml)
-        1. [PHP](Resources/docs/configuration.rst#php)
-1. [License][license]
+1. [License][LICENSE]
 1. [Contributing](#contributing)
 1. [Backwards Compatibility](#backwards-compatibility)
 
