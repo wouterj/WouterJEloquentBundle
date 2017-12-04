@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.0.0
+-----
+
+ * Added Symfony 4.0 support
+ * Added form type guesser
  * Added Var Dumper caster for Eloquent models
  * Added the `eloquent:make:seeder` command
  * Added the `eloquent:migrate:fresh` command
