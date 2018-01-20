@@ -96,6 +96,11 @@ class _FunctionalTestListener
             }
 
             copy(static::$dbFile, static::$backupFile);
+
+            if (file_exists(__DIR__.'/Functional/app/test1.sqlite')) {
+                unlink(__DIR__.'/Functional/app/test1.sqlite');
+            }
+            touch(__DIR__.'/Functional/app/test1.sqlite');
         }
     }
 

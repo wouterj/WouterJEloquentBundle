@@ -53,8 +53,16 @@ class TestKernel extends Kernel
             ]);
 
             $container->loadFromExtension('wouterj_eloquent', [
-                'driver'   => 'sqlite',
-                'database' => '%kernel.root_dir%/test.sqlite',
+                'connections' => [
+                    'default' => [
+                        'driver'   => 'sqlite',
+                        'database' => '%kernel.root_dir%/test.sqlite',
+                    ],
+                    'conn2' => [
+                        'driver'   => 'sqlite',
+                        'database' => '%kernel.root_dir%/test1.sqlite'
+                    ],
+                ],
                 'aliases'  => true,
                 'eloquent' => true,
             ]);
