@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.0.2
+-----
+
+ * Added `Schema::connection()` to allow multiple connections
+
 1.0.1
 -----
 
