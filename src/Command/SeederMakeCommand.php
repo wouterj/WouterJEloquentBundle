@@ -62,7 +62,7 @@ class SeederMakeCommand extends Command
     {
         $lastPos = strrpos($name, '\\');
         $namespace = $lastPos ? substr($name, 0, $lastPos) : false;
-        $class = substr($name, $lastPos + 1);
+        $class = substr($name, $lastPos);
 
         $stub = file_get_contents($this->stubPath.'/seeder.stub');
         $stub = str_replace('DummyClass', $class, $stub);
