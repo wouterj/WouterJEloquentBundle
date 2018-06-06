@@ -73,10 +73,14 @@ abstract class WouterJEloquentExtensionTest extends TestCase
         $this->assertEquals('connection_1', $this->container->getParameter('wouterj_eloquent.default_connection'));
 
         $connectionCalls = array_values(array_map(
-            function ($c) { return $c[1]; },
+            function ($c) {
+                return $c[1];
+            },
             array_filter(
                 $this->container->getDefinition('wouterj_eloquent')->getMethodCalls(),
-                function ($c) { return $c[0] === 'addConnection'; }
+                function ($c) {
+                    return $c[0] === 'addConnection';
+                }
             )
         ));
         $this->assertEquals([
@@ -89,7 +93,7 @@ abstract class WouterJEloquentExtensionTest extends TestCase
                 'password' => null,
                 'charset' => 'utf8',
                 'collation' => 'utf8_unicode_ci',
-                'prefix' => null
+                'prefix' => null,
             ], 'default'],
             [[
                 'driver' => 'sqlite',
@@ -101,6 +105,7 @@ abstract class WouterJEloquentExtensionTest extends TestCase
                 'charset' => 'utf8',
                 'collation' => 'utf8_unicode_ci',
                 'prefix' => 'symfo_',
+                'schema' => 'schema1',
             ], 'connection_1'],
         ], $connectionCalls);
     }

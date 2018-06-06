@@ -90,11 +90,11 @@ class Configuration implements ConfigurationInterface
                 ->ifTrue(function ($v) {
                     return is_array($v)
                         && !array_key_exists('connections', $v) && !array_key_exists('connection', $v)
-                        && count($v) !== count(array_diff(array_keys($v), ['driver', 'host', 'port', 'database', 'username', 'password', 'charset', 'collation', 'prefix', 'read', 'write', 'sticky']));
+                        && count($v) !== count(array_diff(array_keys($v), ['driver', 'host', 'port', 'database', 'username', 'password', 'charset', 'collation', 'prefix', 'read', 'write', 'sticky', 'schema']));
                 })
                 ->then(function ($v) {
                     // Key that should be rewritten to the connection config
-                    $includedKeys = ['driver', 'host', 'port', 'database', 'username', 'password', 'charset', 'collation', 'prefix', 'read', 'write', 'sticky'];
+                    $includedKeys = ['driver', 'host', 'port', 'database', 'username', 'password', 'charset', 'collation', 'prefix', 'read', 'write', 'sticky', 'schema'];
                     $connection = [];
                     foreach ($v as $key => $value) {
                         if (in_array($key, $includedKeys)) {
@@ -147,6 +147,7 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('password')->defaultValue('')->end()
                             ->scalarNode('charset')->defaultValue('utf8')->end()
                             ->scalarNode('collation')->defaultValue('utf8_unicode_ci')->end()
+                            ->scalarNode('schema')->end()
                             ->booleanNode('sticky')->end()
                             ->scalarNode('prefix')->defaultValue('')->end()
                             ->arrayNode('write')
