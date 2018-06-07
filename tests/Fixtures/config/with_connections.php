@@ -11,7 +11,7 @@ $container->loadFromExtension('wouterj_eloquent', [
             'username' => 'user',
             'password' => 'pass',
             'prefix' => 'symfo_',
-            'schema' => null,
+            'schema' => null
         ],
     ],
     'default_connection' => 'connection_1',
