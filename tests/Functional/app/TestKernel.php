@@ -40,7 +40,7 @@ class TestKernel extends Kernel
             $container->loadFromExtension('framework', [
                 'secret' => 'abc123',
                 'router' => ['resource' => __DIR__.'/routes.yml'],
-                'templating' => ['engines' => ['twig']], /*(Kernel::MAJOR_VERSION < 2 ? ['engines' => ['twig']] : false),*/
+                'templating' => (Kernel::MAJOR_VERSION < 2 ? ['engines' => ['twig']] : (Kernel::MAJOR_VERSION < 4.1 ? false : '%kernel.debug%')),
                 'validation' => ['enable_annotations' => true],
                 'annotations' => true,
                 'test'   => true,
