@@ -137,7 +137,7 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('charset')->defaultValue('utf8')->end()
                             ->scalarNode('collation')->defaultValue('utf8_unicode_ci')->end()
                             ->scalarNode('prefix')->defaultValue('')->end()
-                            ->scalarNode('schema')->defaultValue('')->end()
+                            ->scalarNode('schema')->defaultValue(null)->end()
                         ->end()
                     ->end()
                 ->end() // connections
