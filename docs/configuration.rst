@@ -19,6 +19,11 @@ Full configuration
                 charset:   utf8
                 collation: utf8_unicode_ci
                 prefix:    ''
+                sticky: true
+                read:
+                  host: ['localhost']
+                write:
+                  host: ['localhost']
         default_connection: default
         eloquent: false
         aliases: false
@@ -42,6 +47,12 @@ setting directly to the root configuration:
         username: user
         password: pass
         prefix: symfo_
+        sticky: true
+        read:
+          host: ['localhost']
+        write:
+          host: ['localhost']
+
 
 This will create a connection called ``default``. If the defaults fits your
 needs, the minimal configuration to get started is:

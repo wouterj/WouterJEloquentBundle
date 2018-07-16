@@ -11,6 +11,8 @@
 
 namespace WouterJ\EloquentBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -78,6 +80,9 @@ class Configuration implements ConfigurationInterface
             ->end();
     }
 
+    /**
+     * @param ArrayNodeDefinition|NodeDefinition $node
+     */
     protected function addCapsuleSection($node)
     {
         $node
@@ -85,11 +90,11 @@ class Configuration implements ConfigurationInterface
                 ->ifTrue(function ($v) {
                     return is_array($v)
                         && !array_key_exists('connections', $v) && !array_key_exists('connection', $v)
-                        && count($v) !== count(array_diff(array_keys($v), ['driver', 'host', 'port', 'database', 'username', 'password', 'charset', 'collation', 'prefix']));
+                        && count($v) !== count(array_diff(array_keys($v), ['driver', 'host', 'port', 'database', 'username', 'password', 'charset', 'collation', 'prefix', 'read', 'write', 'sticky']));
                 })
                 ->then(function ($v) {
                     // Key that should be rewritten to the connection config
-                    $includedKeys = ['driver', 'host', 'port', 'database', 'username', 'password', 'charset', 'collation', 'prefix'];
+                    $includedKeys = ['driver', 'host', 'port', 'database', 'username', 'password', 'charset', 'collation', 'prefix', 'read', 'write', 'sticky'];
                     $connection = [];
                     foreach ($v as $key => $value) {
                         if (in_array($key, $includedKeys)) {
@@ -142,7 +147,36 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('password')->defaultValue('')->end()
                             ->scalarNode('charset')->defaultValue('utf8')->end()
                             ->scalarNode('collation')->defaultValue('utf8_unicode_ci')->end()
+                            ->booleanNode('sticky')->defaultValue(true)->end()
                             ->scalarNode('prefix')->defaultValue('')->end()
+                            ->arrayNode('write')
+                                ->children()
+                                    ->arrayNode('host')
+                                        ->prototype('scalar')->end()
+                                    ->end()
+                                    ->scalarNode('port')->end()
+                                    ->scalarNode('database')->end()
+                                    ->scalarNode('username')->end()
+                                    ->scalarNode('password')->end()
+                                    ->scalarNode('charset')->end()
+                                    ->scalarNode('collation')->end()
+                                    ->scalarNode('prefix')->end()
+                                ->end()
+                            ->end()
+                            ->arrayNode('read')
+                                ->children()
+                                    ->arrayNode('host')
+                                        ->prototype('scalar')->end()
+                                    ->end()
+                                    ->scalarNode('port')->end()
+                                    ->scalarNode('database')->end()
+                                    ->scalarNode('username')->end()
+                                    ->scalarNode('password')->end()
+                                    ->scalarNode('charset')->end()
+                                    ->scalarNode('collation')->end()
+                                    ->scalarNode('prefix')->end()
+                                ->end()
+                            ->end()
                         ->end()
                     ->end()
                 ->end() // connections
