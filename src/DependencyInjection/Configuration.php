@@ -26,8 +26,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $root = $treeBuilder->root('wouterj_eloquent');
+        $treeBuilder = new TreeBuilder('wouterj_eloquent');
+        $root = $treeBuilder->getRootNode();
 
         $this->addAliasesSection($root);
         $this->addCapsuleSection($root);
