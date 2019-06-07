@@ -23,6 +23,8 @@ class FacadeTest extends TestCase
     /** @test */
     public function it_accepts_object_accessors()
     {
+        $this->expectOutputString('');
+
         Fixture\ObjectFacade::foo();
     }
 

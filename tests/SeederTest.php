@@ -39,7 +39,7 @@ class SeederTest extends TestCase
     {
         Promise::containerHasService($this->container, 'foo_service', $this->seeder->reveal());
 
-        $this->subject->resolve('foo_service');
+        $this->assertSame( $this->seeder->reveal(), $this->subject->resolve('foo_service'));
     }
 
     /** @test */

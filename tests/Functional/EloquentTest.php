@@ -39,10 +39,22 @@ class EloquentTest extends KernelTestCase
             $table->timestamps();
         });
 
-        User::create([
+        $created = User::create([
             'name'     => 'John Doe',
             'email'    => 'j.doe@example.com',
             'password' => 'pa$$word',
+        ]);
+
+        $user = User::find($created->id);
+
+        $this->assertSame([
+            'name'     => 'John Doe',
+            'email'    => 'j.doe@example.com',
+            'password' => 'pa$$word',
+        ], [
+            'name'     => $user->name,
+            'email'    => $user->email,
+            'password' => $user->password,
         ]);
     }
 }
