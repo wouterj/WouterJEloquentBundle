@@ -12,6 +12,8 @@
 namespace WouterJ\EloquentBundle;
 
 use PHPUnit\Framework\BaseTestListener;
+use PHPUnit\Framework\TestListener;
+use PHPUnit\Framework\TestListenerDefaultImplementation;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\Test;
 
@@ -35,9 +37,12 @@ if (class_exists('PHPUnit_Runner_Version') && version_compare(\PHPUnit_Runner_Ve
             $this->listener->startTest($test);
         }
     }
+} elseif (class_exists('PHPUnit\\Runner\\Version') && version_compare(\PHPUnit\Runner\Version::id(), '7.0.0', '<')) {
 } else {
-    class FunctionalTestListener extends BaseTestListener
+    class FunctionalTestListener implements TestListener
     {
+        use TestListenerDefaultImplementation;
+
         private $listener;
 
         public function __construct()
@@ -45,12 +50,12 @@ if (class_exists('PHPUnit_Runner_Version') && version_compare(\PHPUnit_Runner_Ve
             $this->listener = new _FunctionalTestListener();
         }
 
-        public function startTestSuite(TestSuite $suite)
+        public function startTestSuite(TestSuite $suite): void
         {
             $this->listener->startTestSuite($suite);
         }
 
-        public function startTest(Test $test)
+        public function startTest(Test $test): void
         {
             $this->listener->startTest($test);
         }

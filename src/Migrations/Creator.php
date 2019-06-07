@@ -41,7 +41,7 @@ class Creator extends MigrationCreator
 
         file_put_contents($path, $this->populateStub($name, $stub, $table));
 
-        $this->firePostCreateHooks();
+        $this->firePostCreateHooks($table);
 
         return $path;
     }

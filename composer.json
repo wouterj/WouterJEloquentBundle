@@ -13,7 +13,8 @@
         , "jdorn/sql-formatter": "^1.2"
     }
     , "require-dev": {
-          "symfony/console": "^3.0 || ^4.0"
+          "phpspec/prophecy": "^1.8"
+        , "symfony/console": "^3.0 || ^4.0"
         , "symfony/event-dispatcher": "^3.0 || ^4.0"
         , "symfony/framework-bundle": "^3.0 || ^4.0"
         , "symfony/http-kernel": "^3.0 || ^4.0"
