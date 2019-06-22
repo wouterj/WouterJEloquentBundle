@@ -38,6 +38,25 @@ if (class_exists('PHPUnit_Runner_Version') && version_compare(\PHPUnit_Runner_Ve
         }
     }
 } elseif (class_exists('PHPUnit\\Runner\\Version') && version_compare(\PHPUnit\Runner\Version::id(), '7.0.0', '<')) {
+    class FunctionalTestListener extends BaseTestListener
+    {
+        private $listener;
+
+        public function __construct()
+        {
+            $this->listener = new _FunctionalTestListener();
+        }
+
+        public function startTestSuite(TestSuite $suite)
+        {
+            $this->listener->startTestSuite($suite);
+        }
+
+        public function startTest(Test $test)
+        {
+            $this->listener->startTest($test);
+        }
+    }
 } else {
     class FunctionalTestListener implements TestListener
     {
