@@ -11,55 +11,10 @@
 
 namespace WouterJ\EloquentBundle;
 
-use PHPUnit\Framework\BaseTestListener;
+use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestListener;
 use PHPUnit\Framework\TestListenerDefaultImplementation;
 use PHPUnit\Framework\TestSuite;
-use PHPUnit\Framework\Test;
-use PHPUnit\Runner\Version;
-
-if (version_compare(Version::id(), '8.0.0', '<')) {
-    class FunctionalTestListener extends BaseTestListener
-    {
-        private $listener;
-
-        public function __construct()
-        {
-            $this->listener = new _FunctionalTestListener();
-        }
-
-        public function startTestSuite(TestSuite $suite)
-        {
-            $this->listener->startTestSuite($suite);
-        }
-
-        public function startTest(Test $test)
-        {
-            $this->listener->startTest($test);
-        }
-    }
-} else {
-    class FunctionalTestListener implements TestListener
-    {
-        use TestListenerDefaultImplementation;
-        private $listener;
-
-        public function __construct()
-        {
-            $this->listener = new _FunctionalTestListener();
-        }
-
-        public function startTestSuite(TestSuite $suite): void
-        {
-            $this->listener->startTestSuite($suite);
-        }
-
-        public function startTest(Test $test): void
-        {
-            $this->listener->startTest($test);
-        }
-    }
-}
 
 /**
  * Automatically creates the database that's
@@ -67,13 +22,15 @@ if (version_compare(Version::id(), '8.0.0', '<')) {
  *
  * @author Wouter J <wouter@wouterj.nl>
  */
-class _FunctionalTestListener
+class FunctionalTestListener implements TestListener
 {
+    use TestListenerDefaultImplementation;
+
     private static $started = false;
     private static $dbFile;
     private static $backupFile;
 
-    public function startTestSuite($suite)
+    public function startTestSuite(TestSuite $suite): void
     {
         if (!self::$started) {
             self::$started = true;
@@ -108,7 +65,7 @@ class _FunctionalTestListener
         }
     }
 
-    public function startTest($test)
+    public function startTest(Test $test): void
     {
         // reset to initial file
         copy(static::$backupFile, static::$dbFile);

@@ -18,12 +18,13 @@ matrix:
       env: DEPS=dev
 
     - php: 7.1
-      env: COMPOSER_FLAGS="--prefer-lowest" SYMFONY_DEPRECATIONS_HELPER=23
+      env: COMPOSER_FLAGS="--prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="max[self]=23&max[direct]=4&max[indirect]=116"
 
-    - php: 7.2
-      env: LTS_VERSION=3 SYMFONY_DEPRECATIONS_HELPER=1
-    - php: 7.2
-      env: LTS_VERSION=4.x-dev SYMFONY_DEPRECATIONS_HELPER=1
+    - php: 7.3
+      env: SYMFONY_REQUIRE="3.*"
+
+    - php: 7.3
+      env: SYMFONY_REQUIRE="4.*" SYMFONY_DEPRECATIONS_HELPER="max[direct]=47&max[indirect]=95"
 
   allow_failures:
     - php: nightly
@@ -31,7 +32,7 @@ matrix:
 before_install:
   - set -eo pipefail
   - phpenv config-rm xdebug.ini || true
-  - if [ -n "$LTS_VERSION" ]; then composer require "symfony/lts:${LTS_VERSION}" --no-update; fi
+  - composer global require --no-progress --no-scripts --no-plugins symfony/flex dev-master
   - if [ "$DEPS" != "" ]; then perl -pi -e "s/^}\$/,\"minimum-stability\":\"$DEPS\"}/" composer.json; fi
 
 install: composer update --prefer-dist $COMPOSER_FLAGS
