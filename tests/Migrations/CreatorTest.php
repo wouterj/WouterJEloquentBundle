@@ -13,13 +13,16 @@ namespace WouterJ\EloquentBundle\Migrations;
 
 use Illuminate\Database\Schema\Blueprint;
 use PHPUnit\Framework\TestCase;
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 
 class CreatorTest extends TestCase
 {
+    use SetUpTearDownTrait;
+
     protected $subject;
     protected $migrationsPath;
 
-    protected function setUp()
+    protected function doSetUp()
     {
         $this->subject = new Creator();
         $this->migrationsPath = sys_get_temp_dir();

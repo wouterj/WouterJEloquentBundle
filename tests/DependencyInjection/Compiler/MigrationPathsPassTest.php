@@ -11,6 +11,7 @@
 
 namespace WouterJ\EloquentBundle\DependencyInjection\Compiler;
 
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
@@ -18,9 +19,11 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class MigrationPathsPassTest extends TestCase
 {
+    use SetUpTearDownTrait;
+
     private $container;
 
-    protected function setUp()
+    protected function doSetUp()
     {
         $this->container = new ContainerBuilder();
         $this->container->addCompilerPass(new MigrationPathsPass(), PassConfig::TYPE_OPTIMIZE);

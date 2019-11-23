@@ -3,18 +3,21 @@
 namespace WouterJ\EloquentBundle\Command;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SeederMakeCommandTest extends TestCase
 {
+    use SetUpTearDownTrait;
+
     private $input;
     private $output;
     private $command;
     private $projectDir;
 
-    protected function setUp()
+    protected function doSetUp()
     {
         $this->input = $this->prophesize(InputInterface::class);
         $this->output = $this->prophesize(OutputInterface::class);

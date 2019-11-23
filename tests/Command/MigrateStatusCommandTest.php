@@ -11,6 +11,7 @@
 
 namespace WouterJ\EloquentBundle\Command;
 
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\HelperSet;
@@ -28,11 +29,13 @@ use Prophecy\Argument;
  */
 class MigrateStatusCommandTest extends TestCase
 {
+    use SetUpTearDownTrait;
+
     private $command;
     private $repository;
     private $migrator;
 
-    protected function setUp()
+    protected function doSetUp()
     {
         $this->repository = $this->prophesize(MigrationRepositoryInterface::class);
         $this->repository->getRan()->willReturn([]);

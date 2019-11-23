@@ -11,6 +11,8 @@
 
 namespace WouterJ\EloquentBundle\DependencyInjection;
 
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use WouterJ\EloquentBundle\EventListener\EloquentInitializer;
 use WouterJ\EloquentBundle\EventListener\FacadeInitializer;
@@ -24,9 +26,11 @@ use WouterJ\EloquentBundle\WouterJEloquentBundle;
  */
 abstract class WouterJEloquentExtensionTest extends TestCase
 {
+    use SetUpTearDownTrait;
+
     protected $container;
 
-    protected function setUp()
+    protected function doSetUp()
     {
         $this->container = new ContainerBuilder();
         $this->container->setParameter('kernel.root_dir', sys_get_temp_dir());
@@ -111,11 +115,12 @@ abstract class WouterJEloquentExtensionTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
-     * @expectedExceptionMessage At least one connection must be configured
      */
     public function it_requires_at_least_one_connection()
     {
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('At least one connection must be configured');
+
         $this->load('no_connection');
     }
 

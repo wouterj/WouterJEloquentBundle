@@ -13,19 +13,20 @@ namespace WouterJ\EloquentBundle\EventListener;
 
 use Illuminate\Database\Capsule\Manager;
 use PHPUnit\Framework\TestCase;
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
 class EloquentInitializerTest extends TestCase
 {
+    use SetUpTearDownTrait;
+
     protected $capsule;
     protected $subject;
 
-    public function setUp()
+    protected function doSetUp()
     {
-        parent::setUp();
-
         $this->capsule = $this->prophesize(Manager::class);
         $this->subject = new EloquentInitializer($this->capsule->reveal());
     }

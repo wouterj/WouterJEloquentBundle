@@ -16,28 +16,9 @@ use PHPUnit\Framework\TestListener;
 use PHPUnit\Framework\TestListenerDefaultImplementation;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\Test;
+use PHPUnit\Runner\Version;
 
-if (class_exists('PHPUnit_Runner_Version') && version_compare(\PHPUnit_Runner_Version::id(), '6.0.0', '<')) {
-    class FunctionalTestListener extends \PHPUnit_Framework_BaseTestListener
-    {
-        private $listener;
-
-        public function __construct()
-        {
-            $this->listener = new _FunctionalTestListener();
-        }
-
-        public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
-        {
-            $this->listener->startTestSuite($suite);
-        }
-
-        public function startTest(\PHPUnit_Framework_Test $test)
-        {
-            $this->listener->startTest($test);
-        }
-    }
-} elseif (class_exists('PHPUnit\\Runner\\Version') && version_compare(\PHPUnit\Runner\Version::id(), '7.0.0', '<')) {
+if (version_compare(Version::id(), '8.0.0', '<')) {
     class FunctionalTestListener extends BaseTestListener
     {
         private $listener;
@@ -61,7 +42,6 @@ if (class_exists('PHPUnit_Runner_Version') && version_compare(\PHPUnit_Runner_Ve
     class FunctionalTestListener implements TestListener
     {
         use TestListenerDefaultImplementation;
-
         private $listener;
 
         public function __construct()

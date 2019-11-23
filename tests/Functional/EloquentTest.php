@@ -47,15 +47,9 @@ class EloquentTest extends KernelTestCase
 
         $user = User::find($created->id);
 
-        $this->assertSame([
-            'name'     => 'John Doe',
-            'email'    => 'j.doe@example.com',
-            'password' => 'pa$$word',
-        ], [
-            'name'     => $user->name,
-            'email'    => $user->email,
-            'password' => $user->password,
-        ]);
+        $this->assertEquals('John Doe', $user->name);
+        $this->assertEquals('j.doe@example.com', $user->email);
+        $this->assertEquals('pa$$word', $user->password);
     }
 }
 
