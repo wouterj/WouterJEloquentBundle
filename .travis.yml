@@ -25,12 +25,12 @@ matrix:
       env: COMPOSER_FLAGS="--prefer-lowest" SYMFONY_PHPUNIT_VERSION=5.7
 
     - php: 7.1
-      env: LTS_VERSION=2 SYMFONY_DEPRECATIONS_HELPER=23
+      env: LTS_VERSION=2
     - php: 7.1
       env: LTS_VERSION=3
 
     - php: 7.1
-      env: LTS_VERSION=4.*@dev SYMFONY_DEPRECATIONS_HELPER=1
+      env: LTS_VERSION=4.*@dev
 
   allow_failures:
     - php: nightly
