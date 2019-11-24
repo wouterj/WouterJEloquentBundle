@@ -3,12 +3,15 @@
 namespace WouterJ\EloquentBundle\Form;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 
 class EloquentModelTypeGuesserTest extends TestCase
 {
+    use SetUpTearDownTrait;
+
     protected $subject;
 
-    protected function setUp()
+    protected function doSetUp()
     {
         $this->subject = new EloquentModelTypeGuesser();
     }
