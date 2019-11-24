@@ -14,6 +14,7 @@ use AppBundle\Model\UserObserver;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\HttpKernel\Log\Logger;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
@@ -76,6 +77,11 @@ class TestKernel extends Kernel
                 ->addTag('controller.service_arguments')
                 ->setPublic(true)
                 ->setAutowired(true);
+
+            if (class_exists(Logger::class)) {
+                $container->register('logger', Logger::class)
+                    ->setArguments([null, '/dev/null']);
+            }
         });
     }
 }
