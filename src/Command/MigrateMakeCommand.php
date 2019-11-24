@@ -25,17 +25,16 @@ use WouterJ\EloquentBundle\Migrations\Migrator;
  */
 class MigrateMakeCommand extends BaseMigrateCommand
 {
-    /** @var Creator */
     private $creator;
 
-    public function __construct(Creator $creator, Migrator $migrator, $migrationPath, $kernelEnv)
+    public function __construct(Creator $creator, Migrator $migrator, string $migrationPath, string $kernelEnv)
     {
         parent::__construct($migrator, $migrationPath, $kernelEnv);
 
         $this->creator = $creator;
     }
 
-    public function configure()
+    public function configure(): void
     {
         $this->setName('eloquent:migrate:make')
             ->setDescription('Creates a new migration file')
@@ -55,7 +54,7 @@ EOT
         ;
     }
 
-    public function execute(InputInterface $i, OutputInterface $o)
+    public function execute(InputInterface $i, OutputInterface $o): int
     {
         $o->writeln([
             'Creating a Migration',
@@ -83,18 +82,15 @@ EOT
         $file = $this->writeMigrations($name, array_shift($paths), $table, (bool) $create);
 
         $o->writeln(sprintf('Migration `%s` is created!', $file));
+
+        return 0;
     }
 
-    private function writeMigrations($name, $path, $table, $create)
+    private function writeMigrations($name, $path, $table, $create): string
     {
         return pathinfo(
-            $this->getCreator()->create($name, $path, $table, $create),
+            $this->creator->create($name, $path, $table, $create),
             PATHINFO_FILENAME
         );
-    }
-
-    private function getCreator()
-    {
-        return $this->creator;
     }
 }

@@ -7,6 +7,7 @@ cache:
 env:
   global:
     - SYMFONY_PHPUNIT_REMOVE="symfony/yaml"
+    - SYMFONY_DEPRECATIONS_HELPER="max[direct]=0&max[indirect]=0"
 
 branches:
     only: [master, stable]
@@ -18,13 +19,13 @@ matrix:
       env: DEPS=dev
 
     - php: 7.1
-      env: COMPOSER_FLAGS="--prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="max[self]=23&max[direct]=4&max[indirect]=116"
+      env: COMPOSER_FLAGS="--prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="disabled=1"
 
     - php: 7.3
       env: SYMFONY_REQUIRE="3.*"
 
     - php: 7.3
-      env: SYMFONY_REQUIRE="4.*" SYMFONY_DEPRECATIONS_HELPER="max[direct]=47&max[indirect]=95"
+      env: SYMFONY_REQUIRE="4.*"
 
   allow_failures:
     - php: nightly

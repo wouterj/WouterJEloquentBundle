@@ -5,6 +5,7 @@ namespace WouterJ\EloquentBundle\Functional;
 use AppBundle\Model\CastingUser;
 use Illuminate\Database\Schema\Blueprint;
 use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use WouterJ\EloquentBundle\Facade\Db;
@@ -14,6 +15,9 @@ class FormTest extends WebTestCase
 {
     use SetUpTearDownTrait;
 
+    /** @var KernelBrowser */
+    private $client;
+
     protected static function getKernelClass()
     {
         return 'TestKernel';
@@ -21,7 +25,7 @@ class FormTest extends WebTestCase
 
     protected function doSetUp()
     {
-        static::bootKernel();
+        $this->client = static::createClient();
 
         if (!Schema::hasTable('users')) {
             Schema::create('users', function (Blueprint $table) {
@@ -37,9 +41,7 @@ class FormTest extends WebTestCase
 
     public function testFormTypeGuessing()
     {
-        $client = static::createClient();
-
-        $formView = $client->request('GET', '/user/create');
+        $formView = $this->client->request('GET', '/user/create');
         $inputs = [];
         $formView->filterXPath('.//input')->each(function (Crawler $node) use (&$inputs) {
             $inputs[trim(str_replace('form_', '', $node->attr('id')), '[]')] = $node->attr('type');
@@ -60,9 +62,7 @@ class FormTest extends WebTestCase
 
     public function testFormSubmission()
     {
-        $client = static::createClient();
-
-        $formView = $client->request('GET', '/user/create');
+        $formView = $this->client->request('GET', '/user/create');
         $form = $formView->selectButton('Submit')->form([
             'form[name]' => 'John Doe',
             'form[password]' => 's3cr3t',
@@ -71,7 +71,7 @@ class FormTest extends WebTestCase
             'form[date_of_birth][day]' => '20',
             'form[is_admin]' => false,
         ]);
-        $client->submit($form);
+        $this->client->submit($form);
 
         $user = CastingUser::where(['name' => 'John Doe'])->first();
         $this->assertNotNull($user);
@@ -85,9 +85,7 @@ class FormTest extends WebTestCase
 
     public function testFormValidation()
     {
-        $client = static::createClient();
-
-        $formView = $client->request('GET', '/user/create');
+        $formView = $this->client->request('GET', '/user/create');
         $form = $formView->selectButton('Submit')->form([
             'form[name]' => '',
             'form[password]' => 's3cr3t',
@@ -96,7 +94,7 @@ class FormTest extends WebTestCase
             'form[date_of_birth][day]' => '20',
             'form[is_admin]' => false,
         ]);
-        $crawler = $client->submit($form);
+        $crawler = $this->client->submit($form);
 
         $this->assertCount(1, $crawler->filterXPath('//li[text()="The username should not be blank."]'));
     }

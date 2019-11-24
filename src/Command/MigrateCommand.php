@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class MigrateCommand extends BaseMigrateCommand
 {
-    public function configure()
+    public function configure(): void
     {
         $this->setName('eloquent:migrate')
             ->setDescription('Executes a migration.')
@@ -44,10 +44,10 @@ EOT
         ;
     }
 
-    public function execute(InputInterface $i, OutputInterface $o)
+    public function execute(InputInterface $i, OutputInterface $o): int
     {
         if (!$i->getOption('force') && !$this->askConfirmationInProd($i, $o)) {
-            return;
+            return 1;
         }
 
         $this->getMigrator()->run($this->getMigrationPaths($i), [
@@ -62,5 +62,7 @@ EOT
         if ($i->getOption('seed')) {
             $this->call($o, 'eloquent:seed', ['--force' => true]);
         }
+
+        return 0;
     }
 }

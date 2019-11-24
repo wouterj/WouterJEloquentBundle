@@ -24,7 +24,7 @@ use Symfony\Component\Console\Helper\Table;
  */
 class MigrateStatusCommand extends BaseMigrateCommand
 {
-    public function configure()
+    public function configure(): void
     {
         $this->setName('eloquent:migrate:status')
             ->setDescription('Show the status of each migration')
@@ -41,7 +41,7 @@ EOT
         ;
     }
 
-    public function execute(InputInterface $i, OutputInterface $o)
+    public function execute(InputInterface $i, OutputInterface $o): int
     {
         $migrator = $this->getMigrator();
         $migrator->setConnection($i->getOption('database'));
@@ -66,5 +66,7 @@ EOT
             ->setRows($migrations);
 
         $table->render();
+
+        return 0;
     }
 }

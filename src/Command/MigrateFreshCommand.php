@@ -24,17 +24,16 @@ use WouterJ\EloquentBundle\Migrations\Migrator;
  */
 class MigrateFreshCommand extends BaseMigrateCommand
 {
-    /** @var DatabaseManager */
     private $db;
 
-    public function __construct(DatabaseManager $db, Migrator $migrator, $migrationPath, $kernelEnv)
+    public function __construct(DatabaseManager $db, Migrator $migrator, string $migrationPath, string $kernelEnv)
     {
         parent::__construct($migrator, $migrationPath, $kernelEnv);
 
         $this->db = $db;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('eloquent:migrate:fresh')
             ->setDescription('Drop all tables and re-run all migrations.')
@@ -48,11 +47,11 @@ class MigrateFreshCommand extends BaseMigrateCommand
         ;
     }
 
-    protected function execute(InputInterface $i, OutputInterface $o)
+    protected function execute(InputInterface $i, OutputInterface $o): int
     {
         $force = $i->getOption('force');
         if (!$force && !$this->askConfirmationInProd($i, $o)) {
-            return;
+            return 1;
         }
 
         $database = $i->getOption('database');
@@ -73,9 +72,11 @@ class MigrateFreshCommand extends BaseMigrateCommand
                 '--force'    => $force,
             ]);
         }
+
+        return 0;
     }
 
-    private function dropAllTables($database)
+    private function dropAllTables($database): void
     {
         $this->db->connection($database)
             ->getSchemaBuilder()
