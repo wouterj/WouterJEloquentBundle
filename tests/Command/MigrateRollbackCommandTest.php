@@ -11,6 +11,7 @@
 
 namespace WouterJ\EloquentBundle\Command;
 
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\DependencyInjection\Container;
 use WouterJ\EloquentBundle\Migrations\Migrator;
 use PHPUnit\Framework\TestCase;
@@ -21,10 +22,12 @@ use Prophecy\Argument;
  */
 class MigrateRollbackCommandTest extends TestCase
 {
+    use SetUpTearDownTrait;
+
     private $command;
     private $migrator;
 
-    protected function setUp()
+    protected function doSetUp()
     {
         $this->migrator = $this->prophesize(Migrator::class);
         $this->migrator->getNotes()->willReturn([]);

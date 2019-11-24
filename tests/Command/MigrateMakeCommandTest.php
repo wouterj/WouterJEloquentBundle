@@ -11,6 +11,7 @@
 
 namespace WouterJ\EloquentBundle\Command;
 
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -25,11 +26,13 @@ use Prophecy\Argument;
  */
 class MigrateMakeCommandTest extends TestCase
 {
+    use SetUpTearDownTrait;
+
     private $command;
     private $creator;
     private $migrator;
 
-    protected function setUp()
+    protected function doSetUp()
     {
         $this->creator = $this->prophesize(Creator::class);
         $this->migrator = $this->prophesize(Migrator::class);

@@ -12,15 +12,18 @@
 namespace WouterJ\EloquentBundle\Facade;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
 class AliasesLoaderTest extends TestCase
 {
+    use SetUpTearDownTrait;
+
     protected $subject;
 
-    public function setUp()
+    public function doSetUp()
     {
         $this->subject = new AliasesLoader();
         $this->subject->register();

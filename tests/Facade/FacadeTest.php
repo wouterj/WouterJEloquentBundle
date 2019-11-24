@@ -23,7 +23,7 @@ class FacadeTest extends TestCase
     /** @test */
     public function it_accepts_object_accessors()
     {
-        Fixture\ObjectFacade::foo();
+        $this->assertEquals(Fixture\Dummy::class, Fixture\ObjectFacade::foo());
     }
 
     /** @test */
@@ -35,12 +35,22 @@ class FacadeTest extends TestCase
 
         Facade::setContainer($container->reveal());
 
-        Fixture\ContainerFacade::foo();
+        $this->assertEquals(Dummy::class, DummyFacade::foo());
     }
 }
 
 class Dummy
 {
     public function foo()
-    { }
+    {
+        return __CLASS__;
+    }
+}
+
+class DummyFacade extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'facade_service';
+    }
 }

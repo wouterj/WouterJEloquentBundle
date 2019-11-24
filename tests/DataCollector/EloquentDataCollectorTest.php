@@ -12,17 +12,20 @@
 namespace WouterJ\EloquentBundle\DataCollector;
 
 use Illuminate\Database\Capsule\Manager;
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use PHPUnit\Framework\TestCase;
 
 class EloquentDataCollectorTest extends TestCase
 {
+    use SetUpTearDownTrait;
+
     private $capsule;
     private $queryListener;
     private $collector;
 
-    protected function setUp()
+    protected function doSetUp()
     {
         $this->capsule = $this->prophesize(Manager::class);
         $this->capsule->getContainer()->willReturn(['config' => ['database.connections' => []]]);

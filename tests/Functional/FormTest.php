@@ -4,6 +4,7 @@ namespace WouterJ\EloquentBundle\Functional;
 
 use AppBundle\Model\CastingUser;
 use Illuminate\Database\Schema\Blueprint;
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use WouterJ\EloquentBundle\Facade\Db;
@@ -11,12 +12,14 @@ use WouterJ\EloquentBundle\Facade\Schema;
 
 class FormTest extends WebTestCase
 {
+    use SetUpTearDownTrait;
+
     protected static function getKernelClass()
     {
         return 'TestKernel';
     }
 
-    protected function setUp()
+    protected function doSetUp()
     {
         static::bootKernel();
 
@@ -72,12 +75,12 @@ class FormTest extends WebTestCase
 
         $user = CastingUser::where(['name' => 'John Doe'])->first();
         $this->assertNotNull($user);
-        $this->assertArraySubset([
-            'name' => 'John Doe',
-            'password' => 's3cr3t',
-            'date_of_birth' => '2017-10-20 00:00:00',
-            'is_admin' => '0',
-        ], $user->getAttributes());
+
+        $userAttr = $user->getAttributes();
+        $this->assertEquals('John Doe', $userAttr['name']);
+        $this->assertEquals('s3cr3t', $userAttr['password']);
+        $this->assertEquals('2017-10-20 00:00:00', $userAttr['date_of_birth']);
+        $this->assertEquals('0', $userAttr['is_admin']);
     }
 
     public function testFormValidation()

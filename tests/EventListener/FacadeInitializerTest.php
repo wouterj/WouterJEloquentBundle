@@ -11,6 +11,7 @@
 
 namespace WouterJ\EloquentBundle\EventListener;
 
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\Facade\Facade;
 use WouterJ\EloquentBundle\Facade\AliasesLoader;
@@ -21,11 +22,13 @@ use PHPUnit\Framework\TestCase;
  */
 class FacadeInitializerTest extends TestCase
 {
+    use SetUpTearDownTrait;
+
     protected $loader;
     protected $container;
     protected $subject;
 
-    public function setUp()
+    public function doSetUp()
     {
         parent::setUp();
 
@@ -39,7 +42,8 @@ class FacadeInitializerTest extends TestCase
     {
         $this->subject->initialize();
 
-        $container = $this->readAttribute(Facade::class, 'container');
+        $refl = new \ReflectionClass(Facade::class);
+        $container = $refl->getStaticProperties()['container'];
         $this->assertSame($this->container->reveal(), $container);
     }
 

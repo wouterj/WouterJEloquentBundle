@@ -87,14 +87,14 @@ class TestCommand
 
     public function outputs($expected)
     {
-        Assert::assertContains($expected, $this->tester->getDisplay(true));
+        Assert::assertStringContainsString($expected, $this->tester->getDisplay(true));
 
         return $this;
     }
 
     public function doesNotOutput($notExpected)
     {
-        Assert::assertNotContains($notExpected, $this->tester->getDisplay(true));
+        Assert::assertStringNotContainsString($notExpected, $this->tester->getDisplay(true));
 
         return $this;
     }

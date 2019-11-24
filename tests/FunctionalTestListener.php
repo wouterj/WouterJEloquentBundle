@@ -11,51 +11,10 @@
 
 namespace WouterJ\EloquentBundle;
 
-use PHPUnit\Framework\BaseTestListener;
-use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\Test;
-
-if (class_exists('PHPUnit_Runner_Version') && version_compare(\PHPUnit_Runner_Version::id(), '6.0.0', '<')) {
-    class FunctionalTestListener extends \PHPUnit_Framework_BaseTestListener
-    {
-        private $listener;
-
-        public function __construct()
-        {
-            $this->listener = new _FunctionalTestListener();
-        }
-
-        public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
-        {
-            $this->listener->startTestSuite($suite);
-        }
-
-        public function startTest(\PHPUnit_Framework_Test $test)
-        {
-            $this->listener->startTest($test);
-        }
-    }
-} else {
-    class FunctionalTestListener extends BaseTestListener
-    {
-        private $listener;
-
-        public function __construct()
-        {
-            $this->listener = new _FunctionalTestListener();
-        }
-
-        public function startTestSuite(TestSuite $suite)
-        {
-            $this->listener->startTestSuite($suite);
-        }
-
-        public function startTest(Test $test)
-        {
-            $this->listener->startTest($test);
-        }
-    }
-}
+use PHPUnit\Framework\TestListener;
+use PHPUnit\Framework\TestListenerDefaultImplementation;
+use PHPUnit\Framework\TestSuite;
 
 /**
  * Automatically creates the database that's
@@ -63,13 +22,15 @@ if (class_exists('PHPUnit_Runner_Version') && version_compare(\PHPUnit_Runner_Ve
  *
  * @author Wouter J <wouter@wouterj.nl>
  */
-class _FunctionalTestListener
+class FunctionalTestListener implements TestListener
 {
+    use TestListenerDefaultImplementation;
+
     private static $started = false;
     private static $dbFile;
     private static $backupFile;
 
-    public function startTestSuite($suite)
+    public function startTestSuite(TestSuite $suite): void
     {
         if (!self::$started) {
             self::$started = true;
@@ -104,7 +65,7 @@ class _FunctionalTestListener
         }
     }
 
-    public function startTest($test)
+    public function startTest(Test $test): void
     {
         // reset to initial file
         copy(static::$backupFile, static::$dbFile);

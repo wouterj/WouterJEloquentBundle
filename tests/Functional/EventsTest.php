@@ -14,6 +14,7 @@ namespace WouterJ\EloquentBundle\Functional;
 use AppBundle\Model\User;
 use AppBundle\Model\SoftDeleteUser;
 use Illuminate\Database\Schema\Blueprint;
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use WouterJ\EloquentBundle\Facade\Schema;
 
@@ -22,6 +23,8 @@ use WouterJ\EloquentBundle\Facade\Schema;
  */
 abstract class EventsTest extends KernelTestCase
 {
+    use SetUpTearDownTrait;
+
     protected static function getKernelClass()
     {
         return 'TestKernel';
@@ -30,10 +33,8 @@ abstract class EventsTest extends KernelTestCase
     protected function reset() { }
     abstract protected function getLogs();
 
-    protected function setUp()
+    protected function doSetUp()
     {
-        parent::setUp();
-
         static::bootKernel();
 
         if (!Schema::hasTable('users')) {

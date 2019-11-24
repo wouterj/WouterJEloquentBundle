@@ -27,5 +27,7 @@ class ObjectFacade extends Facade
 class Dummy
 {
     public function foo()
-    { }
+    {
+        return __CLASS__;
+    }
 }

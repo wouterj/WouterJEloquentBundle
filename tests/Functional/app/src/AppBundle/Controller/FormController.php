@@ -4,11 +4,18 @@ namespace AppBundle\Controller;
 
 use AppBundle\Model\CastingUser;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class FormController extends Controller
+if (class_exists('Symfony\\Bundle\\FrameworkBundle\\Controller\\AbstractController')) {
+    class ParentFormController extends AbstractController {}
+} else {
+    class ParentFormController extends Controller {}
+}
+
+class FormController extends ParentFormController
 {
     public function create(Request $request)
     {

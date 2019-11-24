@@ -12,6 +12,7 @@
 namespace WouterJ\EloquentBundle\Command;
 
 use Illuminate\Database\DatabaseManager;
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use WouterJ\EloquentBundle\Seeder;
 use WouterJ\EloquentBundle\Promise;
 use WouterJ\EloquentBundle\Prediction;
@@ -25,11 +26,13 @@ use PHPUnit\Framework\TestCase;
  */
 class SeedCommandTest extends TestCase
 {
+    use SetUpTearDownTrait;
+
     protected $container;
     protected $command;
     protected $manager;
 
-    public function setUp()
+    public function doSetUp()
     {
         $this->container = $this->prophesize(ContainerInterface::class);
         $this->manager = $this->prophesize(DatabaseManager::class);
