@@ -13,12 +13,10 @@ use WouterJ\EloquentBundle\Seeder;
 class SeederMakeCommand extends Command
 {
     private $stubPath;
-    /** @var string */
     private $appDir;
-    /** @var array */
     private $bundles;
 
-    public function __construct($appDir, array $bundles)
+    public function __construct(string $appDir, array $bundles)
     {
         parent::__construct();
 
@@ -26,7 +24,7 @@ class SeederMakeCommand extends Command
         $this->bundles = $bundles;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('eloquent:make:seeder')
             ->setDescription('Create a new seeder class')
@@ -35,12 +33,12 @@ class SeederMakeCommand extends Command
         ;
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->stubPath = dirname((new \ReflectionClass(IlluminateSeeder::class))->getFileName()).'/Console/Seeds/stubs';
     }
 
-    protected function execute(InputInterface $i, OutputInterface $o)
+    protected function execute(InputInterface $i, OutputInterface $o): int
     {
         $name = $i->getArgument('name');
         $path = $i->getOption('target') ?: $this->getPath($name);
@@ -56,9 +54,11 @@ class SeederMakeCommand extends Command
         }
 
         file_put_contents($path, $this->buildClass($name));
+
+        return 0;
     }
 
-    private function buildClass($name)
+    private function buildClass($name): string
     {
         $lastPos = strrpos($name, '\\');
         $namespace = $lastPos ? substr($name, 0, $lastPos) : false;
@@ -75,7 +75,7 @@ class SeederMakeCommand extends Command
         return $stub;
     }
 
-    private function getPath($name)
+    private function getPath($name): string
     {
         $lastPos = strrpos($name, '\\');
         $namespace = str_replace('\\Seed', '', substr($name, 0, $lastPos));

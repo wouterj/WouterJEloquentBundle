@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class MigrateRefreshCommand extends BaseMigrateCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('eloquent:migrate:refresh')
             ->setDescription('Reset and re-run all migrations')
@@ -45,11 +45,11 @@ EOH
         ;
     }
 
-    protected function execute(InputInterface $i, OutputInterface $o)
+    protected function execute(InputInterface $i, OutputInterface $o): int
     {
         $force = $i->getOption('force');
         if (!$force && !$this->askConfirmationInProd($i, $o)) {
-            return;
+            return 1;
         }
 
         $database = $i->getOption('database');
@@ -83,5 +83,7 @@ EOH
                 '--force'    => $force,
             ]);
         }
+
+        return 0;
     }
 }

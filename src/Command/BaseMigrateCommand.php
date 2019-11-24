@@ -24,14 +24,14 @@ use WouterJ\EloquentBundle\Migrations\Migrator;
  */
 abstract class BaseMigrateCommand extends Command
 {
+    use ConfirmationTrait;
+
     /** @var Migrator */
     private $migrator;
-    /** @var */
     private $migrationPath;
-    /** @var */
     private $kernelEnv;
 
-    public function __construct(Migrator $migrator, $migrationPath, $kernelEnv)
+    public function __construct(Migrator $migrator, string $migrationPath, string $kernelEnv)
     {
         parent::__construct();
 
@@ -40,12 +40,12 @@ abstract class BaseMigrateCommand extends Command
         $this->kernelEnv = $kernelEnv;
     }
 
-    protected function getMigrationPath()
+    protected function getMigrationPath(): string
     {
         return $this->migrationPath;
     }
 
-    protected function getMigrationPaths(InputInterface $input = null)
+    protected function getMigrationPaths(InputInterface $input = null): array
     {
         if (null !== $input && $input->hasOption('path') && null !== $path = $input->getOption('path')) {
             return [getcwd().'/'.$path];
@@ -54,23 +54,12 @@ abstract class BaseMigrateCommand extends Command
         return array_merge([$this->getMigrationPath()], $this->getMigrator()->paths());
     }
 
-    protected function askConfirmationInProd(InputInterface $i, OutputInterface $o)
-    {
-        if ('prod' !== $this->kernelEnv) {
-            return true;
-        }
-
-        return $this->getHelper('question')
-            ->ask($i, $o, new ConfirmationQuestion('Are you sure you want to execute the migrations in production?', false));
-    }
-
-    /** @return Migrator */
-    protected function getMigrator()
+    protected function getMigrator(): Migrator
     {
         return $this->migrator;
     }
 
-    protected function call(OutputInterface $o, $name, array $arguments)
+    protected function call(OutputInterface $o, $name, array $arguments): void
     {
         $command = $this->getApplication()->find($name);
         $command->run(new ArrayInput($arguments), $o);

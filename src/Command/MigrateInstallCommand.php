@@ -24,7 +24,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class MigrateInstallCommand extends Command
 {
-    /** @var MigrationRepositoryInterface */
     private $migrationRepository;
 
     public function __construct(MigrationRepositoryInterface $migrationRepository)
@@ -34,7 +33,7 @@ class MigrateInstallCommand extends Command
         $this->migrationRepository = $migrationRepository;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('eloquent:migrate:install')
             ->setDescription('Creates the migration repository.')
@@ -42,12 +41,14 @@ class MigrateInstallCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $i, OutputInterface $o)
+    protected function execute(InputInterface $i, OutputInterface $o): int
     {
         $repository = $this->migrationRepository;
         $repository->setSource($i->getOption('database'));
         $repository->createRepository();
 
         $o->writeln('<comment>Migration table created successfully.</>');
+
+        return 0;
     }
 }

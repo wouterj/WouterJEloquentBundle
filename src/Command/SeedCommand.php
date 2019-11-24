@@ -28,16 +28,14 @@ use WouterJ\EloquentBundle\Seeder;
  */
 class SeedCommand extends Command
 {
-    /** @var ContainerInterface */
+    use ConfirmationTrait;
+
     private $container;
-    /** @var DatabaseManager */
     private $resolver;
-    /** @var array */
     private $bundles;
-    /** @var */
     private $kernelEnv;
 
-    public function __construct(ContainerInterface $container, DatabaseManager $resolver, array $bundles, $kernelEnv)
+    public function __construct(ContainerInterface $container, DatabaseManager $resolver, array $bundles, string $kernelEnv)
     {
         parent::__construct();
 
@@ -47,7 +45,7 @@ class SeedCommand extends Command
         $this->kernelEnv = $kernelEnv;
     }
 
-    public function configure()
+    public function configure(): void
     {
         $this->setName('eloquent:seed')
             ->setDescription('Seed the database with records')
@@ -78,10 +76,10 @@ EOT
         ;
     }
 
-    public function execute(InputInterface $i, OutputInterface $o)
+    public function execute(InputInterface $i, OutputInterface $o): int
     {
         if (!$i->getOption('force') && !$this->askConfirmationInProd($i, $o)) {
-            return;
+            return 1;
         }
 
         $seeders = $this->getSeeders($i->getArgument('class'));
@@ -103,9 +101,11 @@ EOT
                 $o->writeln('<info>Seeded:</info> '.$class);
             }
         }
+
+        return 0;
     }
 
-    private function getSeeders($classes = null)
+    private function getSeeders($classes = null): array
     {
         if (0 === count($classes)) {
             return $this->getDatabaseSeederFromBundles();
@@ -121,7 +121,7 @@ EOT
         return $seeders;
     }
 
-    private function getDatabaseSeederFromBundles()
+    private function getDatabaseSeederFromBundles(): array
     {
         $seeders = [];
 
@@ -141,22 +141,12 @@ EOT
         return $seeders;
     }
 
-    private function resolve($class)
+    private function resolve($class): Seeder
     {
         $s = new NoActionSeeder();
         $s->setSfContainer($this->container);
 
         return $s->resolve($class);
-    }
-
-    private function askConfirmationInProd(InputInterface $i, OutputInterface $o)
-    {
-        if ('prod' !== $this->kernelEnv) {
-            return true;
-        }
-
-        return $this->getHelper('question')
-            ->ask($i, $o, new ConfirmationQuestion('Are you sure you want to execute the migrations in production?', false));
     }
 }
 

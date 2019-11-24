@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class MigrateRollbackCommand extends BaseMigrateCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('eloquent:migrate:rollback')
             ->setDescription('Rollback the last database migration')
@@ -42,10 +42,10 @@ EOH
         ;
     }
 
-    protected function execute(InputInterface $i, OutputInterface $o)
+    protected function execute(InputInterface $i, OutputInterface $o): int
     {
         if (!$i->getOption('force') && !$this->askConfirmationInProd($i, $o)) {
-            return;
+            return 1;
         }
 
         $migrator = $this->getMigrator();
@@ -58,5 +58,7 @@ EOH
         foreach ($migrator->getNotes() as $note) {
             $o->writeln($note);
         }
+
+        return 0;
     }
 }
