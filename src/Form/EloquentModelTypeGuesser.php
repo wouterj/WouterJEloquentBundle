@@ -17,8 +17,10 @@ class EloquentModelTypeGuesser implements FormTypeGuesserInterface
 {
     public function guessType($class, $property)
     {
-        /** @var Model $model */
         $model = (new \ReflectionClass($class))->newInstanceWithoutConstructor();
+        if (!$model instanceof Model) {
+            return null;
+        }
 
         $casts = $model->getCasts();
         switch ($casts[$property] ?? 'other') {
@@ -46,11 +48,17 @@ class EloquentModelTypeGuesser implements FormTypeGuesserInterface
     }
 
     public function guessRequired($class, $property)
-    {}
+    {
+        return null;
+    }
 
     public function guessMaxLength($class, $property)
-    {}
+    {
+        return null;
+    }
 
     public function guessPattern($class, $property)
-    {}
+    {
+        return null;
+    }
 }
