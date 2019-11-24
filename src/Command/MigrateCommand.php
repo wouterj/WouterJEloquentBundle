@@ -11,7 +11,7 @@
 
 namespace WouterJ\EloquentBundle\Command;
 
-use Symfony\Component\Console\Input\ArrayInput;
+use Illuminate\Console\OutputStyle;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -50,13 +50,20 @@ EOT
             return 1;
         }
 
+        $illuminateLte56 = method_exists($this->getMigrator(), 'getNotes');
+        if (!$illuminateLte56) {
+            $this->getMigrator()->setOutput(new OutputStyle($i, $o));
+        }
+
         $this->getMigrator()->run($this->getMigrationPaths($i), [
             'pretend' => $i->getOption('pretend'),
             'step'    => $i->getOption('step'),
         ]);
 
-        foreach ($this->getMigrator()->getNotes() as $note) {
-            $o->writeln($note);
+        if ($illuminateLte56) {
+            foreach ($this->getMigrator()->getNotes() as $note) {
+                $o->writeln($note);
+            }
         }
 
         if ($i->getOption('seed')) {

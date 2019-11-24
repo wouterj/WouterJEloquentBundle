@@ -38,7 +38,7 @@ class MigrationsTest extends KernelTestCase
 
         $app->run(['command' => 'eloquent:migrate', '--seed' => true], ['decorated' => false]);
 
-        $this->assertRegexp('/^Migrated:\s+2015_02_16_203700_CreateUsersTable$/m', $app->getDisplay());
+        $this->assertRegexp('/^Migrated:\s+2015_02_16_203700_CreateUsersTable\s/m', $app->getDisplay());
 
         $result = Db::select('select * from users');
         $this->assertCount(1, $result);

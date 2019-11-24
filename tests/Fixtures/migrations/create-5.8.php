@@ -14,7 +14,7 @@ class CreateMigration extends Migration
     public function up()
     {
         Schema::create('SomeTable', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ class CreateMigration extends Migration
      */
     public function down()
     {
-        Schema::drop('SomeTable');
+        Schema::dropIfExists('SomeTable');
     }
 }

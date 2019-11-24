@@ -64,8 +64,11 @@ class CreatorTest extends TestCase
 
         switch ($name) {
             case 'create':
-                $version = method_exists(Blueprint::class, 'dropSoftDeletesTz') ? 'new' : 'old';
-                $expected = $normalize(file_get_contents(__DIR__.'/../Fixtures/migrations/'.$name.'-'.$version.'.php'));
+                if (method_exists(Blueprint::class, 'integerIncrements')) {
+                    $name .= '-5.8';
+                }
+
+                $expected = $normalize(file_get_contents(__DIR__.'/../Fixtures/migrations/'.$name.'.php'));
 
                 break;
             default:
