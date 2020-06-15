@@ -13,7 +13,10 @@
     </filter>
 
     <listeners>
-        <listener class="WouterJ\EloquentBundle\FunctionalTestListener"/>
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
     </listeners>
+
+    <extensions>
+        <extension class="WouterJ\EloquentBundle\FunctionalTestListener"/>
+    </extensions>
 </phpunit>

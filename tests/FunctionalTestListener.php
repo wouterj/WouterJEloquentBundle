@@ -11,10 +11,8 @@
 
 namespace WouterJ\EloquentBundle;
 
-use PHPUnit\Framework\Test;
-use PHPUnit\Framework\TestListener;
-use PHPUnit\Framework\TestListenerDefaultImplementation;
-use PHPUnit\Framework\TestSuite;
+use PHPUnit\Runner\BeforeFirstTestHook;
+use PHPUnit\Runner\BeforeTestHook;
 
 /**
  * Automatically creates the database that's
@@ -22,15 +20,13 @@ use PHPUnit\Framework\TestSuite;
  *
  * @author Wouter J <wouter@wouterj.nl>
  */
-class FunctionalTestListener implements TestListener
+class FunctionalTestListener implements BeforeFirstTestHook, BeforeTestHook
 {
-    use TestListenerDefaultImplementation;
-
     private static $started = false;
     private static $dbFile;
     private static $backupFile;
 
-    public function startTestSuite(TestSuite $suite): void
+    public function executeBeforeFirstTest(): void
     {
         if (!self::$started) {
             self::$started = true;
@@ -65,7 +61,7 @@ class FunctionalTestListener implements TestListener
         }
     }
 
-    public function startTest(Test $test): void
+    public function executeBeforeTest(string $test): void
     {
         // reset to initial file
         copy(static::$backupFile, static::$dbFile);
