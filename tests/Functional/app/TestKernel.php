@@ -59,11 +59,11 @@ class TestKernel extends Kernel
                 'connections' => [
                     'default' => [
                         'driver'   => 'sqlite',
-                        'database' => '%kernel.root_dir%/test.sqlite',
+                        'database' => '%kernel.project_dir%/test.sqlite',
                     ],
                     'conn2' => [
                         'driver'   => 'sqlite',
-                        'database' => '%kernel.root_dir%/test1.sqlite'
+                        'database' => '%kernel.project_dir%/test1.sqlite'
                     ],
                 ],
                 'aliases'  => true,

@@ -64,8 +64,9 @@ class CreatorTest extends TestCase
 
         switch ($name) {
             case 'create':
-                if (method_exists(Blueprint::class, 'integerIncrements')) {
-                    $name .= '-5.8';
+                $eloquent7 = file_exists($this->subject->stubPath().'/migration.stub');
+                if (!$eloquent7) {
+                    $name .= '-6';
                 }
 
                 $expected = $normalize(file_get_contents(__DIR__.'/../Fixtures/migrations/'.$name.'.php'));

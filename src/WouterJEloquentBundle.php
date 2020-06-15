@@ -16,7 +16,6 @@ use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use WouterJ\EloquentBundle\DependencyInjection\Compiler\AddCasterPass;
 use WouterJ\EloquentBundle\DependencyInjection\Compiler\ObserverPass;
-use WouterJ\EloquentBundle\DependencyInjection\Compiler\SymfonyBackwardsCompatibilityPass;
 use Doctrine\Common\Annotations\AnnotationReader;
 
 /**
@@ -35,7 +34,6 @@ class WouterJEloquentBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new ObserverPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 80);
-        $container->addCompilerPass(new SymfonyBackwardsCompatibilityPass());
         $container->addCompilerPass(new AddCasterPass());
     }
 

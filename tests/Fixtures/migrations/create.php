@@ -14,7 +14,7 @@ class CreateMigration extends Migration
     public function up()
     {
         Schema::create('SomeTable', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->timestamps();
         });
     }

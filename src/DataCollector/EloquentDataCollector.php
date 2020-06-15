@@ -33,7 +33,7 @@ class EloquentDataCollector extends DataCollector
         $this->symfonyVersion = floatval(\Symfony\Component\HttpKernel\Kernel::VERSION);
     }
 
-    public function collect(Request $request, Response $response, \Exception $exception = null)
+    public function collect(Request $request, Response $response, ?\Throwable $exception = null)
     {
         $connections = array_map(function ($config) {
             return ($this->symfonyVersion < 3.2) ? $this->varToString($config) : $this->cloneVar($config);

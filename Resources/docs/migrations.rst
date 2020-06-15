@@ -58,7 +58,7 @@ Generating Migrations
 
     $ php bin/console eloquent:migrate:make create_flights_table
 
-This will generate a migration file in ``app/migrations``.
+This will generate a migration file in ``src/migrations``.
 
 By specifying the ``--create`` and ``-table`` options, the generator
 will also generate some bootstrap code for you. The ``--table`` option
