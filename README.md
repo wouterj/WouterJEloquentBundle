@@ -10,11 +10,7 @@ If you wish to use the [Symfony Serializer][serializer] with [Eloquent Models][e
 
 ## Supported versions
 
-|                 | Laravel 5.5 | Laravel 5.x | Laravel 6.x |
-| --------------- | ----------- | ----------- | ----------- |
-| **Symfony 2.x** | 1.0.x       | 1.x         | -           |
-| **Symfony 3.x** | 1.0.x       | 1.x         | 2.x         |
-| **Symfony 4.x** | 1.0.x       | 1.x         | 2.x         |
+This bundle supports Symfony 4.4 and Laravel ^6.18.
 
 [Contribute to this repository](#contributing) to this repository if you want
 to add support for other versions.
@@ -44,34 +40,22 @@ file of your project:
 
 ```php
 <?php
-// app/AppKernel.php
+// config/bundles.php
 
-// ...
-class AppKernel extends Kernel
-{
-    public function registerBundles()
-    {
-        $bundles = array(
-            // ...
-
-            new WouterJ\EloquentBundle\WouterJEloquentBundle(),
-        );
-
-        // ...
-    }
-
+return [
     // ...
-}
+    WouterJ\EloquentBundle\WouterJEloquentBundle::class => ['all' => true],
+];
 ```
 
 
 ### Step 3: Configure the Database
 
 To use the Eloquent ORM, configure a connection by setting the correct environment
-variables in `.env`:
+variables in `.env.local`:
 
 ```ini
-# .env
+# .env.local
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
@@ -129,7 +113,7 @@ For more information, refer to [the documentation](#table-of-content) below.
         1. [Default connection](Resources/docs/configuration.rst#default-connection)
     1. [Eloquent](Resources/docs/configuration.rst#eloquent)
     1. [Aliases](Resources/docs/configuration.rst#aliases)
-1. [License][LICENSE]
+1. [License][license]
 1. [Contributing](#contributing)
 1. [Backwards Compatibility](#backwards-compatibility)
 
@@ -147,25 +131,10 @@ advocate this bundle or just say "hello". I welcome anything that makes this
 project better.
 
 
-## Backwards Compatibility
-
-This bundle follows SemVer, meaning that no minor (`1.x`) release will contain
-BC breaks. A new major version is released as soon as BC breaks are introduced.
-These will be explained in detail in the `UPGRADE-*.md` file shipped with the
-source code.
-
-Classes or methods with the `@internal` PHPdoc annotation are not meant to use
-or extend.  Backwards compatibility is not guaranteed. Classes or methods with
-the `@final` PHPdoc annotation are only meant for usage. Backwards
-compatibility when extending these classes is not guaranteed.
-
-
 [serializer]: http://symfony.com/doc/current/components/serializer.html
 [eloquent-model]: https://laravel.com/docs/5.4/eloquent#eloquent-model-conventions
 [eloquent-serializer]: https://github.com/theofidry/EloquentSerializer/blob/master/README.md
 [eloquent]: http://laravel.com/docs/database
 [composer]: https://getcomposer.org/doc/00-intro.md
 [symfony-flex]: https://symfony.com/doc/current/setup/flex.html
-[docs]: Resources/docs/index.rst
 [license]: LICENSE
-[cs]: http://symfony.com/doc/current/contributing/code/standards.html
