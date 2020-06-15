@@ -42,6 +42,7 @@ class FormTest extends WebTestCase
     public function testFormTypeGuessing()
     {
         $formView = $this->client->request('GET', '/user/create');
+        preg_match('/\<select.+?\>/', $this->client->getResponse()->getContent(), $m);
         $inputs = [];
         $formView->filterXPath('.//input')->each(function (Crawler $node) use (&$inputs) {
             $inputs[trim(str_replace('form_', '', $node->attr('id')), '[]')] = $node->attr('type');

@@ -50,11 +50,7 @@ EOH
 
         $migrator = $this->getMigrator();
         $migrator->setConnection($i->getOption('database'));
-
-        $illuminateLte56 = method_exists($migrator, 'getNotes');
-        if (!$illuminateLte56) {
-            $migrator->setOutput(new OutputStyle($i, $o));
-        }
+        $migrator->setOutput(new OutputStyle($i, $o));
 
         if (!$migrator->repositoryExists()) {
             $o->writeln('<error>Migration table not found.</>');
@@ -63,12 +59,6 @@ EOH
         }
 
         $migrator->reset($this->getMigrationPaths($i), $i->getOption('pretend'));
-
-        if ($illuminateLte56) {
-            foreach ($migrator->getNotes() as $note) {
-                $o->writeln($note);
-            }
-        }
 
         return 0;
     }

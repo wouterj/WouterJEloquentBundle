@@ -1,8 +1,8 @@
 <?php
 
-use WouterJ\EloquentBundle\Facade\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use WouterJ\EloquentBundle\Facade\Schema;
 
 class BlankMigration extends Migration
 {

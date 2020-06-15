@@ -51,22 +51,12 @@ EOH
 
         $migrator = $this->getMigrator();
         $migrator->setConnection($i->getOption('database'));
-
-        $illuminateLte56 = method_exists($migrator, 'getNotes');
-        if (!$illuminateLte56) {
-            $migrator->setOutput(new OutputStyle($i, $o));
-        }
+        $migrator->setOutput(new OutputStyle($i, $o));
 
         $migrator->rollback($this->getMigrationPaths($i), [
             'pretend' => $i->getOption('pretend'),
             'step'    => (int) $i->getOption('step'),
         ]);
-
-        if ($illuminateLte56) {
-            foreach ($migrator->getNotes() as $note) {
-                $o->writeln($note);
-            }
-        }
 
         return 0;
     }
