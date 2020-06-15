@@ -50,21 +50,12 @@ EOT
             return 1;
         }
 
-        $illuminateLte56 = method_exists($this->getMigrator(), 'getNotes');
-        if (!$illuminateLte56) {
-            $this->getMigrator()->setOutput(new OutputStyle($i, $o));
-        }
+        $this->getMigrator()->setOutput(new OutputStyle($i, $o));
 
         $this->getMigrator()->run($this->getMigrationPaths($i), [
             'pretend' => $i->getOption('pretend'),
             'step'    => $i->getOption('step'),
         ]);
-
-        if ($illuminateLte56) {
-            foreach ($this->getMigrator()->getNotes() as $note) {
-                $o->writeln($note);
-            }
-        }
 
         if ($i->getOption('seed')) {
             $this->call($o, 'eloquent:seed', ['--force' => true]);
