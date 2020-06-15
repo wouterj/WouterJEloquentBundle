@@ -67,8 +67,8 @@ class MigrateFreshCommand extends BaseMigrateCommand
 
         if ($i->getOption('seed') || $i->getOption('seeder')) {
             $this->call($o, 'eloquent:seed', [
+                'class'      => [$i->getOption('seeder') ?: 'DatabaseSeeder'],
                 '--database' => $database,
-                '--class'    => $i->getOption('seeder') ?: 'DatabaseSeeder',
                 '--force'    => $force,
             ]);
         }
