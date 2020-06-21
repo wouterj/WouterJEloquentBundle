@@ -130,23 +130,4 @@ class MigrateRollbackCommandTest extends TestCase
 
         TestCommand::create($this->command)->passing('--pretend')->duringExecute();
     }
-
-    /** @test */
-    public function it_outputs_migration_notes()
-    {
-        if (!method_exists(Migrator::class, 'getNotes')) {
-            $this->markTestSkipped('Only applies to Illuminate <5.7');
-        }
-
-        $this->migrator->getNotes()->willReturn([
-            'Rolled back: CreateFlightsTable',
-            'Rolled back: SomethingToTest',
-        ]);
-
-        $this->migrator->rollback(Argument::cetera())->shouldBeCalled();
-
-        TestCommand::create($this->command)
-            ->execute()
-            ->outputs("Rolled back: CreateFlightsTable\nRolled back: SomethingToTest");
-    }
 }

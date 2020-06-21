@@ -126,25 +126,6 @@ class MigrateResetCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_outputs_migration_notes()
-    {
-        if (!method_exists(Migrator::class, 'getNotes')) {
-            $this->markTestSkipped('Only applies to Illuminate <5.7');
-        }
-
-        $this->migrator->getNotes()->willReturn([
-            'Rolled back: CreateFlightsTable',
-            'Rolled back: SomethingToTest',
-        ]);
-
-        $this->migrator->reset(Argument::cetera())->shouldBeCalled();
-
-        TestCommand::create($this->command)
-            ->execute()
-            ->outputs("Rolled back: CreateFlightsTable\nRolled back: SomethingToTest");
-    }
-
-    /** @test */
     public function it_stops_when_repository_does_not_exists()
     {
         $this->migrator->repositoryExists()->willReturn(false);

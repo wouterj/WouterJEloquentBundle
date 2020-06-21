@@ -154,25 +154,4 @@ class MigrateCommandTest extends TestCase
 
         TestCommand::create($command)->passing('--seed')->duringExecute();
     }
-
-    /** @test */
-    public function it_outputs_migration_notes()
-    {
-        if (!method_exists(Migrator::class, 'getNotes')) {
-            $this->markTestSkipped('Only applies to Illuminate <5.7');
-        }
-
-        $command = new MigrateCommand($this->migrator->reveal(), __DIR__.'/migrations', 'dev');
-
-        $this->migrator->getNotes()->willReturn([
-            'Migrated: CreateFlightsTable',
-            'Migrated: SomethingToTest',
-        ]);
-
-        $this->migrator->run(Argument::cetera())->shouldBeCalled();
-
-        TestCommand::create($command)
-            ->execute()
-            ->outputs("Migrated: CreateFlightsTable\nMigrated: SomethingToTest");
-    }
 }

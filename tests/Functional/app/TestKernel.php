@@ -41,7 +41,7 @@ class TestKernel extends Kernel
         $loader->load(function (ContainerBuilder $container) {
             $container->loadFromExtension('framework', [
                 'secret' => 'abc123',
-                'router' => ['resource' => __DIR__.'/routes.yml'],
+                'router' => ['resource' => __DIR__.'/routes.yml', 'utf8' => true],
                 'validation' => ['enable_annotations' => true],
                 'annotations' => true,
                 'test'   => true,
