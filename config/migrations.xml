@@ -3,9 +3,7 @@
 
     <parameters>
         <parameter key="wouterj_eloquent.migrations.table">migrations</parameter>
-        <parameter key="wouterj_eloquent.migration_path">%kernel.root_dir%/migrations</parameter>
-        <parameter key="wouterj_eloquent.app_seeder_path">%kernel.project_dir%/src</parameter>
-        <parameter key="wouterj_eloquent.project_path">%kernel.project_dir%</parameter>
+        <parameter key="wouterj_eloquent.migration_path">%kernel.project_dir%/migrations</parameter>
     </parameters>
 
     <services>
@@ -95,7 +93,7 @@
         </service>
 
         <service id="wouterj_eloquent.commands.seed_make" class="WouterJ\EloquentBundle\Command\SeederMakeCommand">
-            <argument>%wouterj_eloquent.project_path%</argument>
+            <argument>%kernel.project_dir%/src</argument>
             <argument>%kernel.bundles%</argument>
 
             <tag name="console.command" command="eloquent:make:seeder"/>

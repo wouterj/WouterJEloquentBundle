@@ -41,7 +41,7 @@ class TestKernel extends Kernel
         $loader->load(function (ContainerBuilder $container) {
             $container->loadFromExtension('framework', [
                 'secret' => 'abc123',
-                'router' => ['resource' => __DIR__.'/routes.yml'],
+                'router' => ['resource' => __DIR__.'/routes.yml', 'utf8' => true],
                 'validation' => ['enable_annotations' => true],
                 'annotations' => true,
                 'test'   => true,
@@ -59,11 +59,11 @@ class TestKernel extends Kernel
                 'connections' => [
                     'default' => [
                         'driver'   => 'sqlite',
-                        'database' => '%kernel.root_dir%/test.sqlite',
+                        'database' => '%kernel.project_dir%/test.sqlite',
                     ],
                     'conn2' => [
                         'driver'   => 'sqlite',
-                        'database' => '%kernel.root_dir%/test1.sqlite'
+                        'database' => '%kernel.project_dir%/test1.sqlite'
                     ],
                 ],
                 'aliases'  => true,

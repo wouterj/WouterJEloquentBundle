@@ -43,11 +43,6 @@ class ObserverPass implements CompilerPassInterface
             $observers[$container->getDefinition($id)->getClass()] = $lazyInjection ? new ServiceClosureArgument(new Reference($id)) : $id;
         }
 
-        if ($lazyInjection) {
-            $definition->replaceArgument(0, (new Definition(ServiceLocator::class, [$observers]))->addTag('container.service_locator'));
-        } else {
-            // Backwards compatibility with Symfony <3.3
-            $definition->replaceArgument(1, $observers);
-        }
+        $definition->replaceArgument(0, (new Definition(ServiceLocator::class, [$observers]))->addTag('container.service_locator'));
     }
 }

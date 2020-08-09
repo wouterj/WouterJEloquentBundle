@@ -1,10 +1,17 @@
 Changelog
 =========
 
+2.0.0
+-----
+
+ * Added Laravel ^7.15 support
+ * Deleted second argument of `ServiceContainerDispatcher`
+
 1.2.0
 -----
 
  * Added Laravel ^6.18 support
+ * Dropped Laravel <6 support
  * Dropped Symfony <4.4 support
  * Dropped PHP <7.2 support
 

@@ -16,8 +16,7 @@
         </service>
 
         <service id="wouterj_eloquent.events" class="WouterJ\EloquentBundle\Events\ServiceContainerDispatcher">
-            <argument type="service" id="service_container" />
-            <argument type="collection" /> <!-- deprecated -->
+            <argument /> <!-- wouterj_eloquent.observer locator -->
         </service>
     </services>
 </container>

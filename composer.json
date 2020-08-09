@@ -7,43 +7,42 @@
 
     , "require": {
           "php": "^7.2"
-        , "illuminate/database": "^6.18"
-        , "illuminate/events": "^6.18"
-        , "illuminate/console": "^6.18"
-        , "symfony/dependency-injection": "^4.4"
+        , "illuminate/database": "^6.18 || ^7.15"
+        , "illuminate/events": "^6.18 || ^7.15"
+        , "illuminate/console": "^6.18 || ^7.15"
+        , "symfony/dependency-injection": "^4.4 || ^5.0"
         , "jdorn/sql-formatter": "^1.2"
     }
     , "require-dev": {
-          "symfony/console": "^4.4"
-        , "symfony/event-dispatcher": "^4.4"
-        , "symfony/framework-bundle": "^4.4"
-        , "symfony/http-kernel": "^4.4"
-        , "symfony/finder": "^4.4"
-        , "symfony/debug": "^4.4"
-        , "symfony/yaml": "^4.4"
-        , "symfony/form": "^4.4"
-        , "symfony/phpunit-bridge": "^4.4"
-        , "symfony/browser-kit": "^4.4"
-        , "symfony/dom-crawler": "^4.4"
-        , "symfony/validator": "^4.4"
-        , "symfony/twig-bundle": "^4.4"
-        , "symfony/twig-bridge": "^4.4"
-        , "symfony/var-dumper": "^4.4"
+          "symfony/console": "^4.4 || ^5.0"
+        , "symfony/event-dispatcher": "^4.4 || ^5.0"
+        , "symfony/framework-bundle": "^4.4 || ^5.0"
+        , "symfony/http-kernel": "^4.4 || ^5.0"
+        , "symfony/finder": "^4.4 || ^5.0"
+        , "symfony/debug": "^4.4 || ^5.0"
+        , "symfony/yaml": "^4.4 || ^5.0"
+        , "symfony/form": "^4.4 || ^5.0"
+        , "symfony/phpunit-bridge": "^4.4 || ^5.0"
+        , "symfony/browser-kit": "^4.4 || ^5.0"
+        , "symfony/dom-crawler": "^4.4 || ^5.0"
+        , "symfony/validator": "^4.4 || ^5.0"
+        , "symfony/twig-bundle": "^4.4 || ^5.0"
+        , "symfony/twig-bridge": "^4.4 || ^5.0"
+        , "symfony/var-dumper": "^4.4 || ^5.0"
         , "twig/twig": "^1.26 || ^2.0"
         , "doctrine/annotations": "1.*"
     }
     , "conflict": { "hhvm": "*" }
     , "suggests": {
-        "symfony/event-dispatcher": "To auto initialize the Eloquent ORM. (^4.4)"
+        "symfony/event-dispatcher": "To auto initialize the Eloquent ORM. (^4.4|^5.0)"
     }
 
     , "autoload": { "psr-4": { "WouterJ\\EloquentBundle\\": "src" } }
     , "autoload-dev": {
           "psr-4": { "WouterJ\\EloquentBundle\\": "tests", "": "tests/Functional/app/src" }
         , "classmap": ["tests/Functional/app/migrations", "tests/Functional/app/TestKernel.php"]
-        , "files": ["tests/phpunit6.php"]
     }
     , "extra": {
-        "branch-alias": { "dev-master": "1.2-dev" }
+        "branch-alias": { "dev-master": "2.0-dev" }
     }
 }
