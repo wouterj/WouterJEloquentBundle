@@ -7,8 +7,6 @@
     </parameters>
 
     <services>
-        <service id="wouterj_eloquent.migrations.creator" class="WouterJ\EloquentBundle\Migrations\Creator" />
-
         <service id="wouterj_eloquent.migrations.repository" class="Illuminate\Database\Migrations\DatabaseMigrationRepository">
             <argument type="service" id="wouterj_eloquent.database_manager"/>
             <argument>%wouterj_eloquent.migrations.table%</argument>
@@ -40,15 +38,6 @@
             <argument type="service" id="wouterj_eloquent.migrations.repository"/>
 
             <tag name="console.command" command="eloquent:migrate:install"/>
-        </service>
-
-        <service id="wouterj_eloquent.commands.migrate_make" class="WouterJ\EloquentBundle\Command\MigrateMakeCommand">
-            <argument type="service" id="wouterj_eloquent.migrations.creator"/>
-            <argument type="service" id="wouterj_eloquent.migrator"/>
-            <argument>%wouterj_eloquent.migration_path%</argument>
-            <argument>%kernel.environment%</argument>
-
-            <tag name="console.command" command="eloquent:migrate:make"/>
         </service>
 
         <service id="wouterj_eloquent.commands.migrate_refresh" class="WouterJ\EloquentBundle\Command\MigrateRefreshCommand">
@@ -90,13 +79,6 @@
             <argument>%kernel.environment%</argument>
 
             <tag name="console.command" command="eloquent:seed"/>
-        </service>
-
-        <service id="wouterj_eloquent.commands.seed_make" class="WouterJ\EloquentBundle\Command\SeederMakeCommand">
-            <argument>%kernel.project_dir%/src</argument>
-            <argument>%kernel.bundles%</argument>
-
-            <tag name="console.command" command="eloquent:make:seeder"/>
         </service>
     </services>
 </container>
