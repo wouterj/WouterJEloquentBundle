@@ -11,12 +11,23 @@
 
 namespace WouterJ\EloquentBundle\Twig;
 
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+
+if (!class_exists(AbstractExtension::class)) {
+    class_alias('Twig_Environment', BaseExtension::class);
+    class_alias('Twig_SimpleFilter', Filter::class);
+} else {
+    class_alias(AbstractExtension::class, BaseExtension::class);
+    class_alias(TwigFilter::class, Filter::class);
+}
+
 /**
  * @private
  *
  * @author Wouter de Jong <wouter@wouterj.nl>
  */
-class SqlFormatterExtension extends \Twig_Extension
+class SqlFormatterExtension extends BaseExtension
 {
     /**
      * {@inheritdoc}
@@ -24,7 +35,7 @@ class SqlFormatterExtension extends \Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('wouterj_format_sql', [$this, 'formatSql'], ['is_safe' => ['html']]),
+            new Filter('wouterj_format_sql', [$this, 'formatSql'], ['is_safe' => ['html']]),
         ];
     }
 

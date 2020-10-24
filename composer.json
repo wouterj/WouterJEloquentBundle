@@ -29,7 +29,7 @@
         , "symfony/twig-bundle": "^4.4 || ^5.0"
         , "symfony/twig-bridge": "^4.4 || ^5.0"
         , "symfony/var-dumper": "^4.4 || ^5.0"
-        , "twig/twig": "^1.26 || ^2.0"
+        , "twig/twig": "^1.26 || ^2.0 || ^3.0"
         , "doctrine/annotations": "1.*"
     }
     , "conflict": { "hhvm": "*" }
