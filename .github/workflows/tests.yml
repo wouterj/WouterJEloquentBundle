@@ -68,4 +68,4 @@ jobs:
           echo "$(php tests/Functional/app/bin/console --version)"
 
       - name: Run test suite
-        run: ./vendor/bin/simple-phpunit || if [ "$ALLOW_FAILURE" ]; then true; else; false; fi
+        run: ./vendor/bin/simple-phpunit || if [ "$ALLOW_FAILURE" ]; then true; else false; fi
