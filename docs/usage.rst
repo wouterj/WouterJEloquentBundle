@@ -18,7 +18,7 @@ You can use the `Query Builder`_:
     {
         public function indexAction()
         {
-            $posts = DB::table('posts')->where('created_at', '>', '...')->get();
+            $posts = Db::table('posts')->where('created_at', '>', '...')->get();
 
             return $this->render('AcmeDemoBundle:Demo:posts.html.twig', [
                 'posts' => $posts,
@@ -28,9 +28,9 @@ You can use the `Query Builder`_:
 
 .. caution::
 
-    Don't forget to `enable the DB aliases <configuration.rst#aliases>`_ if you want to use the ``DB``
+    Don't forget to `enable the Db aliases <configuration.rst#aliases>`_ if you want to use the ``Db``
     class directly. Otherwise, you have to include the
-    ``WouterJ\EloquentBundle\Facade\DB`` class with a ``use`` statement.
+    ``WouterJ\EloquentBundle\Facade\Db`` class with a ``use`` statement.
 
 Eloquent ORM
 ------------
@@ -81,7 +81,7 @@ You may prefer to use services instead of the magic Facades. The bundle
 provides two useful services:
 
 * ``wouterj_eloquent`` - This is the ``Capsule`` class, it can handle all core
-  methods of the ``Schema`` and ``DB`` facades;
+  methods of the ``Schema`` and ``Db`` facades;
 * ``wouterj_eloquent.database_manager`` - This service is equal to the ``DB``
   facade.
 
