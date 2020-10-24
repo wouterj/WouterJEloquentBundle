@@ -1,0 +1,69 @@
+name: Tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+env:
+  SYMFONY_PHPUNIT_REMOVE: "symfony/yaml"
+  SYMFONY_DEPRECATIONS_HELPER: "max[direct]=0"
+  PHP_VERSION: 7.4
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        deps: ['low', 'dev', '4.x', '5.x']
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set-up env variables
+        id: ctx
+        run: |
+          case "${{ matrix.deps }}" in
+            "low")
+              echo "::set-output name=php_version::7.2"
+              echo "::set-output name=composer_flags::--prefer-lowest"
+              echo "SYMFONY_DEPRECATIONS_HELPER=disabled=1" >> $GITHUB_ENV
+
+              ;;
+            "dev")
+              echo "::set-output name=php_version::8.0"
+              echo "SYMFONY_DEPRECATIONS_HELPER=max[total]=999" >> $GITHUB_ENV
+
+              perl -pi -e "s/^}\$/,\"minimum-stability\":\"dev\"}/" composer.json
+              composer config platform.php 7.4.99
+
+              ;;
+            *)
+              echo "::set-output name=php_version::$PHP_VERSION"
+              echo "SYMFONY_REQUIRE=$(echo '${{ matrix.deps }}' | tr x \\*)" >> $GITHUB_ENV
+          esac
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ steps.ctx.outputs.php_version }}
+          extensions: xml, pdo_sqlite
+          tools: "composer:v2"
+
+      - name: Install dependencies
+        run: |
+          composer global require --no-progress --no-scripts --no-plugins symfony/flex dev-master
+          composer update --prefer-dist --no-progress ${{ steps.ctx.outputs.composer_flags }}
+          ./vendor/bin/simple-phpunit install
+
+      - name: Show info
+        run: |
+          echo "$(php --version)"
+          echo ""
+          echo "$(php tests/Functional/app/bin/console --version)"
+
+      - name: Run test suite
+        run: ./vendor/bin/simple-phpunit

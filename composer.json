@@ -32,7 +32,6 @@
         , "twig/twig": "^1.26 || ^2.0 || ^3.0"
         , "doctrine/annotations": "1.*"
     }
-    , "conflict": { "hhvm": "*" }
     , "suggests": {
         "symfony/event-dispatcher": "To auto initialize the Eloquent ORM. (^4.4|^5.0)"
     }
