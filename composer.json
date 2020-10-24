@@ -6,12 +6,13 @@
     , "type": "symfony-bundle"
 
     , "require": {
-          "php": "^7.2"
+          "php": "^7.2 || ^8.0"
         , "illuminate/database": "^6.18 || ^7.15"
         , "illuminate/events": "^6.18 || ^7.15"
         , "illuminate/console": "^6.18 || ^7.15"
         , "symfony/dependency-injection": "^4.4 || ^5.0"
         , "jdorn/sql-formatter": "^1.2"
+        , "mockery/mockery": "^1.4"
     }
     , "require-dev": {
           "symfony/console": "^4.4 || ^5.0"

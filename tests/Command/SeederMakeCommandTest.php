@@ -3,6 +3,7 @@
 namespace WouterJ\EloquentBundle\Command;
 
 use PHPUnit\Framework\TestCase;
+use WouterJ\EloquentBundle\MockeryTrait;
 use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -10,7 +11,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SeederMakeCommandTest extends TestCase
 {
-    use SetUpTearDownTrait;
+    use SetUpTearDownTrait, MockeryTrait {
+        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
+    }
 
     private $input;
     private $output;
@@ -19,8 +22,8 @@ class SeederMakeCommandTest extends TestCase
 
     protected function doSetUp()
     {
-        $this->input = $this->prophesize(InputInterface::class);
-        $this->output = $this->prophesize(OutputInterface::class);
+        $this->input = \Mockery::mock(InputInterface::class);
+        $this->output = \Mockery::mock(OutputInterface::class);
         $this->projectDir = sys_get_temp_dir().'/'.uniqid();
 
         mkdir($this->projectDir, 0777, true);
