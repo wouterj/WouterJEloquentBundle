@@ -84,7 +84,7 @@ class EloquentDataCollector extends DataCollector
 
     public function queries()
     {
-        return count($this->data['queries']) ? call_user_func_array('array_merge', $this->data['queries']) : [];
+        return count($this->data['queries']) ? call_user_func_array('array_merge', array_values($this->data['queries'])) : [];
     }
 
     public function getName()
