@@ -11,6 +11,7 @@
 
 namespace WouterJ\EloquentBundle\Functional;
 
+use PHPUnit\Runner\Version;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\ApplicationTester;
@@ -38,7 +39,8 @@ class MigrationsTest extends KernelTestCase
 
         $app->run(['command' => 'eloquent:migrate', '--seed' => true], ['decorated' => false]);
 
-        $this->assertRegexp('/^Migrated:\s+2015_02_16_203700_CreateUsersTable\s/m', $app->getDisplay());
+        $assertMethod = version_compare(Version::series(), '9.1', '>=') ? 'assertMatchesRegularExpression' : 'assertRegExp';
+        $this->{$assertMethod}('/^Migrated:\s+2015_02_16_203700_CreateUsersTable\s/m', $app->getDisplay());
 
         $result = Db::select('select * from users');
         $this->assertCount(1, $result);
