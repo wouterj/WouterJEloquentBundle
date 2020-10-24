@@ -5,8 +5,6 @@ into the Symfony framework.
 
 If you wish to use the [Symfony Serializer][serializer] with [Eloquent Models][eloquent-model] you can check [EloquentSerializer][eloquent-serializer].
 
-[![Build Status](https://travis-ci.org/wouterj/WouterJEloquentBundle.svg?branch=master)](https://travis-ci.org/wouterj/WouterJEloquentBundle)
-
 
 ## Supported versions
 
