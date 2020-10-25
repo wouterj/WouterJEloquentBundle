@@ -36,7 +36,7 @@ EOT
             )
             ->setDefinition(array(
                 new InputOption('database', null, InputOption::VALUE_REQUIRED, 'The database connection to seed'),
-                new InputOption('path', null, InputOption::VALUE_REQUIRED, 'The location where the migration file should be created'),
+                new InputOption('path', null, InputOption::VALUE_REQUIRED, 'The location where the migration files are stored'),
             ))
         ;
     }
