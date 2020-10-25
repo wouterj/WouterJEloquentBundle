@@ -11,39 +11,39 @@
 
 namespace WouterJ\EloquentBundle;
 
-use Prophecy\Prophecy\ObjectProphecy;
+use Mockery\MockInterface;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
 class Promise
 {
-    public static function containerHasService(ObjectProphecy $container, $service, $instance)
+    public static function containerHasService(MockInterface $container, $service, $instance)
     {
-        $container->has($service)->willReturn(true);
-        $container->get($service)->willReturn($instance);
+        $container->allows()->has()->with($service)->andReturn(true);
+        $container->allows()->get()->with($service)->andReturn($instance);
     }
 
-    public static function containerDoesNotHaveService(ObjectProphecy $container, $service)
+    public static function containerDoesNotHaveService(MockInterface $container, $service)
     {
-        $container->has($service)->willReturn(false);
+        $container->allows()->has()->with($service)->andReturn(false);
     }
 
-    public static function containerHasParameter(ObjectProphecy $container, $name, $value)
+    public static function containerHasParameter(MockInterface $container, $name, $value)
     {
-        $container->hasParameter($name)->willReturn(true);
-        $container->getParameter($name)->willReturn($value);
+        $container->allows()->hasParameter()->with($name)->andReturn(true);
+        $container->allows()->getParameter()->with($name)->andReturn($value);
     }
 
-    public static function inputHasArgument(ObjectProphecy $input, $name, $value)
+    public static function inputHasArgument(MockInterface $input, $name, $value)
     {
-        $input->hasArgument($name)->willReturn(true);
-        $input->getArgument($name)->willReturn($value);
+        $input->allows()->hasArgument()->with($name)->andReturn(true);
+        $input->allows()->getArgument()->with($name)->andReturn($value);
     }
 
-    public static function inputHasOption(ObjectProphecy $input, $name, $value)
+    public static function inputHasOption(MockInterface $input, $name, $value)
     {
-        $input->hasOption($name)->willReturn(true);
-        $input->getOption($name)->willReturn($value);
+        $input->allows()->hasOption()->with($name)->andReturn(true);
+        $input->allows()->getOption()->with($name)->andReturn($value);
     }
 }

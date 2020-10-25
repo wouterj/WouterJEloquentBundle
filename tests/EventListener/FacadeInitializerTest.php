@@ -15,6 +15,7 @@ use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\Facade\Facade;
 use WouterJ\EloquentBundle\Facade\AliasesLoader;
+use WouterJ\EloquentBundle\MockeryTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,7 +23,9 @@ use PHPUnit\Framework\TestCase;
  */
 class FacadeInitializerTest extends TestCase
 {
-    use SetUpTearDownTrait;
+    use SetUpTearDownTrait, MockeryTrait {
+        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
+    }
 
     protected $loader;
     protected $container;
@@ -30,11 +33,9 @@ class FacadeInitializerTest extends TestCase
 
     public function doSetUp()
     {
-        parent::setUp();
-
-        $this->loader = $this->prophesize(AliasesLoader::class);
-        $this->container = $this->prophesize(ContainerInterface::class);
-        $this->subject = new FacadeInitializer($this->container->reveal());
+        $this->loader = \Mockery::mock(AliasesLoader::class);
+        $this->container = \Mockery::mock(ContainerInterface::class);
+        $this->subject = new FacadeInitializer($this->container);
     }
 
     /** @test */
@@ -44,14 +45,14 @@ class FacadeInitializerTest extends TestCase
 
         $refl = new \ReflectionClass(Facade::class);
         $container = $refl->getStaticProperties()['container'];
-        $this->assertSame($this->container->reveal(), $container);
+        $this->assertSame($this->container, $container);
     }
 
     /** @test */
     public function it_registers_the_loader_when_provided()
     {
-        $this->loader->register()->shouldBeCalled();
-        $this->subject->setLoader($this->loader->reveal());
+        $this->loader->shouldReceive('register')->once();
+        $this->subject->setLoader($this->loader);
 
         $this->subject->initialize();
     }

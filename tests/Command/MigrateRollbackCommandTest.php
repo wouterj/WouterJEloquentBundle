@@ -14,41 +14,42 @@ namespace WouterJ\EloquentBundle\Command;
 use Illuminate\Console\OutputStyle;
 use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\DependencyInjection\Container;
+use WouterJ\EloquentBundle\MockeryTrait;
 use WouterJ\EloquentBundle\Migrations\Migrator;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
 class MigrateRollbackCommandTest extends TestCase
 {
-    use SetUpTearDownTrait;
+    use SetUpTearDownTrait, MockeryTrait {
+        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
+    }
 
     private $command;
     private $migrator;
 
     protected function doSetUp()
     {
-        $this->migrator = $this->prophesize(Migrator::class);
+        $this->migrator = \Mockery::mock(Migrator::class);
+        $this->migrator->allows()->paths()->andReturn([])->byDefault();
+        $this->migrator->allows()->setConnection()->withAnyArgs()->byDefault();
         if (method_exists(Migrator::class, 'getNotes')) {
-            $this->migrator->getNotes()->willReturn([]);
+            $this->migrator->allows()->getNotes()->andReturn([]);
         } else {
-            $this->migrator->setOutput(Argument::type(OutputStyle::class))->willReturn();
+            $this->migrator->allows()->setOutput()->withAnyArgs();
         }
 
-        $this->migrator->paths()->willReturn([]);
-        $this->migrator->setConnection(Argument::any())->willReturn();
-
-        $this->command = new MigrateRollbackCommand($this->migrator->reveal(), __DIR__.'/migrations', 'dev');
+        $this->command = new MigrateRollbackCommand($this->migrator, __DIR__.'/migrations', 'dev');
     }
 
     /** @test */
     public function it_asks_for_confirmation_in_prod()
     {
-        $command = new MigrateRollbackCommand($this->migrator->reveal(), __DIR__.'/migrations', 'prod');
+        $command = new MigrateRollbackCommand($this->migrator, __DIR__.'/migrations', 'prod');
 
-        $this->migrator->rollback(Argument::cetera())->shouldNotBeCalled();
+        $this->migrator->shouldNotReceive('rollback');
 
         TestCommand::create($command)
             ->answering("no")
@@ -59,7 +60,7 @@ class MigrateRollbackCommandTest extends TestCase
     /** @test */
     public function it_does_not_ask_for_confirmation_in_dev()
     {
-        $this->migrator->rollback(Argument::cetera())->shouldBeCalled();
+        $this->migrator->shouldReceive('rollback')->once();
 
         TestCommand::create($this->command)
             ->execute()
@@ -69,9 +70,9 @@ class MigrateRollbackCommandTest extends TestCase
     /** @test */
     public function it_always_continues_when_force_is_passed()
     {
-        $command = new MigrateRollbackCommand($this->migrator->reveal(), __DIR__.'/migrations', 'prod');
+        $command = new MigrateRollbackCommand($this->migrator, __DIR__.'/migrations', 'prod');
 
-        $this->migrator->rollback(Argument::cetera())->shouldBeCalled();
+        $this->migrator->shouldReceive('rollback')->once();
 
         TestCommand::create($command)
             ->passing('--force')
@@ -82,7 +83,7 @@ class MigrateRollbackCommandTest extends TestCase
     /** @test */
     public function it_uses_the_default_migration_path()
     {
-        $this->migrator->rollback([__DIR__.'/migrations'], Argument::cetera())->shouldBeCalled();
+        $this->migrator->shouldReceive('rollback')->once()->with([__DIR__.'/migrations'], \Mockery::any());
 
         TestCommand::create($this->command)->execute();
     }
@@ -90,7 +91,7 @@ class MigrateRollbackCommandTest extends TestCase
     /** @test */
     public function it_allows_to_specify_another_path()
     {
-        $this->migrator->rollback([getcwd().'/db'], Argument::cetera())->shouldBeCalled();
+        $this->migrator->shouldReceive('rollback')->once()->with([getcwd().'/db'], \Mockery::any());
 
         TestCommand::create($this->command)->passing('--path', 'db')->duringExecute();
     }
@@ -98,9 +99,10 @@ class MigrateRollbackCommandTest extends TestCase
     /** @test */
     public function it_allows_multiple_migration_directories()
     {
-        $this->migrator->paths()->willReturn(['/somewhere/migrations']);
+        $this->migrator->allows()->paths()->andReturn(['/somewhere/migrations']);
 
-        $this->migrator->rollback([__DIR__.'/migrations', '/somewhere/migrations'], Argument::cetera())->shouldBeCalled();
+        $this->migrator->shouldReceive('rollback')->once()
+            ->with([__DIR__.'/migrations', '/somewhere/migrations'], \Mockery::any());
 
         TestCommand::create($this->command)->execute();
     }
@@ -108,9 +110,10 @@ class MigrateRollbackCommandTest extends TestCase
     /** @test */
     public function it_allows_changing_the_connection()
     {
-        $this->migrator->setConnection('something')->shouldBeCalled();
+        $this->migrator->shouldReceive('setConnection')->once()->with('something');
 
-        $this->migrator->rollback(Argument::any(), ['pretend' => false, 'step' => 0])->shouldBeCalled();
+        $this->migrator->shouldReceive('rollback')->once()
+            ->with(\Mockery::any(), ['pretend' => false, 'step' => 0]);
 
         TestCommand::create($this->command)->passing('--database', 'something')->duringExecute();
     }
@@ -118,7 +121,8 @@ class MigrateRollbackCommandTest extends TestCase
     /** @test */
     public function it_allows_to_revert_multiple_migrations()
     {
-        $this->migrator->rollback(Argument::any(), ['pretend' => false, 'step' => 4])->shouldBeCalled();
+        $this->migrator->shouldReceive('rollback')->once()
+            ->with(\Mockery::any(), ['pretend' => false, 'step' => 4]);
 
         TestCommand::create($this->command)->passing('--step', 4)->duringExecute();
     }
@@ -126,7 +130,8 @@ class MigrateRollbackCommandTest extends TestCase
     /** @test */
     public function it_can_pretend_migrations_were_rolled_back()
     {
-        $this->migrator->rollback(Argument::any(), ['pretend' => true, 'step' => 0])->shouldBeCalled();
+        $this->migrator->shouldReceive('rollback')->once()
+            ->with(\Mockery::any(), ['pretend' => true, 'step' => 0]);
 
         TestCommand::create($this->command)->passing('--pretend')->duringExecute();
     }

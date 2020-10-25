@@ -12,6 +12,7 @@
 namespace WouterJ\EloquentBundle\DataCollector;
 
 use Illuminate\Database\Capsule\Manager;
+use WouterJ\EloquentBundle\MockeryTrait;
 use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +20,9 @@ use PHPUnit\Framework\TestCase;
 
 class EloquentDataCollectorTest extends TestCase
 {
-    use SetUpTearDownTrait;
+    use SetUpTearDownTrait, MockeryTrait {
+        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
+    }
 
     private $capsule;
     private $queryListener;
@@ -27,22 +30,22 @@ class EloquentDataCollectorTest extends TestCase
 
     protected function doSetUp()
     {
-        $this->capsule = $this->prophesize(Manager::class);
-        $this->capsule->getContainer()->willReturn(['config' => ['database.connections' => []]]);
-        $this->capsule->getDatabaseManager()->willReturn(new class{
+        $this->capsule = \Mockery::mock(Manager::class);
+        $this->capsule->allows()->getContainer()->andReturn(['config' => ['database.connections' => []]])->byDefault();
+        $this->capsule->allows()->getDatabaseManager()->andReturn(new class{
             public function getConnections() { return []; }
-        });
+        })->byDefault();
 
-        $this->queryListener = $this->prophesize(QueryListener::class);
-        $this->queryListener->getQueriesByConnection()->willReturn([]);
+        $this->queryListener = \Mockery::mock(QueryListener::class);
+        $this->queryListener->allows()->getQueriesByConnection()->andReturn([])->byDefault();
 
-        $this->collector = new EloquentDataCollector($this->capsule->reveal(), $this->queryListener->reveal());
+        $this->collector = new EloquentDataCollector($this->capsule, $this->queryListener);
     }
 
     /** @test */
     public function it_collects_connections()
     {
-        $this->capsule->getContainer()->willReturn([
+        $this->capsule->allows()->getContainer()->andReturn([
             'config' => [
                 'database.connections' => [
                     'db1' => ['db' => 'foobar'],
@@ -51,7 +54,7 @@ class EloquentDataCollectorTest extends TestCase
             ],
         ]);
 
-        $this->capsule->getDatabaseManager()->willReturn(new class{
+        $this->capsule->allows()->getDatabaseManager()->andReturn(new class{
             public function getConnections() {
                 return ['db2' => ['db' => 'foobar']];
             }
@@ -66,7 +69,7 @@ class EloquentDataCollectorTest extends TestCase
     /** @test */
     public function it_collects_queries()
     {
-        $this->queryListener->getQueriesByConnection()->willReturn([
+        $this->queryListener->allows()->getQueriesByConnection()->andReturn([
             'db1' => [
                 ['sql' => 'select * from posts', 'bindings' => []],
                 ['sql' => 'insert into posts values (?, ?)', 'bindings' => ['title', 'body']],

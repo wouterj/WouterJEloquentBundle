@@ -15,42 +15,43 @@ use Illuminate\Console\OutputStyle;
 use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\DependencyInjection\Container;
 use WouterJ\EloquentBundle\Promise;
+use WouterJ\EloquentBundle\MockeryTrait;
 use WouterJ\EloquentBundle\Migrations\Migrator;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
 class MigrateResetCommandTest extends TestCase
 {
-    use SetUpTearDownTrait;
+    use SetUpTearDownTrait, MockeryTrait {
+        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
+    }
 
     private $command;
     private $migrator;
 
     protected function doSetUp()
     {
-        $this->migrator = $this->prophesize(Migrator::class);
+        $this->migrator = \Mockery::mock(Migrator::class);
+        $this->migrator->allows()->paths()->andReturn([])->byDefault();
+        $this->migrator->allows()->repositoryExists()->andReturn(true)->byDefault();
+        $this->migrator->allows()->setConnection()->withAnyArgs()->byDefault();
         if (method_exists(Migrator::class, 'getNotes')) {
-            $this->migrator->getNotes()->willReturn([]);
+            $this->migrator->allows()->getNotes()->andReturn([]);
         } else {
-            $this->migrator->setOutput(Argument::type(OutputStyle::class))->willReturn();
+            $this->migrator->allows()->setOutput()->withAnyArgs();
         }
 
-        $this->migrator->paths()->willReturn([]);
-        $this->migrator->setConnection(Argument::any())->willReturn();
-        $this->migrator->repositoryExists()->willReturn(true);
-
-        $this->command = new MigrateResetCommand($this->migrator->reveal(), __DIR__.'/migrations', 'dev');
+        $this->command = new MigrateResetCommand($this->migrator, __DIR__.'/migrations', 'dev');
     }
 
     /** @test */
     public function it_asks_for_confirmation_in_prod()
     {
-        $command = new MigrateResetCommand($this->migrator->reveal(), __DIR__.'/migrations', 'prod');
+        $command = new MigrateResetCommand($this->migrator, __DIR__.'/migrations', 'prod');
 
-        $this->migrator->reset(Argument::cetera())->shouldNotBeCalled();
+        $this->migrator->shouldNotReceive('reset')->withAnyArgs();
 
         TestCommand::create($command)
             ->answering("no")
@@ -61,7 +62,7 @@ class MigrateResetCommandTest extends TestCase
     /** @test */
     public function it_does_not_ask_for_confirmation_in_dev()
     {
-        $this->migrator->reset(Argument::cetera())->shouldBeCalled();
+        $this->migrator->shouldReceive('reset')->once()->withAnyArgs();
 
         TestCommand::create($this->command)
             ->execute()
@@ -71,9 +72,9 @@ class MigrateResetCommandTest extends TestCase
     /** @test */
     public function it_always_continues_when_force_is_passed()
     {
-        $command = new MigrateResetCommand($this->migrator->reveal(), __DIR__.'/migrations', 'prod');
+        $command = new MigrateResetCommand($this->migrator, __DIR__.'/migrations', 'prod');
 
-        $this->migrator->reset(Argument::cetera())->shouldBeCalled();
+        $this->migrator->shouldReceive('reset')->once()->withAnyArgs();
 
         TestCommand::create($command)
             ->passing('--force')
@@ -84,7 +85,7 @@ class MigrateResetCommandTest extends TestCase
     /** @test */
     public function it_uses_the_default_migration_path()
     {
-        $this->migrator->reset([__DIR__.'/migrations'], Argument::cetera())->shouldBeCalled();
+        $this->migrator->shouldReceive('reset')->once()->with([__DIR__.'/migrations'], \Mockery::any());
 
         TestCommand::create($this->command)->execute();
     }
@@ -92,7 +93,7 @@ class MigrateResetCommandTest extends TestCase
     /** @test */
     public function it_allows_to_specify_another_path()
     {
-        $this->migrator->reset([getcwd().'/db'], Argument::cetera())->shouldBeCalled();
+        $this->migrator->shouldReceive('reset')->once()->with([getcwd().'/db'], \Mockery::any());
 
         TestCommand::create($this->command)->passing('--path', 'db')->duringExecute();
     }
@@ -100,9 +101,10 @@ class MigrateResetCommandTest extends TestCase
     /** @test */
     public function it_allows_multiple_migration_directories()
     {
-        $this->migrator->paths()->willReturn(['/somewhere/migrations']);
+        $this->migrator->allows()->paths()->andReturn(['/somewhere/migrations']);
 
-        $this->migrator->reset([__DIR__.'/migrations', '/somewhere/migrations'], Argument::cetera())->shouldBeCalled();
+        $this->migrator->shouldReceive('reset')->once()
+            ->with([__DIR__.'/migrations', '/somewhere/migrations'], \Mockery::any());
 
         TestCommand::create($this->command)->execute();
     }
@@ -110,9 +112,9 @@ class MigrateResetCommandTest extends TestCase
     /** @test */
     public function it_allows_changing_the_connection()
     {
-        $this->migrator->setConnection('something')->shouldBeCalled();
+        $this->migrator->shouldReceive('setConnection')->once()->with('something');
 
-        $this->migrator->reset(Argument::any(), false)->shouldBeCalled();
+        $this->migrator->shouldReceive('reset')->once()->with(\Mockery::any(), false);
 
         TestCommand::create($this->command)->passing('--database', 'something')->duringExecute();
     }
@@ -120,7 +122,7 @@ class MigrateResetCommandTest extends TestCase
     /** @test */
     public function it_can_pretend_migrations_were_resetted()
     {
-        $this->migrator->reset(Argument::any(), true)->shouldBeCalled();
+        $this->migrator->shouldReceive('reset')->once()->with(\Mockery::any(), true);
 
         TestCommand::create($this->command)->passing('--pretend')->duringExecute();
     }
@@ -128,9 +130,9 @@ class MigrateResetCommandTest extends TestCase
     /** @test */
     public function it_stops_when_repository_does_not_exists()
     {
-        $this->migrator->repositoryExists()->willReturn(false);
+        $this->migrator->allows()->repositoryExists()->andReturn(false);
 
-        $this->migrator->reset(Argument::cetera())->shouldNotBeCalled();
+        $this->migrator->shouldNotReceive('reset');
 
         TestCommand::create($this->command)
             ->execute()

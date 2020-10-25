@@ -11,8 +11,10 @@
 
 namespace WouterJ\EloquentBundle\Facade;
 
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\Fixtures\Facade as Fixture;
+use WouterJ\EloquentBundle\MockeryTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,6 +22,10 @@ use PHPUnit\Framework\TestCase;
  */
 class FacadeTest extends TestCase
 {
+    use SetUpTearDownTrait, MockeryTrait {
+        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
+    }
+
     /** @test */
     public function it_accepts_object_accessors()
     {
@@ -29,11 +35,11 @@ class FacadeTest extends TestCase
     /** @test */
     public function it_accepts_container_accessors()
     {
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->has('facade_service')->willReturn(true);
-        $container->get('facade_service')->shouldBeCalled()->willReturn(new Dummy);
+        $container = \Mockery::mock(ContainerInterface::class);
+        $container->allows()->has()->with('facade_service')->andReturn(true);
+        $container->allows()->get()->with('facade_service')->andReturn(new Dummy);
 
-        Facade::setContainer($container->reveal());
+        Facade::setContainer($container);
 
         $this->assertEquals(Dummy::class, DummyFacade::foo());
     }

@@ -18,18 +18,20 @@ use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use WouterJ\EloquentBundle\MockeryTrait;
 use WouterJ\EloquentBundle\Migrations\Migrator;
 use WouterJ\EloquentBundle\Promise;
 use Illuminate\Database\Migrations\MigrationRepositoryInterface;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
 class MigrateStatusCommandTest extends TestCase
 {
-    use SetUpTearDownTrait;
+    use SetUpTearDownTrait, MockeryTrait {
+        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
+    }
 
     private $command;
     private $repository;
@@ -37,24 +39,24 @@ class MigrateStatusCommandTest extends TestCase
 
     protected function doSetUp()
     {
-        $this->repository = $this->prophesize(MigrationRepositoryInterface::class);
-        $this->repository->getRan()->willReturn([]);
+        $this->repository = \Mockery::mock(MigrationRepositoryInterface::class);
+        $this->repository->allows()->getRan()->andReturn([])->byDefault();
 
-        $this->migrator = $this->prophesize(Migrator::class);
-        $this->migrator->paths()->willReturn([]);
-        $this->migrator->setConnection(Argument::any())->willReturn(null);
-        $this->migrator->repositoryExists()->willReturn(true);
-        $this->migrator->getRepository()->willReturn($this->repository->reveal());
-        $this->migrator->getMigrationName(Argument::any())->willReturnArgument(0);
-        $this->migrator->getMigrationFiles(Argument::any())->willReturn(['Migration1', 'Migration2']);
+        $this->migrator = \Mockery::mock(Migrator::class);
+        $this->migrator->allows()->paths()->andReturn([])->byDefault();
+        $this->migrator->allows()->repositoryExists()->andReturn(true);
+        $this->migrator->allows()->getRepository()->andReturn($this->repository);
+        $this->migrator->allows()->setConnection()->withAnyArgs();
+        $this->migrator->allows()->getMigrationName()->withAnyArgs()->andReturnArg(0);
+        $this->migrator->allows()->getMigrationFiles()->withAnyArgs()->andReturn(['Migration1', 'Migration2'])->byDefault();
 
-        $this->command = new MigrateStatusCommand($this->migrator->reveal(), __DIR__.'/migrations', 'dev');
+        $this->command = new MigrateStatusCommand($this->migrator, __DIR__.'/migrations', 'dev');
     }
 
     /** @test */
     public function it_outputs_migration_statuses()
     {
-        $this->repository->getRan()->willReturn(['Migration1']);
+        $this->repository->allows()->getRan()->andReturn(['Migration1']);
 
         TestCommand::create($this->command)
             ->execute()
@@ -64,7 +66,10 @@ class MigrateStatusCommandTest extends TestCase
     /** @test */
     public function it_uses_the_default_migration_path()
     {
-        $this->migrator->getMigrationFiles([__DIR__.'/migrations'])->shouldBeCalled()->willReturn([]);
+        $this->migrator->shouldReceive('getMigrationFiles')
+            ->atLeast()->once()
+            ->with([__DIR__.'/migrations'])
+            ->andReturn([]);
 
         TestCommand::create($this->command)->execute();
     }
@@ -72,7 +77,10 @@ class MigrateStatusCommandTest extends TestCase
     /** @test */
     public function it_allows_to_specify_another_path()
     {
-        $this->migrator->getMigrationFiles([getcwd().'/db'])->shouldBeCalled()->willReturn([]);
+        $this->migrator->shouldReceive('getMigrationFiles')
+            ->atLeast()->once()
+            ->with([getcwd().'/db'])
+            ->andReturn([]);
 
         TestCommand::create($this->command)->passing('--path', 'db')->duringExecute();
     }
@@ -80,9 +88,12 @@ class MigrateStatusCommandTest extends TestCase
     /** @test */
     public function it_allows_multiple_migration_directories()
     {
-        $this->migrator->paths()->willReturn(['/somewhere/migrations']);
+        $this->migrator->allows()->paths()->andReturn(['/somewhere/migrations']);
 
-        $this->migrator->getMigrationFiles([__DIR__.'/migrations', '/somewhere/migrations'])->shouldBeCalled()->willReturn([]);
+        $this->migrator->shouldReceive('getMigrationFiles')
+            ->atLeast()->once()
+            ->with([__DIR__.'/migrations', '/somewhere/migrations'])
+            ->andReturn([]);
 
         TestCommand::create($this->command)->execute();
     }
