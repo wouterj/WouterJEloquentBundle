@@ -15,10 +15,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
       matrix:
         deps: ['low', 'dev', '4.x', '5.x']
+        experimental: [false]
+        include:
+          - deps: dev
+            experimental: true
 
     steps:
       - uses: actions/checkout@v2
