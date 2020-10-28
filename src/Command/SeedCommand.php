@@ -17,7 +17,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\Seeder;
 
@@ -35,6 +34,7 @@ class SeedCommand extends Command
     private $bundles;
     private $kernelEnv;
 
+    /** @psalm-suppress ContainerDependency */
     public function __construct(ContainerInterface $container, DatabaseManager $resolver, array $bundles, string $kernelEnv)
     {
         parent::__construct();
@@ -76,29 +76,29 @@ EOT
         ;
     }
 
-    public function execute(InputInterface $i, OutputInterface $o): int
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (!$i->getOption('force') && !$this->askConfirmationInProd($i, $o)) {
+        if (!$input->getOption('force') && !$this->askConfirmationInProd($input, $output)) {
             return 1;
         }
 
-        $seeders = $this->getSeeders($i->getArgument('class'));
+        $seeders = $this->getSeeders($input->getArgument('class'));
 
         if (0 === count($seeders)) {
             throw new \RuntimeException('No Seeder classes found.');
         }
 
-        if (null !== $i->getOption('database')) {
-            $this->resolver->setDefaultConnection($i->getOption('database'));
+        if (null !== $input->getOption('database')) {
+            $this->resolver->setDefaultConnection($input->getOption('database'));
         }
 
         foreach ($seeders as $seederClass) {
             $seeder = $this->resolve($seederClass);
             $seeder->run();
 
-            $o->writeln('<info>Seeded:</info> '.$seederClass);
+            $output->writeln('<info>Seeded:</info> '.$seederClass);
             foreach ($seeder->getSeedClasses() as $class) {
-                $o->writeln('<info>Seeded:</info> '.$class);
+                $output->writeln('<info>Seeded:</info> '.$class);
             }
         }
 

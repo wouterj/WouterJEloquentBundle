@@ -27,9 +27,11 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder('wouterj_eloquent');
+        /** @psalm-suppress RedundantCondition */
         if (method_exists($treeBuilder, 'getRootNode')) {
             $root = $treeBuilder->getRootNode();
         } else {
+            /** @psalm-suppress UndefinedMethod */
             $root = $treeBuilder->root('wouterj_eloquent');
         }
 

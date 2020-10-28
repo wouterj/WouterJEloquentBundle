@@ -42,23 +42,23 @@ EOH
         ;
     }
 
-    protected function execute(InputInterface $i, OutputInterface $o): int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (!$i->getOption('force') && !$this->askConfirmationInProd($i, $o)) {
+        if (!$input->getOption('force') && !$this->askConfirmationInProd($input, $output)) {
             return 1;
         }
 
         $migrator = $this->getMigrator();
-        $migrator->setConnection($i->getOption('database'));
-        $migrator->setOutput(new OutputStyle($i, $o));
+        $migrator->setConnection($input->getOption('database'));
+        $migrator->setOutput(new OutputStyle($input, $output));
 
         if (!$migrator->repositoryExists()) {
-            $o->writeln('<error>Migration table not found.</>');
+            $output->writeln('<error>Migration table not found.</>');
 
             return 1;
         }
 
-        $migrator->reset($this->getMigrationPaths($i), $i->getOption('pretend'));
+        $migrator->reset($this->getMigrationPaths($input), $input->getOption('pretend'));
 
         return 0;
     }

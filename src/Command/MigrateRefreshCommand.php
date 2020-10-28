@@ -45,40 +45,40 @@ EOH
         ;
     }
 
-    protected function execute(InputInterface $i, OutputInterface $o): int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $force = $i->getOption('force');
-        if (!$force && !$this->askConfirmationInProd($i, $o)) {
+        $force = $input->getOption('force');
+        if (!$force && !$this->askConfirmationInProd($input, $output)) {
             return 1;
         }
 
-        $database = $i->getOption('database');
-        $step = (int) $i->getOption('step');
+        $database = $input->getOption('database');
+        $step = (int) $input->getOption('step');
 
         if ($step > 0) {
-            $this->call($o, 'eloquent:migrate:rollback', [
+            $this->call($output, 'eloquent:migrate:rollback', [
                 '--database' => $database,
                 '--force'    => $force,
-                '--path'     => $i->getOption('path'),
+                '--path'     => $input->getOption('path'),
                 '--step'     => $step,
             ]);
         } else {
-            $this->call($o, 'eloquent:migrate:reset', [
+            $this->call($output, 'eloquent:migrate:reset', [
                 '--database' => $database,
                 '--force'    => $force,
-                '--path'     => $i->getOption('path'),
+                '--path'     => $input->getOption('path'),
             ]);
         }
 
-        $this->call($o, 'eloquent:migrate', [
+        $this->call($output, 'eloquent:migrate', [
             '--database' => $database,
             '--force'    => $force,
-            '--path'     => $i->getOption('path'),
+            '--path'     => $input->getOption('path'),
         ]);
 
-        if ($i->getOption('seed') || $i->getOption('seeder')) {
-            $this->call($o, 'eloquent:seed', [
-                'class'      => [$i->getOption('seeder') ?: 'DatabaseSeeder'],
+        if ($input->getOption('seed') || $input->getOption('seeder')) {
+            $this->call($output, 'eloquent:seed', [
+                'class'      => [$input->getOption('seeder') ?: 'DatabaseSeeder'],
                 '--database' => $database,
                 '--force'    => $force,
             ]);

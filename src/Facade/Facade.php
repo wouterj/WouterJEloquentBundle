@@ -50,7 +50,10 @@ abstract class Facade
         }
 
         if (static::$container->has($accessor)) {
-            return static::$facadeInstances[$accessor] = static::$container->get($accessor);
+            /** @var object $service */
+            $service = static::$container->get($accessor);
+
+            return static::$facadeInstances[$accessor] = $service;
         }
 
         throw new \LogicException(sprintf('Unknown facade accessor "%s"', print_r($accessor, true)));

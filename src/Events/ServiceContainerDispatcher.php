@@ -11,7 +11,7 @@
 
 namespace WouterJ\EloquentBundle\Events;
 
-use PSR\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Illuminate\Events\Dispatcher;
 
 /**

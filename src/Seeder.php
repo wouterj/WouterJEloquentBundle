@@ -26,6 +26,13 @@ abstract class Seeder extends BaseSeeder
     /** @var ConnectionInterface */
     protected $connection;
 
+    abstract public function run();
+
+    public function __invoke()
+    {
+        return $this->run();
+    }
+
     public function call($class, $silent = false)
 	{
 	    $classes = is_array($class) ? $class : [$class];
@@ -38,8 +45,18 @@ abstract class Seeder extends BaseSeeder
                 $this->command->getOutput()->writeln("<info>Seeding:</info> $class");
             }
 
-            $seeder->run();
+            $startTime = microtime(true);
+
+            ($seeder)();
+
+            $runTime = round(microtime(true) - $startTime, 2);
+
+            if ($silent === false && isset($this->command)) {
+                $this->command->getOutput()->writeln("<info>Seeded:</info>  $class ($runTime seconds)");
+            }
         }
+
+	    return $this;
     }
 
     /**
