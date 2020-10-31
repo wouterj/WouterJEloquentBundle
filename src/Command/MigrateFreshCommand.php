@@ -47,27 +47,27 @@ class MigrateFreshCommand extends BaseMigrateCommand
         ;
     }
 
-    protected function execute(InputInterface $i, OutputInterface $o): int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $force = $i->getOption('force');
-        if (!$force && !$this->askConfirmationInProd($i, $o)) {
+        $force = $input->getOption('force');
+        if (!$force && !$this->askConfirmationInProd($input, $output)) {
             return 1;
         }
 
-        $database = $i->getOption('database');
+        $database = $input->getOption('database');
         $this->dropAllTables($database);
 
-        $o->writeln('Dropped all tables successfully.');
+        $output->writeln('Dropped all tables successfully.');
 
-        $this->call($o, 'eloquent:migrate', [
+        $this->call($output, 'eloquent:migrate', [
             '--database' => $database,
             '--force'    => $force,
-            '--path'     => $i->getOption('path'),
+            '--path'     => $input->getOption('path'),
         ]);
 
-        if ($i->getOption('seed') || $i->getOption('seeder')) {
-            $this->call($o, 'eloquent:seed', [
-                'class'      => [$i->getOption('seeder') ?: 'DatabaseSeeder'],
+        if ($input->getOption('seed') || $input->getOption('seeder')) {
+            $this->call($output, 'eloquent:seed', [
+                'class'      => [$input->getOption('seeder') ?: 'DatabaseSeeder'],
                 '--database' => $database,
                 '--force'    => $force,
             ]);

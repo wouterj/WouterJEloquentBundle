@@ -43,19 +43,19 @@ EOH
         ;
     }
 
-    protected function execute(InputInterface $i, OutputInterface $o): int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (!$i->getOption('force') && !$this->askConfirmationInProd($i, $o)) {
+        if (!$input->getOption('force') && !$this->askConfirmationInProd($input, $output)) {
             return 1;
         }
 
         $migrator = $this->getMigrator();
-        $migrator->setConnection($i->getOption('database'));
-        $migrator->setOutput(new OutputStyle($i, $o));
+        $migrator->setConnection($input->getOption('database'));
+        $migrator->setOutput(new OutputStyle($input, $output));
 
-        $migrator->rollback($this->getMigrationPaths($i), [
-            'pretend' => $i->getOption('pretend'),
-            'step'    => (int) $i->getOption('step'),
+        $migrator->rollback($this->getMigrationPaths($input), [
+            'pretend' => $input->getOption('pretend'),
+            'step'    => (int) $input->getOption('step'),
         ]);
 
         return 0;

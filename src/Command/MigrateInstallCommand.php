@@ -41,13 +41,13 @@ class MigrateInstallCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $i, OutputInterface $o): int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $repository = $this->migrationRepository;
-        $repository->setSource($i->getOption('database'));
+        $repository->setSource($input->getOption('database'));
         $repository->createRepository();
 
-        $o->writeln('<comment>Migration table created successfully.</>');
+        $output->writeln('<comment>Migration table created successfully.</>');
 
         return 0;
     }

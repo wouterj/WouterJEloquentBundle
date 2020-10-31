@@ -13,6 +13,7 @@ namespace WouterJ\EloquentBundle;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use WouterJ\EloquentBundle\DependencyInjection\Compiler\AddCasterPass;
 use WouterJ\EloquentBundle\DependencyInjection\Compiler\ObserverPass;
@@ -24,12 +25,12 @@ use Doctrine\Common\Annotations\AnnotationReader;
  */
 class WouterJEloquentBundle extends Bundle
 {
-    public function getContainerExtension()
+    public function getContainerExtension(): ExtensionInterface
     {
         return new DependencyInjection\WouterJEloquentExtension();
     }
 
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         parent::build($container);
 
@@ -37,7 +38,7 @@ class WouterJEloquentBundle extends Bundle
         $container->addCompilerPass(new AddCasterPass());
     }
 
-    public function boot()
+    public function boot(): void
     {
         if ($this->container->has('wouterj_eloquent.initializer')) {
             $this->container->get('wouterj_eloquent.initializer')->initialize();
@@ -52,7 +53,7 @@ class WouterJEloquentBundle extends Bundle
         }
     }
 
-    public function getPath()
+    public function getPath(): string
     {
         return dirname(__DIR__);
     }
