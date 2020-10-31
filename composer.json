@@ -32,6 +32,7 @@
         , "symfony/var-dumper": "^4.4 || ^5.0"
         , "twig/twig": "^1.26 || ^2.0 || ^3.0"
         , "doctrine/annotations": "1.*"
+        , "symfony/maker-bundle": "^1.20"
     }
     , "suggests": {
         "symfony/event-dispatcher": "To auto initialize the Eloquent ORM. (^4.4|^5.0)"

@@ -38,6 +38,7 @@ class WouterJEloquentExtension extends Extension
 
         $loader->load('migrations.xml');
         $loader->load('form.xml');
+        $loader->load('maker.xml');
 
         $this->loadCapsule($config, $container, $loader);
         $this->loadEloquent($config, $container, $loader);

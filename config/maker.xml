@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services">
+    <services>
+        <service id="wouterj_eloquent.migrations.creator" class="WouterJ\EloquentBundle\Migrations\Creator">
+            <argument type="service" id="maker.file_manager"/>
+        </service>
+
+        <service id="wouterj_eloquent.maker.seeder" class="WouterJ\EloquentBundle\Maker\MakeSeeder">
+            <argument type="service" id="maker.file_manager"/>
+
+            <tag name="maker.command"/>
+        </service>
+
+        <service id="wouterj_eloquent.maker.model" class="WouterJ\EloquentBundle\Maker\MakeModel">
+            <tag name="maker.command"/>
+        </service>
+
+        <service id="wouterj_eloquent.maker.migration" class="WouterJ\EloquentBundle\Maker\MakeMigration">
+            <argument type="service" id="wouterj_eloquent.migrations.creator"/>
+            <argument>%wouterj_eloquent.migration_path%</argument>
+
+            <tag name="maker.command"/>
+        </service>
+    </services>
+</container>

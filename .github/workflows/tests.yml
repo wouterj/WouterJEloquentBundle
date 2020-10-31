@@ -61,7 +61,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer global require --no-progress --no-scripts --no-plugins symfony/flex dev-master
+          composer global require --no-progress --no-scripts --no-plugins symfony/flex
           composer update --prefer-dist --no-progress ${{ steps.ctx.outputs.composer_flags }}
           ./vendor/bin/simple-phpunit install
 

@@ -6,6 +6,9 @@ Changelog
 
  * Added Laravel ^7.15 support
  * Deleted second argument of `ServiceContainerDispatcher`
+ * Transformed the `make:*` commands to use the MakerBundle.
+ * Removed the `--target` option of `make:seeder`, the location is now
+   auto-discovered based on the classname and autoloading configuration
 
 1.2.0
 -----

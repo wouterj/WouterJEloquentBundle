@@ -14,17 +14,23 @@ namespace WouterJ\EloquentBundle\Migrations;
 use Illuminate\Database\Schema\Blueprint;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
+use Symfony\Bundle\MakerBundle\FileManager;
+use WouterJ\EloquentBundle\MockeryTrait;
 
 class CreatorTest extends TestCase
 {
-    use SetUpTearDownTrait;
+    use SetUpTearDownTrait, MockeryTrait {
+        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
+    }
 
+    protected $fileManager;
     protected $subject;
     protected $migrationsPath;
 
     protected function doSetUp()
     {
-        $this->subject = new Creator();
+        $this->fileManager = \Mockery::mock(FileManager::class);
+        $this->subject = new Creator($this->fileManager);
         $this->migrationsPath = sys_get_temp_dir();
     }
 
@@ -34,9 +40,9 @@ class CreatorTest extends TestCase
      */
     public function it_bootstraps_blank_migrations($type, $table = null, $create = false)
     {
-        $path = $this->subject->create(ucfirst($type).'Migration', $this->migrationsPath, $table, $create);
+        $this->expectMigration($type, $type.'_migration');
 
-        $this->assertMigrationEquals($type, $path);
+        $this->subject->create($type.'_migration', $this->migrationsPath, $table, $create);
     }
 
     public function getMigrationTypes()
@@ -48,35 +54,25 @@ class CreatorTest extends TestCase
         ];
     }
 
-    /** @test */
-    public function it_generates_the_migration_directory_if_needed()
+    private function expectMigration(string $type, string $name)
     {
-        $this->subject->create('BlankMigration', $dir = $this->migrationsPath.'/'.uniqid());
-
-        $this->assertDirectoryExists($dir);
-    }
-
-    private function assertMigrationEquals($name, $actual)
-    {
-        $this->assertFileExists($actual);
-
         $normalize = function ($str) { return preg_replace('/\R/', "\n", $str); };
 
-        switch ($name) {
+        switch ($type) {
             case 'create':
                 $eloquent7 = file_exists($this->subject->stubPath().'/migration.stub');
                 if (!$eloquent7) {
-                    $name .= '-6';
+                    $type .= '-6';
                 }
 
-                $expected = $normalize(file_get_contents(__DIR__.'/../Fixtures/migrations/'.$name.'.php'));
+                $expected = $normalize(file_get_contents(__DIR__.'/../Fixtures/migrations/'.$type.'.php'));
 
                 break;
             default:
-                $expected = $normalize(file_get_contents(__DIR__.'/../Fixtures/migrations/'.$name.'.php'));
+                $expected = $normalize(file_get_contents(__DIR__.'/../Fixtures/migrations/'.$type.'.php'));
         }
-        $actual = $normalize(file_get_contents($actual));
 
-        $this->assertEquals($expected, $actual);
+        $this->fileManager->shouldReceive('dumpFile')->once()
+            ->with(\Mockery::pattern('/'.preg_quote($this->migrationsPath, '/').'\/\d{4}_\d{2}_\d{2}_\d{6}_'.preg_quote($name, '/').'\.php/'), $expected);
     }
 }
