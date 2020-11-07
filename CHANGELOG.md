@@ -4,9 +4,11 @@ Changelog
 2.0.0
 -----
 
- * Added Laravel ^7.15 support
+ * Added Laravel ^7.15 and ^8.12 support
  * Deleted second argument of `ServiceContainerDispatcher`
- * Transformed the `make:*` commands to use the MakerBundle.
+ * Transformed the `make:*` commands to use the MakerBundle. Make sure
+   `symfony/maker-bundle` is installed if you want to use the `make:*`
+   commands
  * Removed the `--target` option of `make:seeder`, the location is now
    auto-discovered based on the classname and autoloading configuration
 
