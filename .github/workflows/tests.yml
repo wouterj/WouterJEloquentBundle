@@ -9,60 +9,70 @@ on:
 env:
   SYMFONY_PHPUNIT_REMOVE: "symfony/yaml"
   SYMFONY_DEPRECATIONS_HELPER: "max[direct]=0"
-  PHP_VERSION: 7.4
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     continue-on-error: ${{ matrix.experimental }}
-    name: 'Tests using deps=${{ matrix.deps }}'
+    name: '${{ matrix.deps }} deps: PHP=${{ matrix.php }}, Symfony=${{ matrix.symfony }}, Laravel=${{ matrix.laravel }}'
     strategy:
-      fail-fast: false
       matrix:
-        deps: ['low', '4.x', '5.x']
-        experimental: [false]
         include:
-          - deps: dev
+          - deps: 'low'
+            php: 7.2
+            experimental: false
+
+          - deps: 'stable'
+            php: 7.4
+            laravel: '7.x'
+            symfony: '5.x'
+            experimental: false
+
+          - deps: 'stable'
+            php: 7.4
+            symfony: '5.x'
+            laravel: '8.x'
+            experimental: false
+
+          - deps: 'dev'
+            php: 8.0
             experimental: true
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Set-up env variables
-        id: ctx
         run: |
           case "${{ matrix.deps }}" in
             "low")
-              echo "::set-output name=php_version::7.2"
-              echo "::set-output name=composer_flags::--prefer-lowest"
+              echo "COMPOSER_FLAGS=--prefer-lowest" >> $GITHUB_ENV
               echo "SYMFONY_DEPRECATIONS_HELPER=disabled=1" >> $GITHUB_ENV
 
               ;;
             "dev")
-              echo "::set-output name=php_version::8.0"
               echo "SYMFONY_DEPRECATIONS_HELPER=max[total]=999" >> $GITHUB_ENV
 
               perl -pi -e "s/^}\$/,\"minimum-stability\":\"dev\"}/" composer.json
-              composer config platform.php 7.4.99
 
               ;;
             *)
-              echo "::set-output name=php_version::$PHP_VERSION"
-              echo "SYMFONY_REQUIRE=$(echo '${{ matrix.deps }}' | tr x \\*)" >> $GITHUB_ENV
+              echo "SYMFONY_REQUIRE=$(echo '${{ matrix.symfony }}' | tr x \\*)" >> $GITHUB_ENV
+              echo "LARAVEL_REQUIRE=$(echo '${{ matrix.laravel }}' | tr x \\*)" >> $GITHUB_ENV
           esac
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ steps.ctx.outputs.php_version }}
+          php-version: ${{ matrix.php }}
           extensions: xml, pdo_sqlite
           tools: "composer:v2"
 
       - name: Install dependencies
         run: |
           composer global require --no-progress --no-scripts --no-plugins symfony/flex
-          composer update --prefer-dist --no-progress ${{ steps.ctx.outputs.composer_flags }}
+          if [ "$LARAVEL_REQUIRE" != "" ]; then composer require illuminate/database:$LARAVEL_REQUIRE; fi
+          composer update --prefer-dist --no-progress $COMPOSER_FLAGS
           ./vendor/bin/simple-phpunit install
 
       - name: Show info
