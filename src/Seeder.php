@@ -26,14 +26,12 @@ abstract class Seeder extends BaseSeeder
     /** @var ConnectionInterface */
     protected $connection;
 
-    abstract public function run();
-
-    public function __invoke()
+    public function __invoke(array $parameters = [])
     {
-        return $this->run();
+        return $this->run(...$parameters);
     }
 
-    public function call($class, $silent = false)
+    public function call($class, $silent = false, array $parameters = [])
 	{
 	    $classes = is_array($class) ? $class : [$class];
 
@@ -47,7 +45,7 @@ abstract class Seeder extends BaseSeeder
 
             $startTime = microtime(true);
 
-            ($seeder)();
+            ($seeder)($parameters);
 
             $runTime = round(microtime(true) - $startTime, 2);
 

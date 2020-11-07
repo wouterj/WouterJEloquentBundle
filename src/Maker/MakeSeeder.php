@@ -3,6 +3,7 @@
 namespace WouterJ\EloquentBundle\Maker;
 
 use Illuminate\Database\Seeder as IlluminateSeeder;
+use Illuminate\Database\Console\DumpCommand;
 use Symfony\Bundle\MakerBundle\ConsoleStyle;
 use Symfony\Bundle\MakerBundle\DependencyBuilder;
 use Symfony\Bundle\MakerBundle\FileManager;
@@ -65,7 +66,13 @@ class MakeSeeder extends AbstractMaker
         $stub = str_replace(IlluminateSeeder::class, Seeder::class, $stub);
 
         if ($namespace = Str::getNamespace($seederClassDetails->getFullName())) {
-            $stub = str_replace('<?php', "<?php\n\nnamespace ".$namespace.';', $stub);
+            if (class_exists(DumpCommand::class)) {
+                // Laravel 8
+                $stub = str_replace('namespace Database\Seeders;', 'namespace '.$namespace.';', $stub);
+            } else {
+                // Laravel 6 & 7
+                $stub = str_replace('<?php', "<?php\n\nnamespace ".$namespace.';', $stub);
+            }
         }
 
         $path = $this->fileManager->getRelativePathForFutureClass($seederClassDetails->getFullName());

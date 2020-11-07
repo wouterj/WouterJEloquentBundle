@@ -19,6 +19,11 @@
                 <referencedMethod name="Symfony\Bundle\MakerBundle\FileManager::getRelativePathForFutureClass"/>
             </errorLevel>
         </InternalMethod>
+        <UndefinedMethod>
+            <errorLevel type="suppress">
+                <referencedMethod name="WouterJ\EloquentBundle\Seeder::run"/>
+            </errorLevel>
+        </UndefinedMethod>
     </issueHandlers>
 
     <plugins>
