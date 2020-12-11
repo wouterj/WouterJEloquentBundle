@@ -44,7 +44,4 @@
         , "classmap": ["tests/Functional/app/migrations", "tests/Functional/app/TestKernel.php"]
         , "files": ["tests/phpunit6.php"]
     }
-    , "extra": {
-        "branch-alias": { "dev-master": "1.1-dev" }
-    }
 }
