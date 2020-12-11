@@ -141,17 +141,30 @@ class Configuration implements ConfigurationInterface
                                 ->defaultValue('mysql')
                             ->end()
                             ->scalarNode('host')->defaultValue('localhost')->end()
-                            ->scalarNode('port')->defaultValue(null)->end()
-                            ->scalarNode('database')->isRequired()->end()
+                            ->scalarNode('port')->defaultNull()->end()
+                            ->scalarNode('database')->defaultNull()->end()
                             ->scalarNode('username')->defaultValue('root')->end()
                             ->scalarNode('password')->defaultValue('')->end()
                             ->scalarNode('charset')->defaultValue('utf8')->end()
                             ->scalarNode('collation')->defaultValue('utf8_unicode_ci')->end()
-                            ->booleanNode('sticky')->defaultValue(true)->end()
+                            ->booleanNode('sticky')->end()
                             ->scalarNode('prefix')->defaultValue('')->end()
                             ->arrayNode('write')
+                                ->validate()
+                                    ->ifTrue(function ($v) {
+                                        return $v['host'] === [];
+                                    })
+                                    ->then(function ($v) {
+                                        unset($v['host']);
+
+                                        return $v;
+                                    })
+                                ->end()
                                 ->children()
                                     ->arrayNode('host')
+                                        ->beforeNormalization()
+                                            ->ifString()->then(function ($v) { return [$v]; })
+                                        ->end()
                                         ->prototype('scalar')->end()
                                     ->end()
                                     ->scalarNode('port')->end()
@@ -162,10 +175,23 @@ class Configuration implements ConfigurationInterface
                                     ->scalarNode('collation')->end()
                                     ->scalarNode('prefix')->end()
                                 ->end()
-                            ->end()
+                            ->end() // write
                             ->arrayNode('read')
+                                ->validate()
+                                    ->ifTrue(function ($v) {
+                                        return $v['host'] === [];
+                                    })
+                                    ->then(function ($v) {
+                                        unset($v['host']);
+
+                                        return $v;
+                                    })
+                                ->end()
                                 ->children()
                                     ->arrayNode('host')
+                                        ->beforeNormalization()
+                                            ->ifString()->then(function ($v) { return [$v]; })
+                                        ->end()
                                         ->prototype('scalar')->end()
                                     ->end()
                                     ->scalarNode('port')->end()
@@ -176,7 +202,7 @@ class Configuration implements ConfigurationInterface
                                     ->scalarNode('collation')->end()
                                     ->scalarNode('prefix')->end()
                                 ->end()
-                            ->end()
+                            ->end() // read
                         ->end()
                     ->end()
                 ->end() // connections

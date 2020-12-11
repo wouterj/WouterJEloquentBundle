@@ -89,7 +89,6 @@ abstract class WouterJEloquentExtensionTest extends TestCase
                 'password' => null,
                 'charset' => 'utf8',
                 'collation' => 'utf8_unicode_ci',
-                'sticky' => true,
                 'prefix' => null
             ], 'default'],
             [[
@@ -101,7 +100,6 @@ abstract class WouterJEloquentExtensionTest extends TestCase
                 'password' => 'pass',
                 'charset' => 'utf8',
                 'collation' => 'utf8_unicode_ci',
-                'sticky' => true,
                 'prefix' => 'symfo_',
             ], 'connection_1'],
         ], $connectionCalls);

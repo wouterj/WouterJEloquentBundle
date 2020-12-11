@@ -35,26 +35,20 @@ class ConnectionsTest extends KernelTestCase
     protected function doSetUp()
     {
         static::bootKernel();
-
-        Schema::create('books', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('title');
-            $table->integer('isbn_id')->nullable();
-            $table->integer('category_id')->nullable();
-            $table->timestamps();
-        });
-
-        Schema::connection('conn2')->create('books', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('title');
-            $table->integer('isbn_id')->nullable();
-            $table->integer('category_id')->nullable();
-            $table->timestamps();
-        });
     }
 
     public function testMultipleConnections()
     {
+        $schemaBlueprint = function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('title');
+            $table->integer('isbn_id')->nullable();
+            $table->integer('category_id')->nullable();
+            $table->timestamps();
+        };
+        Schema::create('books', $schemaBlueprint);
+        Schema::connection('conn2')->create('books', $schemaBlueprint);
+
         $book1 = new Book;
         $book1->title = 'Hello world!';
         $book1->save();
@@ -69,4 +63,44 @@ class ConnectionsTest extends KernelTestCase
         $this->assertEquals(1, Conn2Book::all()->count());
         $this->assertEquals('Other world!', Conn2Book::all()->first()->title);
     }
+
+    public function testReadWriteConnection()
+    {
+        copy(__DIR__.'/app/read.sqlite', __DIR__.'/app/write.sqlite');
+
+        $this->assertEquals(1, ReadWriteBook::all()->count());
+
+        // a different sqlite file is used for read than for write. This isn't
+        // a realistic example, but it lets us verify that there indeed is a
+        // different sqlite connection for read and write
+        $book2 = new ReadWriteBook;
+        $book2->title = 'Another one!';
+        $book2->save();
+
+        $this->assertEquals(1, ReadWriteBook::all()->count());
+    }
+
+    public function testStickyReadWriteConnection()
+    {
+        copy(__DIR__.'/app/read.sqlite', __DIR__.'/app/write.sqlite');
+
+        $this->assertEquals(1, ReadWriteStickyBook::all()->count());
+
+        $book2 = new ReadWriteStickyBook;
+        $book2->title = 'Yet another one!';
+        $book2->save();
+
+        $this->assertEquals(2, ReadWriteStickyBook::all()->count());
+    }
+}
+
+class ReadWriteBook extends Book
+{
+    public $connection = 'read_write';
+    public $table = 'books';
+}
+
+class ReadWriteStickyBook extends ReadWriteBook
+{
+    public $connection = 'read_write_sticky';
 }

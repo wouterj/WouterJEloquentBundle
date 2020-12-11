@@ -14,16 +14,31 @@ Full configuration
                 database:  ~     # the only required option
                 driver:    mysql
                 host:      localhost
+                port:      null
                 username:  root
                 password:  ''
                 charset:   utf8
                 collation: utf8_unicode_ci
                 prefix:    ''
-                sticky: true
+                sticky:    false
                 read:
-                  host: ['localhost']
+                    host:      null
+                    port:      null
+                    database:  null
+                    username:  null
+                    password:  null
+                    charset:   null
+                    collation: null
+                    prefix:    null
                 write:
-                  host: ['localhost']
+                    host:      null
+                    port:      null
+                    database:  null
+                    username:  null
+                    password:  null
+                    charset:   null
+                    collation: null
+                    prefix:    null
         default_connection: default
         eloquent: false
         aliases: false
