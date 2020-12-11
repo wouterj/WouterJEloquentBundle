@@ -63,7 +63,18 @@ class TestKernel extends Kernel
                     ],
                     'conn2' => [
                         'driver'   => 'sqlite',
-                        'database' => '%kernel.project_dir%/test1.sqlite'
+                        'database' => '%kernel.project_dir%/test1.sqlite',
+                    ],
+                    'read_write' => [
+                        'driver' => 'sqlite',
+                        'read'   => ['database' => '%kernel.project_dir%/read.sqlite'],
+                        'write'  => ['database' => '%kernel.project_dir%/write.sqlite'],
+                    ],
+                    'read_write_sticky' => [
+                        'driver' => 'sqlite',
+                        'sticky' => true,
+                        'read'   => ['database' => '%kernel.project_dir%/read.sqlite'],
+                        'write'  => ['database' => '%kernel.project_dir%/write.sqlite'],
                     ],
                 ],
                 'aliases'  => true,

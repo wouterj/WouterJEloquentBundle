@@ -14,11 +14,31 @@ Full configuration
                 database:  ~     # the only required option
                 driver:    mysql
                 host:      localhost
+                port:      null
                 username:  root
                 password:  ''
                 charset:   utf8
                 collation: utf8_unicode_ci
                 prefix:    ''
+                sticky:    false
+                read:
+                    host:      null
+                    port:      null
+                    database:  null
+                    username:  null
+                    password:  null
+                    charset:   null
+                    collation: null
+                    prefix:    null
+                write:
+                    host:      null
+                    port:      null
+                    database:  null
+                    username:  null
+                    password:  null
+                    charset:   null
+                    collation: null
+                    prefix:    null
         default_connection: default
         eloquent: false
         aliases: false
@@ -42,6 +62,12 @@ setting directly to the root configuration:
         username: user
         password: pass
         prefix: symfo_
+        sticky: true
+        read:
+          host: ['localhost']
+        write:
+          host: ['localhost']
+
 
 This will create a connection called ``default``. If the defaults fits your
 needs, the minimal configuration to get started is:
