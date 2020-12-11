@@ -5,6 +5,7 @@ namespace WouterJ\EloquentBundle\Maker;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\MakerBundle\FileManager;
 use Symfony\Bundle\MakerBundle\Generator;
+use Symfony\Bundle\MakerBundle\Util\PhpCompatUtil;
 use WouterJ\EloquentBundle\MockeryTrait;
 use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,7 +26,7 @@ class SeederMakeCommandTest extends TestCase
     {
         $this->fileManager = \Mockery::spy(FileManager::class);
         $this->maker = new MakeSeeder($this->fileManager);
-        $this->generator = new Generator($this->fileManager, 'App');
+        $this->generator = new Generator($this->fileManager, 'App', class_exists(PhpCompatUtil::class) ? new PhpCompatUtil($this->fileManager) : null);
     }
 
     /**
