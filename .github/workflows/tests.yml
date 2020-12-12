@@ -26,26 +26,36 @@ jobs:
             experimental: false
 
           - deps: 'stable'
-            php: 7.4
+            php: 8.0
             symfony: '5.x'
             laravel: '7.x'
             experimental: false
 
           - deps: 'stable'
-            php: 7.4
+            php: 8.0
             symfony: '5.x'
             laravel: '8.x'
             experimental: false
 
           - deps: 'dev'
-            php: 8.0
+            php: 8.1
             experimental: true
 
     steps:
       - uses: actions/checkout@v2
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: xml, pdo_sqlite
+          tools: "composer:v2"
+
       - name: Set-up env variables
+        id: ctx
         run: |
+          echo "::set-output name=composer_dir::$(composer config cache-files-dir)"
+
           case "${{ matrix.deps }}" in
             "low")
               echo "COMPOSER_FLAGS=--prefer-lowest" >> $GITHUB_ENV
@@ -63,17 +73,10 @@ jobs:
               echo "LARAVEL_REQUIRE=$(echo '${{ matrix.laravel }}' | tr x \\*)" >> $GITHUB_ENV
           esac
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: xml, pdo_sqlite
-          tools: "composer:v2"
-
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
-          path: "${{ env.COMPOSER_CACHE_DIR }}"
+          path: ${{ steps.ctx.outputs.composer_dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.json') }}
 
       - name: Install dependencies
