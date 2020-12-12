@@ -5,6 +5,8 @@ on:
     branches: [2.x, 1.x]
   pull_request:
     branches: [2.x, 1.x]
+  schedule:
+    - cron: '3 2 1 * *'
 
 env:
   SYMFONY_PHPUNIT_REMOVE: "symfony/yaml"
