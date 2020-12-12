@@ -12,6 +12,7 @@
             username="user"
             password="pass"
             prefix="symfo_"
+            schema="schema1"
         />
     </config>
 </container>
