@@ -63,6 +63,7 @@ jobs:
 
               ;;
             "dev")
+              echo "COMPOSER_FLAGS=--ignore-platform-req=php" >> $GITHUB_ENV
               echo "SYMFONY_DEPRECATIONS_HELPER=max[total]=999" >> $GITHUB_ENV
 
               perl -pi -e "s/^}\$/,\"minimum-stability\":\"dev\"}/" composer.json
