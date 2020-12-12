@@ -27,8 +27,8 @@ jobs:
 
           - deps: 'stable'
             php: 7.4
-            laravel: '7.x'
             symfony: '5.x'
+            laravel: '7.x'
             experimental: false
 
           - deps: 'stable'
@@ -69,6 +69,12 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: xml, pdo_sqlite
           tools: "composer:v2"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: "${{ env.COMPOSER_CACHE_DIR }}"
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.json') }}
 
       - name: Install dependencies
         run: |
