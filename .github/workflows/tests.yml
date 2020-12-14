@@ -9,7 +9,6 @@ on:
     - cron: '3 2 1 * *'
 
 env:
-  SYMFONY_PHPUNIT_REMOVE: "symfony/yaml"
   SYMFONY_DEPRECATIONS_HELPER: "max[direct]=0"
 
 jobs:
