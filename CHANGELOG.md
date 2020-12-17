@@ -5,6 +5,9 @@ Changelog
 -----
 
  * Added Laravel ^7.15 and ^8.12 support
+ * Added PHP 8 support
+ * Added support for Read & Write Connections
+ * Added schema support for PostgreSQL
  * Deleted second argument of `ServiceContainerDispatcher`
  * Transformed the `make:*` commands to use the MakerBundle. Make sure
    `symfony/maker-bundle` is installed if you want to use the `make:*`
