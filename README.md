@@ -7,12 +7,17 @@ If you wish to use the [Symfony Serializer][serializer] with [Eloquent
 Models][eloquent-model] you can check [EloquentSerializer][eloquent-serializer].
 
 
-## Supported versions
+## Maintained Releases
 
-This bundle supports Symfony 4.4 & 5.x, and Laravel ^6.18 & ^7.15.
+Only the latest release of this bundle is maintained. Backwards
+compatible support for new versions of PHP, Symfony and Laravel are
+considered bug fixes. Dropping support for old versions is considered a
+feature.
 
-[Contribute to this repository](#contributing) to this repository if you want
-to add support for other versions.
+New releases will be made as much as once a week following semantic
+versioning. The default branch (2.x) will be released as minor or patch
+version, depending on the changes with the last release (features or
+only bug fixes).
 
 
 ## Installation
