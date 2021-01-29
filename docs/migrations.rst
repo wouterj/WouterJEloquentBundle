@@ -62,8 +62,8 @@ will be created by the migrations:
 
 .. code-block:: bash
 
-    $ php bin/console eloquent:migrate:make --create=flights create_flights_table
-    $ php bin/console eloquent:migrate:make --table=flights add_aircraft_to_flights_table
+    $ php bin/console make:eloquent-migration --create=flights create_flights_table
+    $ php bin/console make:eloquent-migration --table=flights add_aircraft_to_flights_table
 
 ======================  ==========================================================================================================
 Option                  Description
