@@ -90,11 +90,11 @@ class Configuration implements ConfigurationInterface
                 ->ifTrue(function ($v) {
                     return is_array($v)
                         && !array_key_exists('connections', $v) && !array_key_exists('connection', $v)
-                        && count($v) !== count(array_diff(array_keys($v), ['driver', 'host', 'port', 'database', 'username', 'password', 'charset', 'collation', 'prefix', 'read', 'write', 'sticky', 'schema']));
+                        && count($v) !== count(array_diff(array_keys($v), ['driver', 'host', 'port', 'database', 'username', 'password', 'charset', 'collation', 'prefix', 'read', 'write', 'sticky', 'schema', 'options']));
                 })
                 ->then(function ($v) {
                     // Key that should be rewritten to the connection config
-                    $includedKeys = ['driver', 'host', 'port', 'database', 'username', 'password', 'charset', 'collation', 'prefix', 'read', 'write', 'sticky', 'schema'];
+                    $includedKeys = ['driver', 'host', 'port', 'database', 'username', 'password', 'charset', 'collation', 'prefix', 'read', 'write', 'sticky', 'schema', 'options'];
                     $connection = [];
                     foreach ($v as $key => $value) {
                         if (in_array($key, $includedKeys)) {
@@ -150,6 +150,12 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('schema')->end()
                             ->booleanNode('sticky')->end()
                             ->scalarNode('prefix')->defaultValue('')->end()
+                            ->arrayNode('options')
+                                ->children()
+                                    ->scalarNode(\PDO::ATTR_PERSISTENT)->end()
+                                ->end()
+                            ->end()
+
                             ->arrayNode('write')
                                 ->validate()
                                     ->ifTrue(function ($v) {

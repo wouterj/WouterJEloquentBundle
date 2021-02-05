@@ -20,6 +20,8 @@ Full configuration
                 charset:   utf8
                 collation: utf8_unicode_ci
                 prefix:    ''
+                options:
+                  !php/const PDO::ATTR_PERSISTENT: true # enable persistent connection
                 sticky:    false
                 read:
                     host:      null
@@ -63,6 +65,8 @@ setting directly to the root configuration:
         password: pass
         prefix: symfo_
         sticky: true
+        options:
+          !php/const PDO::ATTR_PERSISTENT: true
         read:
           host: ['localhost']
         write:
