@@ -22,10 +22,15 @@ class MakeModel extends AbstractMaker
         return 'make:model';
     }
 
+    public static function getCommandDescription(): string
+    {
+        return 'Create a new Eloquent model class';
+    }
+
     public function configureCommand(Command $command, InputConfiguration $inputConfig): void
     {
         $command
-            ->setDescription('Create a new Eloquent model class')
+            ->setDescription(self::getCommandDescription())
             ->addArgument('name', InputArgument::REQUIRED, 'The name of the model')
             ->addOption('force', null, InputOption::VALUE_NONE, 'Create the class even if the model already exists')
             ->addOption('pivot', 'p', InputOption::VALUE_NONE, 'Indicates if the generated model should be a custom intermediate table model')

@@ -34,10 +34,15 @@ class MakeMigration extends AbstractMaker
         return 'make:eloquent-migration';
     }
 
+    public static function getCommandDescription(): string
+    {
+        return 'Creates a new Eloquent migration file';
+    }
+
     public function configureCommand(Command $command, InputConfiguration $inputConfig): void
     {
         $command
-            ->setDescription('Creates a new Eloquent migration file')
+            ->setDescription(self::getCommandDescription())
             ->addArgument('name', InputArgument::REQUIRED, 'The name of the migration')
             ->addOption('database', null, InputOption::VALUE_REQUIRED, 'The database connection to seed')
             ->addOption('table', null, InputOption::VALUE_REQUIRED, 'An optional table name that is updated during the migration')

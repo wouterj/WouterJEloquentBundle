@@ -33,10 +33,15 @@ class MakeSeeder extends AbstractMaker
         return 'make:seeder';
     }
 
+    public static function getCommandDescription(): string
+    {
+        return 'Create a new Eloquent seeder class';
+    }
+
     public function configureCommand(Command $command, InputConfiguration $inputConfig): void
     {
         $command
-            ->setDescription('Create a new Eloquent seeder class')
+            ->setDescription(self::getCommandDescription())
             ->addArgument('name', InputArgument::REQUIRED, 'The name of the seeder class')
         ;
     }
