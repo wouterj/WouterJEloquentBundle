@@ -14,6 +14,15 @@ namespace WouterJ\EloquentBundle\Facade;
 use Illuminate\Database\Schema\Builder;
 
 /**
+ * @method static \Illuminate\Database\Schema\Builder create(string $table, \Closure $callback)
+ * @method static \Illuminate\Database\Schema\Builder createDatabase(string $name)
+ * @method static \Illuminate\Database\Schema\Builder disableForeignKeyConstraints()
+ * @method static \Illuminate\Database\Schema\Builder drop(string $table)
+ * @method static \Illuminate\Database\Schema\Builder dropDatabaseIfExists(string $name)
+ * @method static \Illuminate\Database\Schema\Builder dropIfExists(string $table)
+ * @method static \Illuminate\Database\Schema\Builder enableForeignKeyConstraints()
+ * @method static \Illuminate\Database\Schema\Builder rename(string $from, string $to)
+ * @method static \Illuminate\Database\Schema\Builder table(string $table, \Closure $callback)
  * @final
  * @author Wouter de Jong <wouter@wouterj.nl>
  */
