@@ -37,10 +37,9 @@ class ObserverPass implements CompilerPassInterface
         $definition = $container->getDefinition('wouterj_eloquent.events');
         $services = $container->findTaggedServiceIds('wouterj_eloquent.observer');
 
-        $lazyInjection = class_exists(ServiceLocator::class);
         $observers = [];
         foreach ($services as $id => $attrs) {
-            $observers[$container->getDefinition($id)->getClass()] = $lazyInjection ? new ServiceClosureArgument(new Reference($id)) : $id;
+            $observers[$container->getDefinition($id)->getClass()] = new ServiceClosureArgument(new Reference($id));
         }
 
         $definition->replaceArgument(0, (new Definition(ServiceLocator::class, [$observers]))->addTag('container.service_locator'));
