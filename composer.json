@@ -34,7 +34,8 @@
         "symfony/var-dumper": "^4.4 || ^5.0",
         "twig/twig": "^1.26 || ^2.0 || ^3.0",
         "vimeo/psalm": "^3.18.2 || ^4.0",
-        "psalm/plugin-symfony": "^1.5.0 || ^2.0"
+        "psalm/plugin-symfony": "^1.5.0 || ^2.0",
+        "symfony/security-bundle": "^4.4 || ^5.0"
     },
 
     "autoload": { "psr-4": { "WouterJ\\EloquentBundle\\": "src" } },

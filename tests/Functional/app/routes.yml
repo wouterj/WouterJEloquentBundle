@@ -1,3 +1,7 @@
 create_user:
     path: /user/create
     defaults: { _controller: 'AppBundle\Controller\FormController::create' }
+
+profile:
+    path: /secured/profile
+    defaults: { _controller: 'AppBundle\Controller\ProfileController::index' }
