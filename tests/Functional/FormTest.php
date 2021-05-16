@@ -6,22 +6,13 @@ use AppBundle\Model\CastingUser;
 use Illuminate\Database\Schema\Blueprint;
 use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use WouterJ\EloquentBundle\Facade\Db;
 use WouterJ\EloquentBundle\Facade\Schema;
 
-class FormTest extends WebTestCase
+class FormTest extends AbstractFunctionalTest
 {
     use SetUpTearDownTrait;
-
-    /** @var KernelBrowser */
-    private $client;
-
-    protected static function getKernelClass()
-    {
-        return 'TestKernel';
-    }
 
     protected function doSetUp()
     {
@@ -58,6 +49,7 @@ class FormTest extends WebTestCase
             'date_of_birth_month' => 'select',
             'date_of_birth_day' => 'select',
             'is_admin' => 'checkbox',
+            '_token' => 'hidden',
         ], $inputs);
     }
 

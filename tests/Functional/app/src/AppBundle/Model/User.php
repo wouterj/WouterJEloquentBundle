@@ -12,11 +12,53 @@
 namespace AppBundle\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
-class User extends Model
+class LegacyUser extends Model implements UserInterface
 {
     public $fillable = ['name', 'email', 'password'];
+
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+}
+
+if (interface_exists(PasswordAuthenticatedUserInterface::class)) {
+    class User extends LegacyUser implements PasswordAuthenticatedUserInterface
+    {
+    }
+} else {
+    // BC with symfony/security-core <5.3
+    class User extends LegacyUser
+    {
+    }
 }

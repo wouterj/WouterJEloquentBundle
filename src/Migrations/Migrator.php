@@ -32,13 +32,13 @@ class Migrator extends LaravelMigrator
         $this->resolver = $resolver;
     }
 
-    public function getMigrationFiles($path)
+    public function getMigrationFiles($paths)
     {
-        if (0 === count((array) $path)) {
+        if (0 === count((array) $paths)) {
             return [];
         }
 
-        $files = Finder::create()->name('*_*.php')->in($path)->sortByName();
+        $files = Finder::create()->name('*_*.php')->in($paths)->sortByName();
 
         if (0 === count($files)) {
             return [];
