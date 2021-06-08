@@ -32,7 +32,7 @@ class EloquentUserProviderFactory implements UserProviderFactoryInterface
     {
         /** @var ArrayNodeDefinition $builder */
         $builder
-            ->info('Configures a user provider using the Eloquent Query Builder (table & column options) or Eloquent ORM (model & attribute options)')
+            ->info('Configures a user provider using the Eloquent ORM')
             ->children()
                 ->scalarNode('model')->cannotBeEmpty()->info('The FQCN of your user model.')->end()
                 ->scalarNode('attribute')->cannotBeEmpty()->info('The attribute of your user model to use as username.')->end()
