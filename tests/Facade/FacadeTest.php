@@ -11,7 +11,6 @@
 
 namespace WouterJ\EloquentBundle\Facade;
 
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\Fixtures\Facade as Fixture;
 use WouterJ\EloquentBundle\MockeryTrait;
@@ -22,9 +21,7 @@ use PHPUnit\Framework\TestCase;
  */
 class FacadeTest extends TestCase
 {
-    use SetUpTearDownTrait, MockeryTrait {
-        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
-    }
+    use MockeryTrait;
 
     /** @test */
     public function it_accepts_object_accessors()

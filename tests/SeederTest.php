@@ -11,7 +11,6 @@
 
 namespace WouterJ\EloquentBundle;
 
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\MockeryTrait;
 use PHPUnit\Framework\TestCase;
@@ -23,14 +22,12 @@ require_once __DIR__.'/Fixtures/ConsoleCommandFixture.php';
  */
 class SeederTest extends TestCase
 {
-    use SetUpTearDownTrait, MockeryTrait {
-        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
-    }
+    use MockeryTrait;
 
     protected $subject;
     protected $container;
 
-    protected function doSetUp()
+    protected function setUp(): void
     {
         $this->container = \Mockery::mock(ContainerInterface::class);
 

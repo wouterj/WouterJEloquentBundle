@@ -7,22 +7,19 @@ use Symfony\Bundle\MakerBundle\FileManager;
 use Symfony\Bundle\MakerBundle\Generator;
 use Symfony\Bundle\MakerBundle\Util\PhpCompatUtil;
 use WouterJ\EloquentBundle\MockeryTrait;
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SeederMakeCommandTest extends TestCase
 {
     use MakerTestTrait;
-    use SetUpTearDownTrait, MockeryTrait {
-        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
-    }
+    use MockeryTrait;
 
     protected $defaultOptions = ['command' => 'make:seeder'];
     private $fileManager;
     private $generator;
 
-    protected function doSetUp()
+    protected function setUp(): void
     {
         $this->fileManager = \Mockery::spy(FileManager::class);
         $this->maker = new MakeSeeder($this->fileManager);

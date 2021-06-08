@@ -14,21 +14,18 @@ namespace WouterJ\EloquentBundle\EventListener;
 use Illuminate\Database\Capsule\Manager;
 use PHPUnit\Framework\TestCase;
 use WouterJ\EloquentBundle\MockeryTrait;
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
 class EloquentInitializerTest extends TestCase
 {
-    use SetUpTearDownTrait, MockeryTrait {
-        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
-    }
+    use MockeryTrait;
 
     protected $capsule;
     protected $subject;
 
-    protected function doSetUp()
+    protected function setUp(): void
     {
         $this->capsule = \Mockery::mock(Manager::class);
         $this->subject = new EloquentInitializer($this->capsule);

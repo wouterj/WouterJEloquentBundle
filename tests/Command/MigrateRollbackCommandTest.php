@@ -12,7 +12,6 @@
 namespace WouterJ\EloquentBundle\Command;
 
 use Illuminate\Console\OutputStyle;
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\DependencyInjection\Container;
 use WouterJ\EloquentBundle\MockeryTrait;
 use WouterJ\EloquentBundle\Migrations\Migrator;
@@ -23,14 +22,12 @@ use PHPUnit\Framework\TestCase;
  */
 class MigrateRollbackCommandTest extends TestCase
 {
-    use SetUpTearDownTrait, MockeryTrait {
-        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
-    }
+    use MockeryTrait;
 
     private $command;
     private $migrator;
 
-    protected function doSetUp()
+    protected function setUp(): void
     {
         $this->migrator = \Mockery::mock(Migrator::class);
         $this->migrator->allows()->paths()->andReturn([])->byDefault();

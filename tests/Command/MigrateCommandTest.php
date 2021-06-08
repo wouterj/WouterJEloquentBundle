@@ -12,7 +12,6 @@
 namespace WouterJ\EloquentBundle\Command;
 
 use Illuminate\Console\OutputStyle;
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\HelperSet;
@@ -29,13 +28,11 @@ use PHPUnit\Framework\TestCase;
  */
 class MigrateCommandTest extends TestCase
 {
-    use SetUpTearDownTrait, MockeryTrait {
-        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
-    }
+    use MockeryTrait;
 
     private $migrator;
 
-    protected function doSetUp()
+    protected function setUp(): void
     {
         $this->migrator = \Mockery::mock(Migrator::class);
         $this->migrator->allows()->paths()->andReturn([])->byDefault();

@@ -11,7 +11,6 @@
 
 namespace WouterJ\EloquentBundle\EventListener;
 
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\Facade\Facade;
 use WouterJ\EloquentBundle\Facade\AliasesLoader;
@@ -23,15 +22,13 @@ use PHPUnit\Framework\TestCase;
  */
 class FacadeInitializerTest extends TestCase
 {
-    use SetUpTearDownTrait, MockeryTrait {
-        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
-    }
+    use MockeryTrait;
 
     protected $loader;
     protected $container;
     protected $subject;
 
-    public function doSetUp()
+    public function setUp(): void
     {
         $this->loader = \Mockery::mock(AliasesLoader::class);
         $this->container = \Mockery::mock(ContainerInterface::class);

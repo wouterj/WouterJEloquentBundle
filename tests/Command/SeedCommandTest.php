@@ -12,7 +12,6 @@
 namespace WouterJ\EloquentBundle\Command;
 
 use Illuminate\Database\DatabaseManager;
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use WouterJ\EloquentBundle\MockeryTrait;
 use WouterJ\EloquentBundle\Seeder;
 use WouterJ\EloquentBundle\Promise;
@@ -27,15 +26,13 @@ use PHPUnit\Framework\TestCase;
  */
 class SeedCommandTest extends TestCase
 {
-    use SetUpTearDownTrait, MockeryTrait {
-        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
-    }
+    use MockeryTrait;
 
     protected $container;
     protected $command;
     protected $manager;
 
-    public function doSetUp()
+    public function setUp(): void
     {
         $this->container = \Mockery::mock(ContainerInterface::class);
         $this->manager = \Mockery::mock(DatabaseManager::class);

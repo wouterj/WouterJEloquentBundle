@@ -4,14 +4,11 @@ namespace WouterJ\EloquentBundle\Functional;
 
 use AppBundle\Model\User;
 use Illuminate\Database\Schema\Blueprint;
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use WouterJ\EloquentBundle\Facade\Schema;
 
 class SecurityTest extends AbstractFunctionalTest
 {
-    use SetUpTearDownTrait;
-
-    protected function doSetUp()
+    protected function setUp(): void
     {
         $this->client = static::createClient();
 

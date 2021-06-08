@@ -18,7 +18,7 @@ use Prophecy\Prophecy\ObjectProphecy;
  */
 trait MockeryTrait
 {
-    protected function doTearDown()
+    protected function tearDown(): void
     {
         if ($container = \Mockery::getContainer()) {
             $this->addToAssertionCount($container->mockery_getExpectationCount());

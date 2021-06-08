@@ -11,7 +11,6 @@
 
 namespace WouterJ\EloquentBundle\Command;
 
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\HelperSet;
@@ -29,15 +28,13 @@ use PHPUnit\Framework\TestCase;
  */
 class MigrateStatusCommandTest extends TestCase
 {
-    use SetUpTearDownTrait, MockeryTrait {
-        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
-    }
+    use MockeryTrait;
 
     private $command;
     private $repository;
     private $migrator;
 
-    protected function doSetUp()
+    protected function setUp(): void
     {
         $this->repository = \Mockery::mock(MigrationRepositoryInterface::class);
         $this->repository->allows()->getRan()->andReturn([])->byDefault();

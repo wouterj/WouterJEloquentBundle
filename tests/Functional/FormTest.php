@@ -4,7 +4,6 @@ namespace WouterJ\EloquentBundle\Functional;
 
 use AppBundle\Model\CastingUser;
 use Illuminate\Database\Schema\Blueprint;
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\DomCrawler\Crawler;
 use WouterJ\EloquentBundle\Facade\Db;
@@ -12,9 +11,7 @@ use WouterJ\EloquentBundle\Facade\Schema;
 
 class FormTest extends AbstractFunctionalTest
 {
-    use SetUpTearDownTrait;
-
-    protected function doSetUp()
+    protected function setUp(): void
     {
         $this->client = static::createClient();
 
