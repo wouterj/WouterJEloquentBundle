@@ -11,7 +11,6 @@
 
 namespace WouterJ\EloquentBundle\DependencyInjection;
 
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use WouterJ\EloquentBundle\EventListener\EloquentInitializer;
@@ -26,11 +25,9 @@ use WouterJ\EloquentBundle\WouterJEloquentBundle;
  */
 abstract class WouterJEloquentExtensionTest extends TestCase
 {
-    use SetUpTearDownTrait;
-
     protected $container;
 
-    protected function doSetUp()
+    protected function setUp(): void
     {
         $this->container = new ContainerBuilder();
         $this->container->setParameter('kernel.root_dir', sys_get_temp_dir());

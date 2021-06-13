@@ -17,6 +17,7 @@ use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Log\Logger;
+use Symfony\Component\Security\Http\Authentication\AuthenticatorManager;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
@@ -57,6 +58,8 @@ class TestKernel extends Kernel
                 'form'   => true,
                 'assets' => false,
                 'session' => $sessionConfig,
+                'csrf_protection' => false,
+                'property_access' => true,
             ]);
 
             $container->loadFromExtension('twig', [
@@ -65,7 +68,7 @@ class TestKernel extends Kernel
                 'strict_variables' => $container->getParameter('kernel.debug'),
             ]);
 
-            $container->loadFromExtension('security', [
+            $securityConfig = [
                 'providers' => [
                     'test' => [
                         'eloquent' => ['model' => User::class, 'attribute' => 'email'],
@@ -75,7 +78,11 @@ class TestKernel extends Kernel
                     'main' => ['pattern' => '^/secured/', 'http_basic' => true],
                 ],
                 'encoders' => [User::class => 'plaintext'],
-            ]);
+            ];
+            if (class_exists(AuthenticatorManager::class)) {
+                $securityConfig['enable_authenticator_manager'] = true;
+            }
+            $container->loadFromExtension('security', $securityConfig);
 
             $container->loadFromExtension('wouterj_eloquent', [
                 'connections' => [

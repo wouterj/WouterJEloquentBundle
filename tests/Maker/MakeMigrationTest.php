@@ -11,7 +11,6 @@
 
 namespace WouterJ\EloquentBundle\Maker;
 
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use WouterJ\EloquentBundle\MockeryTrait;
 use WouterJ\EloquentBundle\Migrations\Creator;
 use PHPUnit\Framework\TestCase;
@@ -22,14 +21,12 @@ use PHPUnit\Framework\TestCase;
 class MakeMigrationTest extends TestCase
 {
     use MakerTestTrait;
-    use SetUpTearDownTrait, MockeryTrait {
-        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
-    }
+    use MockeryTrait;
 
     protected $defaultOptions = ['command' => 'make:eloquent-migration'];
     private $creator;
 
-    protected function doSetUp()
+    protected function setUp(): void
     {
         $this->creator = \Mockery::mock(Creator::class);
         $this->maker = new MakeMigration($this->creator, __DIR__.'/migrations');

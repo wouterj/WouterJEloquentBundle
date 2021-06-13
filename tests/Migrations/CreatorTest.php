@@ -13,21 +13,18 @@ namespace WouterJ\EloquentBundle\Migrations;
 
 use Illuminate\Database\Schema\Blueprint;
 use PHPUnit\Framework\TestCase;
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Bundle\MakerBundle\FileManager;
 use WouterJ\EloquentBundle\MockeryTrait;
 
 class CreatorTest extends TestCase
 {
-    use SetUpTearDownTrait, MockeryTrait {
-        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
-    }
+    use MockeryTrait;
 
     protected $fileManager;
     protected $subject;
     protected $migrationsPath;
 
-    protected function doSetUp()
+    protected function setUp(): void
     {
         $this->fileManager = \Mockery::mock(FileManager::class);
         $this->subject = new Creator($this->fileManager);

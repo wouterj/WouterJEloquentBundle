@@ -16,7 +16,6 @@ use AppBundle\Model\Category;
 use AppBundle\Model\Conn2Book;
 use AppBundle\Model\Isbn;
 use Illuminate\Database\Schema\Blueprint;
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use WouterJ\EloquentBundle\Facade\Schema;
 
@@ -25,14 +24,12 @@ use WouterJ\EloquentBundle\Facade\Schema;
  */
 class ConnectionsTest extends KernelTestCase
 {
-    use SetUpTearDownTrait;
-
     protected static function getKernelClass()
     {
         return 'TestKernel';
     }
 
-    protected function doSetUp()
+    protected function setUp(): void
     {
         static::bootKernel();
     }

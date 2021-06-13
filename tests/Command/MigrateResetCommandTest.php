@@ -12,7 +12,6 @@
 namespace WouterJ\EloquentBundle\Command;
 
 use Illuminate\Console\OutputStyle;
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\DependencyInjection\Container;
 use WouterJ\EloquentBundle\Promise;
 use WouterJ\EloquentBundle\MockeryTrait;
@@ -24,14 +23,12 @@ use PHPUnit\Framework\TestCase;
  */
 class MigrateResetCommandTest extends TestCase
 {
-    use SetUpTearDownTrait, MockeryTrait {
-        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
-    }
+    use MockeryTrait;
 
     private $command;
     private $migrator;
 
-    protected function doSetUp()
+    protected function setUp(): void
     {
         $this->migrator = \Mockery::mock(Migrator::class);
         $this->migrator->allows()->paths()->andReturn([])->byDefault();

@@ -23,22 +23,26 @@ jobs:
           - deps: 'low'
             php: 7.2
             experimental: false
+            composer: v2
 
           - deps: 'stable'
             php: 8.0
             symfony: '5.x'
             laravel: '7.x'
             experimental: false
+            composer: v2
 
           - deps: 'stable'
             php: 8.0
             symfony: '5.x'
             laravel: '8.x'
             experimental: false
+            composer: v2
 
           - deps: 'dev'
             php: 8.1
             experimental: true
+            composer: preview
 
     steps:
       - uses: actions/checkout@v2
@@ -48,7 +52,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: xml, pdo_sqlite
-          tools: "composer:v2"
+          tools: "composer:${{ matrix.composer }}"
 
       - name: Set-up env variables
         id: ctx
@@ -82,7 +86,7 @@ jobs:
       - name: Install dependencies
         run: |
           composer global require --no-progress --no-scripts --no-plugins symfony/flex
-          if [ "$LARAVEL_REQUIRE" != "" ]; then composer require illuminate/database:$LARAVEL_REQUIRE; fi
+          if [ "$LARAVEL_REQUIRE" != "" ]; then composer require --no-update illuminate/database:$LARAVEL_REQUIRE; fi
           composer update --prefer-dist --no-progress $COMPOSER_FLAGS
           ./vendor/bin/simple-phpunit install
 

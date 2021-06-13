@@ -13,22 +13,19 @@ namespace WouterJ\EloquentBundle\DataCollector;
 
 use Illuminate\Database\Capsule\Manager;
 use WouterJ\EloquentBundle\MockeryTrait;
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use PHPUnit\Framework\TestCase;
 
 class EloquentDataCollectorTest extends TestCase
 {
-    use SetUpTearDownTrait, MockeryTrait {
-        MockeryTrait::doTearDown insteadof SetUpTearDownTrait;
-    }
+    use MockeryTrait;
 
     private $capsule;
     private $queryListener;
     private $collector;
 
-    protected function doSetUp()
+    protected function setUp(): void
     {
         $this->capsule = \Mockery::mock(Manager::class);
         $this->capsule->allows()->getContainer()->andReturn(['config' => ['database.connections' => []]])->byDefault();
