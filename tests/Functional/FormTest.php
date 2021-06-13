@@ -46,7 +46,6 @@ class FormTest extends AbstractFunctionalTest
             'date_of_birth_month' => 'select',
             'date_of_birth_day' => 'select',
             'is_admin' => 'checkbox',
-            '_token' => 'hidden',
         ], $inputs);
     }
 

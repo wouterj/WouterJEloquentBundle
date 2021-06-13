@@ -58,6 +58,8 @@ class TestKernel extends Kernel
                 'form'   => true,
                 'assets' => false,
                 'session' => $sessionConfig,
+                'csrf_protection' => false,
+                'property_access' => true,
             ]);
 
             $container->loadFromExtension('twig', [
