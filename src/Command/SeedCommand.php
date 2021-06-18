@@ -143,15 +143,12 @@ EOT
 
     private function resolve($class): Seeder
     {
-        $s = new NoActionSeeder();
+        $s = new class extends Seeder {
+            public function run()
+            { }
+        };
         $s->setSfContainer($this->container);
 
         return $s->resolve($class);
     }
-}
-
-class NoActionSeeder extends Seeder
-{
-    public function run()
-    { }
 }
