@@ -3,9 +3,6 @@
 The WouterJEloquentBundle claims to integrate the [Eloquent ORM][eloquent]
 into the Symfony framework.
 
-If you wish to use the [Symfony Serializer][serializer] with [Eloquent
-Models][eloquent-model] you can check [EloquentSerializer][eloquent-serializer].
-
 
 ## Maintained Releases
 
@@ -143,8 +140,6 @@ project better.
 
 
 [serializer]: http://symfony.com/doc/current/components/serializer.html
-[eloquent-model]: https://laravel.com/docs/5.4/eloquent#eloquent-model-conventions
-[eloquent-serializer]: https://github.com/theofidry/EloquentSerializer/blob/master/README.md
 [maker-bundle]: https://symfony.com/doc/current/bundles/SymfonyMakerBundle/index.html
 [eloquent]: http://laravel.com/docs/database
 [composer]: https://getcomposer.org/doc/00-intro.md

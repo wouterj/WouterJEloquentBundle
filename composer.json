@@ -42,8 +42,5 @@
     "autoload-dev": {
         "psr-4": { "WouterJ\\EloquentBundle\\": "tests", "": "tests/Functional/app/src" },
         "classmap": ["tests/Functional/app/migrations", "tests/Functional/app/TestKernel.php"]
-    },
-    "extra": {
-        "branch-alias": { "dev-master": "2.0-dev" }
     }
 }
