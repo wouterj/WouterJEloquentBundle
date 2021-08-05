@@ -41,6 +41,13 @@ jobs:
 
           - deps: 'dev'
             php: 8.1
+            symfony: '5.3.x'
+            laravel: '8.x'
+            experimental: false
+            composer: v2
+
+          - deps: 'dev'
+            php: 8.1
             experimental: true
             composer: preview
 
@@ -67,15 +74,23 @@ jobs:
               ;;
             "dev")
               echo "COMPOSER_FLAGS=--ignore-platform-req=php" >> $GITHUB_ENV
-              echo "SYMFONY_DEPRECATIONS_HELPER=max[total]=999" >> $GITHUB_ENV
 
-              perl -pi -e "s/^}\$/,\"minimum-stability\":\"dev\"}/" composer.json
+              composer config minimum-stability dev
 
               ;;
-            *)
-              echo "SYMFONY_REQUIRE=$(echo '${{ matrix.symfony }}' | tr x \\*)" >> $GITHUB_ENV
-              echo "LARAVEL_REQUIRE=$(echo '${{ matrix.laravel }}' | tr x \\*)" >> $GITHUB_ENV
           esac
+
+          if [ -n "${{ matrix.symfony }}" ]; then
+              echo "SYMFONY_REQUIRE=$(echo '${{ matrix.symfony }}' | tr x \\*)" >> $GITHUB_ENV
+          fi
+
+          if [ -n "${{ matrix.laravel }}" ]; then
+              echo "LARAVEL_REQUIRE=$(echo '${{ matrix.laravel }}' | tr x \\*)" >> $GITHUB_ENV
+          fi
+
+          if [ "${{ matrix.php }}" = "8.1" ]; then
+              echo "SYMFONY_PHPUNIT_VERSION=9.5" >> $GITHUB_ENV
+          fi
 
       - name: Cache dependencies
         uses: actions/cache@v2
