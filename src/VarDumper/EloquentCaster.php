@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class EloquentCaster
 {
-    public static function castModel(Model $model, array $data, Stub $stub, $isNested)
+    public static function castModel(Model $model, array $data, Stub $stub, bool $isNested): array
     {
         return $model->attributesToArray();
     }

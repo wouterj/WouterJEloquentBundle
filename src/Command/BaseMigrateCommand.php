@@ -59,7 +59,7 @@ abstract class BaseMigrateCommand extends Command
         return $this->migrator;
     }
 
-    protected function call(OutputInterface $o, $name, array $arguments): void
+    protected function call(OutputInterface $o, string $name, array $arguments): void
     {
         $command = $this->getApplication()->find($name);
         $command->run(new ArrayInput($arguments), $o);

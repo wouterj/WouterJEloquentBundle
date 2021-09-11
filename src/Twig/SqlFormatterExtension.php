@@ -36,7 +36,7 @@ class SqlFormatterExtension extends BaseExtension
         ];
     }
 
-    public function formatSql($sql)
+    public function formatSql(string $sql): string
     {
         \SqlFormatter::$use_pre = false;
         \SqlFormatter::$quote_attributes = 'class="symbol"';

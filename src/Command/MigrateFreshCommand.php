@@ -76,7 +76,7 @@ class MigrateFreshCommand extends BaseMigrateCommand
         return 0;
     }
 
-    private function dropAllTables($database): void
+    private function dropAllTables(string $database): void
     {
         $this->db->connection($database)
             ->getSchemaBuilder()

@@ -13,6 +13,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
+ * @final
+ * @internal
  * @author Wouter de Jong <wouter@wouterj.nl>
  */
 class MakeModel extends AbstractMaker

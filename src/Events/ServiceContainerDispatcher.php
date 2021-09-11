@@ -33,7 +33,7 @@ class ServiceContainerDispatcher extends Dispatcher
 
     protected function createClassCallable($listener): callable
     {
-        list($class, $method) = $this->parseClassCallable($listener);
+        [$class, $method] = is_array($listener) ? $listener : $this->parseClassCallable($listener);
 
         if (!$this->handlerShouldBeQueued($class) && $this->observers->has($class)) {
             return [$this->observers->get($class), $method];

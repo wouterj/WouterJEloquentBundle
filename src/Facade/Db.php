@@ -17,7 +17,7 @@ namespace WouterJ\EloquentBundle\Facade;
  */
 class Db extends Facade
 {
-    /** {@inheritDoc} */
+    /** @return object|string */
     protected static function getFacadeAccessor()
     {
         return 'wouterj_eloquent.database_manager';

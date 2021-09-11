@@ -17,6 +17,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use WouterJ\EloquentBundle\Seeder;
 
 /**
+ * @final
+ * @internal
  * @author Wouter de Jong <wouter@wouterj.nl>
  */
 class MakeSeeder extends AbstractMaker

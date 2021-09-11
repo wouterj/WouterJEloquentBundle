@@ -22,15 +22,12 @@ class MigrationPathsPass implements CompilerPassInterface
 {
     private static $paths = [];
 
-    public static function add($path)
+    public static function add(string $path): void
     {
         static::$paths[] = $path;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('wouterj_eloquent.migrator')) {
             return;

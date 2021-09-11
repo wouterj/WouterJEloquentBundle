@@ -105,7 +105,7 @@ EOT
         return 0;
     }
 
-    private function getSeeders($classes = null): array
+    private function getSeeders(array $classes = []): array
     {
         if (0 === count($classes)) {
             return $this->getDatabaseSeederFromBundles();
@@ -141,7 +141,7 @@ EOT
         return $seeders;
     }
 
-    private function resolve($class): Seeder
+    private function resolve(string $class): Seeder
     {
         $s = new class extends Seeder {
             public function run()

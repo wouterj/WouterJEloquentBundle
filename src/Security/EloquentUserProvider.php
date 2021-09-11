@@ -22,6 +22,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 /**
  * @template TUserObject of Model&UserInterface
  *
+ * @final
  * @author Wouter de Jong <wouter@wouterj.nl>
  */
 class EloquentUserProvider implements UserProviderInterface

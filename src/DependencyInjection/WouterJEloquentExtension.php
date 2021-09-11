@@ -43,7 +43,7 @@ class WouterJEloquentExtension extends Extension
         $this->loadDataCollector($container, $loader);
     }
 
-    protected function loadDataCollector(ContainerBuilder $container, Loader\XmlFileLoader $loader)
+    protected function loadDataCollector(ContainerBuilder $container, Loader\XmlFileLoader $loader): void
     {
         $loader->load('data_collector.xml');
 
@@ -54,7 +54,7 @@ class WouterJEloquentExtension extends Extension
             ]);
     }
 
-    protected function loadCapsule(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader)
+    protected function loadCapsule(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader): void
     {
         if (0 === count($config['connections']) || !isset(current($config['connections'])['database'])) {
             throw new InvalidConfigurationException('At least one connection must be configured in order to use WouterJEloquentBundle.');
@@ -70,7 +70,7 @@ class WouterJEloquentExtension extends Extension
         $container->setParameter('wouterj_eloquent.default_connection', $config['default_connection']);
     }
 
-    protected function loadEloquent(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader)
+    protected function loadEloquent(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader): void
     {
         if (!$this->isConfigEnabled($container, $config['eloquent'])) {
             return;
@@ -83,7 +83,7 @@ class WouterJEloquentExtension extends Extension
         $loader->load('eloquent.xml');
     }
 
-    protected function loadFacades(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader)
+    protected function loadFacades(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader): void
     {
         $loader->load('facades.xml');
 

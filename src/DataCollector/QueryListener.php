@@ -13,11 +13,15 @@ namespace WouterJ\EloquentBundle\DataCollector;
 
 use Illuminate\Database\Events\QueryExecuted;
 
+/**
+ * @final
+ * @author Wouter de Jong <wouter@wouterj.nl>
+ */
 class QueryListener
 {
     private $queries = [];
 
-    public function onQuery(QueryExecuted $event)
+    public function onQuery(QueryExecuted $event): void
     {
         if (!isset($this->queries[$event->connectionName])) {
             $this->queries[$event->connectionName] = [];
@@ -31,7 +35,7 @@ class QueryListener
         ];
     }
 
-    public function getQueriesByConnection()
+    public function getQueriesByConnection(): array
     {
         return $this->queries;
     }
