@@ -26,10 +26,7 @@ use Illuminate\Database\Events\QueryExecuted;
  */
 class WouterJEloquentExtension extends Extension
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
@@ -103,18 +100,12 @@ class WouterJEloquentExtension extends Extension
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getNamespace()
+    public function getNamespace(): string
     {
         return 'http://wouterj.nl/schema/dic/eloquent';
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'wouterj_eloquent';
     }

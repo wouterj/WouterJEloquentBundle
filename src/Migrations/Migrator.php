@@ -32,7 +32,7 @@ class Migrator extends LaravelMigrator
         $this->resolver = $resolver;
     }
 
-    public function getMigrationFiles($paths)
+    public function getMigrationFiles($paths): array
     {
         if (0 === count((array) $paths)) {
             return [];
@@ -53,7 +53,7 @@ class Migrator extends LaravelMigrator
         return $migrations;
     }
 
-    public function requireFiles(array $files)
+    public function requireFiles(array $files): void
     {
         foreach ($files as $file) {
             require_once $file;

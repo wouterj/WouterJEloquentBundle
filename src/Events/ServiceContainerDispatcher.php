@@ -31,7 +31,7 @@ class ServiceContainerDispatcher extends Dispatcher
         parent::__construct();
     }
 
-    protected function createClassCallable($listener)
+    protected function createClassCallable($listener): callable
     {
         list($class, $method) = $this->parseClassCallable($listener);
 

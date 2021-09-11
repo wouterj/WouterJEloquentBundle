@@ -26,11 +26,13 @@ abstract class Seeder extends BaseSeeder
     /** @var ConnectionInterface */
     protected $connection;
 
+    /** @return mixed */
     public function __invoke(array $parameters = [])
     {
         return $this->run(...$parameters);
     }
 
+    /** @return $this */
     public function call($class, $silent = false, array $parameters = [])
 	{
 	    $classes = is_array($class) ? $class : [$class];

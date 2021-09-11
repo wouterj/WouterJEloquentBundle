@@ -22,7 +22,7 @@ use WouterJ\EloquentBundle\Facade\Db;
  */
 class MigrationsTest extends KernelTestCase
 {
-    protected static function getKernelClass()
+    protected static function getKernelClass(): string
     {
         return 'TestKernel';
     }

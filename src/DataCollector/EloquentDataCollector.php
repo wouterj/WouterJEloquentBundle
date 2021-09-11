@@ -16,6 +16,11 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @final
+ * @internal
+ * @author Wouter de Jong <wouter@wouterj.nl>
+ */
 class EloquentDataCollector extends DataCollector
 {
     /** @var Manager */
@@ -80,7 +85,7 @@ class EloquentDataCollector extends DataCollector
         return count($this->data['queries']) ? call_user_func_array('array_merge', array_values($this->data['queries'])) : [];
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'wouterj_eloquent.eloquent_collector';
     }

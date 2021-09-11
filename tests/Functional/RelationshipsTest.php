@@ -23,7 +23,7 @@ use WouterJ\EloquentBundle\Facade\Schema;
  */
 class RelationshipsTest extends KernelTestCase
 {
-    protected static function getKernelClass()
+    protected static function getKernelClass(): string
     {
         return 'TestKernel';
     }

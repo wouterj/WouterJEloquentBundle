@@ -33,8 +33,7 @@ class Creator extends MigrationCreator
         $this->fileManager = $fileManager;
     }
 
-    /** {@inheritdoc} */
-    public function create($name, $path, $table = null, $create = false)
+    public function create($name, $path, $table = null, $create = false): string
     {
         $path = $this->getPath($name, $path);
         $stub = $this->getStub($table, $create);
@@ -46,8 +45,7 @@ class Creator extends MigrationCreator
         return $path;
     }
 
-    /** {@inheritdoc} */
-    protected function getStub($table, $create)
+    protected function getStub($table, $create): string
     {
         $eloquent7 = file_exists($this->stubPath().'/migration.stub');
         if ($eloquent7) {
