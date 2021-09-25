@@ -24,7 +24,7 @@ use WouterJ\EloquentBundle\Facade\Schema;
  */
 class ConnectionsTest extends KernelTestCase
 {
-    protected static function getKernelClass()
+    protected static function getKernelClass(): string
     {
         return 'TestKernel';
     }

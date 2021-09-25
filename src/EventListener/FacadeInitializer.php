@@ -39,7 +39,7 @@ class FacadeInitializer
      * Configures the facades and registers the aliases loader, when
      * activated.
      */
-    public function initialize()
+    public function initialize(): void
     {
         Facade::setContainer($this->container);
 
@@ -48,7 +48,7 @@ class FacadeInitializer
         }
     }
 
-    public function setLoader(AliasesLoader $loader)
+    public function setLoader(AliasesLoader $loader): void
     {
         $this->loader = $loader;
     }

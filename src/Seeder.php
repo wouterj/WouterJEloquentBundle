@@ -26,11 +26,13 @@ abstract class Seeder extends BaseSeeder
     /** @var ConnectionInterface */
     protected $connection;
 
+    /** @return mixed */
     public function __invoke(array $parameters = [])
     {
         return $this->run(...$parameters);
     }
 
+    /** @return $this */
     public function call($class, $silent = false, array $parameters = [])
 	{
 	    $classes = is_array($class) ? $class : [$class];
@@ -57,12 +59,7 @@ abstract class Seeder extends BaseSeeder
 	    return $this;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @return Seeder
-     */
-    public function resolve($class)
+    public function resolve($class): Seeder
     {
         if ($this->getContainer()->has($class)) {
             $seeder = $this->getContainer()->get($class);
@@ -80,27 +77,33 @@ abstract class Seeder extends BaseSeeder
         return $seeder;
     }
 
-    public function setSfContainer(ContainerInterface $container)
+    public function setSfContainer(ContainerInterface $container): void
     {
         $this->container = $container;
     }
 
-    protected function getContainer()
+    protected function getContainer(): ContainerInterface
     {
+        if (null === $this->container) {
+            throw new \LogicException(sprintf('"%1$s::$container" must not be null, did you forget to inject the container using "%1$s::setSfContainer()"?', __CLASS__));
+        }
+
         return $this->container;
     }
 
-    public function getSeedClasses()
+    /** @return string[] */
+    public function getSeedClasses(): array
     {
         return $this->seededClasses;
     }
 
-    protected function addSeededClass($object)
+    /** @param object|string $object */
+    protected function addSeededClass($object): void
     {
         $this->seededClasses[] = is_string($object) ? $object : get_class($object);
     }
 
-    public function setConnection(ConnectionInterface $connection)
+    public function setConnection(ConnectionInterface $connection): void
     {
         $this->connection = $connection;
     }

@@ -24,17 +24,17 @@ class AliasesLoader
 {
     private $aliases = [];
 
-    public function __construct($aliases = [])
+    public function __construct(array $aliases = [])
     {
         $this->aliases = $aliases;
     }
 
-    public function register()
+    public function register(): void
     {
         spl_autoload_register([$this, 'load']);
     }
 
-    public function load($class)
+    public function load(string $class): void
     {
         $parts = explode('\\', $class);
         $alias = array_pop($parts);
@@ -44,17 +44,17 @@ class AliasesLoader
         }
     }
 
-    public function addAlias($alias, $class)
+    public function addAlias(string $alias, string $class): void
     {
         $this->aliases[$alias] = $class;
     }
 
-    protected function getRealClass($alias)
+    protected function getRealClass(string $alias): string
     {
         return $this->aliases[$alias];
     }
 
-    protected function hasAlias($alias)
+    protected function hasAlias(string $alias): bool
     {
         return isset($this->aliases[$alias]);
     }

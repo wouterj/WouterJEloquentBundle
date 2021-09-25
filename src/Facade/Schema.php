@@ -30,17 +30,13 @@ class Schema extends Facade
 {
     /**
      * Get a schema builder instance for a connection.
-     *
-     * @param  string  $name
-     *
-     * @return Builder
      */
-    public static function connection($name)
+    public static function connection(string $name): Builder
     {
         return static::$container->get('wouterj_eloquent.database_manager')->connection($name)->getSchemaBuilder();
     }
 
-    /** {@inheritDoc} */
+    /** @return object|string */
     protected static function getFacadeAccessor()
     {
         return static::$container->get('wouterj_eloquent.database_manager')->getSchemaBuilder();

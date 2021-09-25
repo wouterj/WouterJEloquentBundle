@@ -26,7 +26,7 @@ class EloquentInitializer
     private $capsule;
     private $defaultConnection;
 
-    public function __construct(Capsule $capsule, $defaultConnection = 'default')
+    public function __construct(Capsule $capsule, string $defaultConnection = 'default')
     {
         $this->capsule = $capsule;
         $this->defaultConnection = $defaultConnection;
@@ -35,7 +35,7 @@ class EloquentInitializer
     /**
      * Initializes the Eloquent ORM.
      */
-    public function initialize()
+    public function initialize(): void
     {
         $this->capsule->bootEloquent();
 

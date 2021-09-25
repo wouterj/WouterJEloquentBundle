@@ -19,6 +19,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
 /**
+ * @final
+ * @internal
  * @author Wouter de Jong <wouter@wouterj.nl>
  */
 class EloquentUserProviderFactory implements UserProviderFactoryInterface

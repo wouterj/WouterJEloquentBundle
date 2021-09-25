@@ -25,10 +25,7 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
  */
 class ObserverPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('wouterj_eloquent.events')) {
             return;

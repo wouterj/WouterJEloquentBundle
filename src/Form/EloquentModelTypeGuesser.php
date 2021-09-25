@@ -13,9 +13,14 @@ use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormTypeGuesserInterface;
 use Symfony\Component\Form\Guess;
 
+/**
+ * @final
+ * @internal
+ * @author Wouter de Jong <wouter@wouterj.nl>
+ */
 class EloquentModelTypeGuesser implements FormTypeGuesserInterface
 {
-    public function guessType($class, $property)
+    public function guessType($class, $property): ?Guess\TypeGuess
     {
         $model = (new \ReflectionClass($class))->newInstanceWithoutConstructor();
         if (!$model instanceof Model) {
@@ -47,17 +52,17 @@ class EloquentModelTypeGuesser implements FormTypeGuesserInterface
         }
     }
 
-    public function guessRequired($class, $property)
+    public function guessRequired($class, $property): ?Guess\ValueGuess
     {
         return null;
     }
 
-    public function guessMaxLength($class, $property)
+    public function guessMaxLength($class, $property): ?Guess\ValueGuess
     {
         return null;
     }
 
-    public function guessPattern($class, $property)
+    public function guessPattern($class, $property): ?Guess\ValueGuess
     {
         return null;
     }

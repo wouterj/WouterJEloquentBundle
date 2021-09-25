@@ -21,7 +21,7 @@ use WouterJ\EloquentBundle\Facade\Schema;
  */
 class EloquentTest extends KernelTestCase
 {
-    protected static function getKernelClass()
+    protected static function getKernelClass(): string
     {
         return 'TestKernel';
     }

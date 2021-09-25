@@ -12,10 +12,17 @@
 namespace WouterJ\EloquentBundle\DataCollector;
 
 use Illuminate\Database\Capsule\Manager;
+use Illuminate\Database\Connection;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\VarDumper\Cloner\Data;
 
+/**
+ * @final
+ * @internal
+ * @author Wouter de Jong <wouter@wouterj.nl>
+ */
 class EloquentDataCollector extends DataCollector
 {
     /** @var Manager */
@@ -29,7 +36,7 @@ class EloquentDataCollector extends DataCollector
         $this->queryListener = $queryListener;
     }
 
-    public function collect(Request $request, Response $response, ?\Throwable $exception = null)
+    public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
     {
         /** @psalm-suppress UndefinedInterfaceMethod */
         $connections = array_map(function ($config) {
@@ -55,32 +62,34 @@ class EloquentDataCollector extends DataCollector
         ];
     }
 
-    public function reset()
+    public function reset(): void
     {
         $this->data = [];
     }
 
-    public function connections()
+    /** @return Data[] */
+    public function connections(): array
     {
         return $this->data['connections'];
     }
 
-    public function usedConnections()
+    /** @return Data[] */
+    public function usedConnections(): array
     {
         return $this->data['used_connections'];
     }
 
-    public function queryForConnection($name)
+    public function queryForConnection(string $name): array
     {
         return $this->data['queries'][$name];
     }
 
-    public function queries()
+    public function queries(): array
     {
         return count($this->data['queries']) ? call_user_func_array('array_merge', array_values($this->data['queries'])) : [];
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'wouterj_eloquent.eloquent_collector';
     }

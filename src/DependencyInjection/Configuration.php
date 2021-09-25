@@ -23,10 +23,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('wouterj_eloquent');
         /** @psalm-suppress RedundantCondition */
@@ -44,7 +41,7 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-    protected function addAliasesSection($node)
+    protected function addAliasesSection($node): void
     {
         $node
             ->children()
@@ -83,7 +80,7 @@ class Configuration implements ConfigurationInterface
     /**
      * @param ArrayNodeDefinition|NodeDefinition $node
      */
-    protected function addCapsuleSection($node)
+    protected function addCapsuleSection($node): void
     {
         $node
             ->beforeNormalization()
@@ -210,7 +207,7 @@ class Configuration implements ConfigurationInterface
             ->end();
     }
 
-    protected function addEloquentSection($node)
+    protected function addEloquentSection($node): void
     {
         $node
             ->children()

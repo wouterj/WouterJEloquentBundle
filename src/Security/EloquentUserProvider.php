@@ -22,6 +22,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 /**
  * @template TUserObject of Model&UserInterface
  *
+ * @final
  * @author Wouter de Jong <wouter@wouterj.nl>
  */
 class EloquentUserProvider implements UserProviderInterface
@@ -45,20 +46,20 @@ class EloquentUserProvider implements UserProviderInterface
     }
 
     /** @psalm-return TUserObject */
-    public function loadUserByIdentifier(string $userIdentifier): UserInterface
+    public function loadUserByIdentifier(string $identifier): UserInterface
     {
         $user = $this->createModel()->newQuery()
-            ->where($this->usernameAttribute, $userIdentifier)
+            ->where($this->usernameAttribute, $identifier)
             ->first();
         if (null === $user) {
             if (class_exists(UserNotFoundException::class)) {
                 $e = new UserNotFoundException();
-                $e->setUserIdentifier($userIdentifier);
+                $e->setUserIdentifier($identifier);
             } else {
                 // BC with symfony/security-core <5.3
                 $e = new UsernameNotFoundException();
                 /** @psalm-suppress UndefinedMethod https://github.com/vimeo/psalm/issues/5750 */
-                $e->setUsername($userIdentifier);
+                $e->setUsername($identifier);
             }
 
             throw $e;

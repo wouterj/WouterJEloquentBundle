@@ -22,7 +22,7 @@ class LegacyUser extends Model implements UserInterface
 {
     public $fillable = ['name', 'email', 'password'];
 
-    public function getRoles()
+    public function getRoles(): array
     {
         return ['ROLE_USER'];
     }
@@ -47,7 +47,7 @@ class LegacyUser extends Model implements UserInterface
         return $this->email;
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
     }
 }

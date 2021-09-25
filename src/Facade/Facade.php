@@ -60,7 +60,9 @@ abstract class Facade
     }
 
     /**
-     * {@inheritDoc}
+     * @param string $method
+     *
+     * @return mixed
      */
     public static function __callStatic($method, array $parameters)
     {

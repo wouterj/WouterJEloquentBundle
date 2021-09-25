@@ -16,6 +16,8 @@ use Symfony\Component\Console\Input\InputOption;
 use WouterJ\EloquentBundle\Migrations\Creator;
 
 /**
+ * @final
+ * @internal
  * @author Wouter de Jong <wouter@wouterj.nl>
  */
 class MakeMigration extends AbstractMaker

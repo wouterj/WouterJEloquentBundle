@@ -23,23 +23,20 @@ if (!class_exists(AbstractExtension::class)) {
 }
 
 /**
- * @private
- *
+ * @final
+ * @internal
  * @author Wouter de Jong <wouter@wouterj.nl>
  */
 class SqlFormatterExtension extends BaseExtension
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new Filter('wouterj_format_sql', [$this, 'formatSql'], ['is_safe' => ['html']]),
         ];
     }
 
-    public function formatSql($sql)
+    public function formatSql(string $sql): string
     {
         \SqlFormatter::$use_pre = false;
         \SqlFormatter::$quote_attributes = 'class="symbol"';
