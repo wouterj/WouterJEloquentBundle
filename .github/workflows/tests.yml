@@ -26,14 +26,14 @@ jobs:
             composer: v2
 
           - deps: 'stable'
-            php: 8.0
+            php: 8.1
             symfony: '5.x'
             laravel: '7.x'
             experimental: false
             composer: v2
 
           - deps: 'stable'
-            php: 8.0
+            php: 8.1
             symfony: '5.x'
             laravel: '8.x'
             experimental: false
@@ -41,13 +41,13 @@ jobs:
 
           - deps: 'dev'
             php: 8.1
-            symfony: '5.3.x'
-            laravel: '8.x'
+            symfony: '6.x'
+            laravel: '9.x'
             experimental: false
             composer: v2
 
           - deps: 'dev'
-            php: 8.1
+            php: 8.2
             experimental: true
             composer: preview
 

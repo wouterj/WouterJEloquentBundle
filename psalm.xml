@@ -24,6 +24,12 @@
                 <referencedMethod name="WouterJ\EloquentBundle\Seeder::run"/>
             </errorLevel>
         </UndefinedMethod>
+        <!-- BC for Laravel <9 -->
+        <UndefinedClass>
+            <errorLevel type="suppress">
+                <referencedClass name="Illuminate\Database\Console\Seeds\WithoutModelEvents"/>
+            </errorLevel>
+        </UndefinedClass>
     </issueHandlers>
 
     <plugins>

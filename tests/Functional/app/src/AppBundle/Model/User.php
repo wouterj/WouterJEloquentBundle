@@ -32,12 +32,12 @@ class LegacyUser extends Model implements UserInterface
         return $this->password;
     }
 
-    public function getSalt()
+    public function getSalt(): ?string
     {
         return null;
     }
 
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->email;
     }

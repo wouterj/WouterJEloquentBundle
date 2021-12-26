@@ -2,6 +2,7 @@
 
 namespace WouterJ\EloquentBundle\Maker;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\MakerBundle\FileManager;
 use Symfony\Bundle\MakerBundle\Generator;
@@ -46,7 +47,11 @@ class SeederMakeCommandTest extends TestCase
 
     private function expectSeeder(string $name)
     {
-        $normalizedExpected = preg_replace('/\R/', "\n", file_get_contents(__DIR__.'/../Fixtures/seeds/'.$name.'.php'));
+        $fixturePath = file_get_contents(__DIR__.'/../Fixtures/seeds/'.$name.'.php');
+        if (trait_exists(WithoutModelEvents::class)) {
+            $fixturePath = file_get_contents(__DIR__.'/../Fixtures/seeds/'.$name.'.laravel9.php');
+        }
+        $normalizedExpected = preg_replace('/\R/', "\n", $fixturePath);
 
         $path = '/app/src/Seed/'.$name.'.php';
         $this->fileManager->allows()->getRelativePathForFutureClass()->with('App\\Seed\\'.$name)->andReturn($path);
