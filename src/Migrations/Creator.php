@@ -11,6 +11,7 @@
 
 namespace WouterJ\EloquentBundle\Migrations;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Migrations\MigrationCreator;
 use Symfony\Bundle\MakerBundle\FileManager;
 
@@ -38,9 +39,17 @@ class Creator extends MigrationCreator
         $path = $this->getPath($name, $path);
         $stub = $this->getStub($table, $create);
 
-        $this->fileManager->dumpFile($path, $this->populateStub($name, $stub, $table));
+        if (!trait_exists(WithoutModelEvents::class)) {
+            /** @psalm-suppress TooManyArguments BC with Laravel <9 */
+            $populatedStub = $this->populateStub($name, $stub, $table);
+        } else {
+            /** @psalm-suppress TooFewArguments BC with Laravel <9 */
+            $populatedStub = $this->populateStub($stub, $table);
+        }
+        $this->fileManager->dumpFile($path, $populatedStub);
 
-        $this->firePostCreateHooks($table);
+        /** @psalm-suppress TooManyArguments BC with Laravel <9 */
+        $this->firePostCreateHooks($table, $path);
 
         return $path;
     }

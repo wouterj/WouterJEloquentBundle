@@ -18,6 +18,7 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     name: '${{ matrix.deps }} deps: PHP=${{ matrix.php }}, Symfony=${{ matrix.symfony }}, Laravel=${{ matrix.laravel }}'
     strategy:
+      fail-fast: false
       matrix:
         include:
           - deps: 'low'
@@ -26,14 +27,14 @@ jobs:
             composer: v2
 
           - deps: 'stable'
-            php: 8.0
+            php: 8.1
             symfony: '5.x'
             laravel: '7.x'
             experimental: false
             composer: v2
 
           - deps: 'stable'
-            php: 8.0
+            php: 8.1
             symfony: '5.x'
             laravel: '8.x'
             experimental: false
@@ -41,13 +42,13 @@ jobs:
 
           - deps: 'dev'
             php: 8.1
-            symfony: '5.3.x'
-            laravel: '8.x'
+            symfony: '6.x'
+            laravel: '9.x'
             experimental: false
             composer: v2
 
           - deps: 'dev'
-            php: 8.1
+            php: 8.2
             experimental: true
             composer: preview
 
@@ -88,9 +89,15 @@ jobs:
               echo "LARAVEL_REQUIRE=$(echo '${{ matrix.laravel }}' | tr x \\*)" >> $GITHUB_ENV
           fi
 
+          if [ "${{ matrix.laravel }}" = "7.x" ]; then
+              echo "SYMFONY_DEPRECATIONS_HELPER=max[direct]=5" >> $GITHUB_ENV
+          fi
+
           if [ "${{ matrix.php }}" = "8.1" ]; then
               echo "SYMFONY_PHPUNIT_VERSION=9.5" >> $GITHUB_ENV
           fi
+
+          echo "PHP_VERSION=${{ matrix.php }}" >> $GITHUB_ENV
 
       - name: Cache dependencies
         uses: actions/cache@v2
@@ -115,4 +122,5 @@ jobs:
         run: ./vendor/bin/simple-phpunit
 
       - name: Run static analysis
-        run: ./vendor/bin/psalm
+        if: '!matrix.experimental'
+        run: ./vendor/bin/psalm --php-version=$PHP_VERSION

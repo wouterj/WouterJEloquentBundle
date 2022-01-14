@@ -7,40 +7,45 @@
 
     "require": {
         "php": "^7.2 || ^8.0",
-        "illuminate/database": "^6.18 || ^7.30.4 || ^8.40",
-        "illuminate/events": "^6.18 || ^7.15 || ^8.12",
-        "illuminate/console": "^6.18 || ^7.15 || ^8.12",
-        "symfony/framework-bundle": "^4.4 || ^5.0",
-        "symfony/dependency-injection": "^4.4 || ^5.0",
+        "illuminate/database": "^6.18 || ^7.30.4 || ^8.40 || ^9.0",
+        "illuminate/events": "^6.18 || ^7.15 || ^8.12 || ^9.0",
+        "illuminate/console": "^6.18 || ^7.15 || ^8.12 || ^9.0",
+        "symfony/framework-bundle": "^4.4 || ^5.0 || ^6.0",
+        "symfony/dependency-injection": "^4.4 || ^5.0 || ^6.0",
         "jdorn/sql-formatter": "^1.2.17"
     },
     "require-dev": {
         "doctrine/annotations": "1.*",
         "symfony/maker-bundle": "^1.20",
         "mockery/mockery": "^1.3",
-        "symfony/console": "^4.4 || ^5.0",
-        "symfony/event-dispatcher": "^4.4 || ^5.0",
-        "symfony/http-kernel": "^4.4 || ^5.0",
-        "symfony/finder": "^4.4 || ^5.0",
-        "symfony/debug": "^4.4 || ^5.0",
-        "symfony/yaml": "^4.4 || ^5.0",
-        "symfony/form": "^4.4 || ^5.0",
-        "symfony/phpunit-bridge": "^4.4 || ^5.0",
-        "symfony/browser-kit": "^4.4 || ^5.0",
-        "symfony/dom-crawler": "^4.4 || ^5.0",
-        "symfony/validator": "^4.4 || ^5.0",
-        "symfony/twig-bundle": "^4.4 || ^5.0",
-        "symfony/twig-bridge": "^4.4 || ^5.0",
-        "symfony/var-dumper": "^4.4 || ^5.0",
+        "symfony/console": "^4.4 || ^5.0 || ^6.0",
+        "symfony/event-dispatcher": "^4.4 || ^5.0 || ^6.0",
+        "symfony/http-kernel": "^4.4 || ^5.0 || ^6.0",
+        "symfony/finder": "^4.4 || ^5.0 || ^6.0",
+        "symfony/debug": "^4.4 || ^5.0 || ^6.0",
+        "symfony/yaml": "^4.4 || ^5.0 || ^6.0",
+        "symfony/form": "^4.4 || ^5.0 || ^6.0",
+        "symfony/phpunit-bridge": "^4.4 || ^5.0 || ^6.0",
+        "symfony/browser-kit": "^4.4 || ^5.0 || ^6.0",
+        "symfony/dom-crawler": "^4.4 || ^5.0 || ^6.0",
+        "symfony/validator": "^4.4 || ^5.0 || ^6.0",
+        "symfony/security-bundle": "^4.4 || ^5.0 || ^6.0",
+        "symfony/twig-bundle": "^4.4 || ^5.0 || ^6.0",
+        "symfony/twig-bridge": "^4.4 || ^5.0 || ^6.0",
+        "symfony/var-dumper": "^4.4 || ^5.0 || ^6.0",
         "twig/twig": "^1.26 || ^2.0 || ^3.0",
         "vimeo/psalm": "^3.18.2 || ^4.0",
-        "psalm/plugin-symfony": "^1.5.0 || ^2.0",
-        "symfony/security-bundle": "^4.4 || ^5.0"
+        "psalm/plugin-symfony": "^1.5.0 || ^2.0 || ^3.0"
     },
 
     "autoload": { "psr-4": { "WouterJ\\EloquentBundle\\": "src" } },
     "autoload-dev": {
         "psr-4": { "WouterJ\\EloquentBundle\\": "tests", "": "tests/Functional/app/src" },
         "classmap": ["tests/Functional/app/migrations", "tests/Functional/app/TestKernel.php"]
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true
+        }
     }
 }

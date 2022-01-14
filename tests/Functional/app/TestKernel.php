@@ -17,6 +17,7 @@ use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Log\Logger;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticatorManager;
 
 /**
@@ -24,7 +25,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticatorManager;
  */
 class TestKernel extends Kernel
 {
-    public function registerBundles()
+    public function registerBundles(): array
     {
         return [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
@@ -35,12 +36,12 @@ class TestKernel extends Kernel
         ];
     }
 
-    public function getProjectDir()
+    public function getProjectDir(): string
     {
         return __DIR__;
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(function (ContainerBuilder $container) {
             $sessionConfig = ['storage_factory_id' => 'session.storage.factory.mock_file'];
@@ -77,10 +78,14 @@ class TestKernel extends Kernel
                 'firewalls' => [
                     'main' => ['pattern' => '^/secured/', 'http_basic' => true],
                 ],
-                'encoders' => [User::class => 'plaintext'],
+                'password_hashers' => [User::class => 'plaintext'],
             ];
             if (class_exists(AuthenticatorManager::class)) {
                 $securityConfig['enable_authenticator_manager'] = true;
+            }
+            if (!interface_exists(PasswordHasherInterface::class)) {
+                $securityConfig['encoders'] = $securityConfig['password_hashers'];
+                unset($securityConfig['password_hashers']);
             }
             $container->loadFromExtension('security', $securityConfig);
 

@@ -11,6 +11,7 @@
 
 namespace WouterJ\EloquentBundle\Migrations;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Schema\Blueprint;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\MakerBundle\FileManager;
@@ -55,19 +56,12 @@ class CreatorTest extends TestCase
     {
         $normalize = function ($str) { return preg_replace('/\R/', "\n", $str); };
 
-        switch ($type) {
-            case 'create':
-                $eloquent7 = file_exists($this->subject->stubPath().'/migration.stub');
-                if (!$eloquent7) {
-                    $type .= '-6';
-                }
-
-                $expected = $normalize(file_get_contents(__DIR__.'/../Fixtures/migrations/'.$type.'.php'));
-
-                break;
-            default:
-                $expected = $normalize(file_get_contents(__DIR__.'/../Fixtures/migrations/'.$type.'.php'));
+        if (trait_exists(WithoutModelEvents::class)) {
+            $type .= '-9';
+        } elseif ('create' === $type && !file_exists($this->subject->stubPath().'/migration.stub')) {
+            $type .= '-6';
         }
+        $expected = $normalize(file_get_contents(__DIR__.'/../Fixtures/migrations/'.$type.'.php'));
 
         $this->fileManager->shouldReceive('dumpFile')->once()
             ->with(\Mockery::pattern('/'.preg_quote($this->migrationsPath, '/').'\/\d{4}_\d{2}_\d{2}_\d{6}_'.preg_quote($name, '/').'\.php/'), $expected);
