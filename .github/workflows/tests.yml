@@ -89,9 +89,15 @@ jobs:
               echo "LARAVEL_REQUIRE=$(echo '${{ matrix.laravel }}' | tr x \\*)" >> $GITHUB_ENV
           fi
 
+          if [ "${{ matrix.laravel }}" = "7.x" ]; then
+              echo "SYMFONY_DEPRECATIONS_HELPER=max[direct]=5" >> $GITHUB_ENV
+          fi
+
           if [ "${{ matrix.php }}" = "8.1" ]; then
               echo "SYMFONY_PHPUNIT_VERSION=9.5" >> $GITHUB_ENV
           fi
+
+          echo "PHP_VERSION=${{ matrix.php }}" >> $GITHUB_ENV
 
       - name: Cache dependencies
         uses: actions/cache@v2
@@ -116,4 +122,5 @@ jobs:
         run: ./vendor/bin/simple-phpunit
 
       - name: Run static analysis
-        run: ./vendor/bin/psalm
+        if: '!matrix.experimental'
+        run: ./vendor/bin/psalm --php-version=$PHP_VERSION
