@@ -18,6 +18,7 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     name: '${{ matrix.deps }} deps: PHP=${{ matrix.php }}, Symfony=${{ matrix.symfony }}, Laravel=${{ matrix.laravel }}'
     strategy:
+      fail-fast: false
       matrix:
         include:
           - deps: 'low'
