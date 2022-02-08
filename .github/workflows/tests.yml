@@ -40,7 +40,7 @@ jobs:
             experimental: false
             composer: v2
 
-          - deps: 'dev'
+          - deps: 'stable'
             php: 8.1
             symfony: '6.x'
             laravel: '9.x'
