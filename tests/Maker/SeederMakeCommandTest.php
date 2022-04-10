@@ -8,8 +8,6 @@ use Symfony\Bundle\MakerBundle\FileManager;
 use Symfony\Bundle\MakerBundle\Generator;
 use Symfony\Bundle\MakerBundle\Util\PhpCompatUtil;
 use WouterJ\EloquentBundle\MockeryTrait;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class SeederMakeCommandTest extends TestCase
 {

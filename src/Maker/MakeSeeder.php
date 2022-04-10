@@ -80,6 +80,7 @@ class MakeSeeder extends AbstractMaker
                 // Laravel 6 & 7
                 $stub = str_replace('<?php', "<?php\n\nnamespace ".$namespace.';', $stub);
             }
+            $stub = str_replace('{{ namespace }}', $namespace, $stub);
         }
 
         $path = $this->fileManager->getRelativePathForFutureClass($seederClassDetails->getFullName());
