@@ -67,7 +67,7 @@
             {% for query in collector.queries %}
                 <tr>
                     <td class="font-normal text-muted">{{ loop.index }}</td>
-                    <td>{{ '%0.2f'|format(query.time * 1000) }} ms</td>
+                    <td>{{ '%0.2f'|format(query.time) }} ms</td>
                     <td>
                         <span class="highlight">{{ query.sql|wouterj_format_sql }}</span><br>
 
