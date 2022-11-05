@@ -37,6 +37,9 @@
         "vimeo/psalm": "^3.18.2 || ^4.0",
         "psalm/plugin-symfony": "^1.5.0 || ^2.0 || ^3.0"
     },
+    "conflict": {
+        "illuminate/console": ">=9.21,<9.39"
+    },
 
     "autoload": { "psr-4": { "WouterJ\\EloquentBundle\\": "src" } },
     "autoload-dev": {
