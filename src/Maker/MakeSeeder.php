@@ -73,13 +73,7 @@ class MakeSeeder extends AbstractMaker
         $stub = str_replace(IlluminateSeeder::class, Seeder::class, $stub);
 
         if ($namespace = Str::getNamespace($seederClassDetails->getFullName())) {
-            if (class_exists(DumpCommand::class)) {
-                // Laravel 8
-                $stub = str_replace('namespace Database\Seeders;', 'namespace '.$namespace.';', $stub);
-            } else {
-                // Laravel 6 & 7
-                $stub = str_replace('<?php', "<?php\n\nnamespace ".$namespace.';', $stub);
-            }
+            $stub = str_replace('namespace Database\Seeders;', 'namespace '.$namespace.';', $stub);
             $stub = str_replace('{{ namespace }}', $namespace, $stub);
         }
 

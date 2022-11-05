@@ -22,14 +22,7 @@ jobs:
       matrix:
         include:
           - deps: 'low'
-            php: 7.2
-            experimental: false
-            composer: v2
-
-          - deps: 'stable'
-            php: 8.1
-            symfony: '5.x'
-            laravel: '7.x'
+            php: 7.3
             experimental: false
             composer: v2
 
@@ -49,6 +42,7 @@ jobs:
 
           - deps: 'dev'
             php: 8.2
+            laravel: '10.x'
             experimental: true
             composer: preview
 
@@ -74,7 +68,7 @@ jobs:
 
               ;;
             "dev")
-              echo "COMPOSER_FLAGS=--ignore-platform-req=php" >> $GITHUB_ENV
+              echo "COMPOSER_FLAGS=--ignore-platform-req=php+" >> $GITHUB_ENV
 
               composer config minimum-stability dev
 
@@ -109,7 +103,9 @@ jobs:
         run: |
           composer global config --no-plugins allow-plugins.symfony/flex true
           composer global require --no-progress --no-scripts --no-plugins symfony/flex
-          if [ "$LARAVEL_REQUIRE" != "" ]; then composer require --no-update illuminate/database:$LARAVEL_REQUIRE; fi
+          if [ "$LARAVEL_REQUIRE" != "" ]; then
+            composer require --no-update illuminate/database:$LARAVEL_REQUIRE illuminate/events:$LARAVEL_REQUIRE illuminate/console:$LARAVEL_REQUIRE
+          fi
           composer update --prefer-dist --no-progress $COMPOSER_FLAGS
           ./vendor/bin/simple-phpunit install
 
