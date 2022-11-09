@@ -58,8 +58,6 @@ class CreatorTest extends TestCase
 
         if (trait_exists(WithoutModelEvents::class)) {
             $type .= '-9';
-        } elseif ('create' === $type && !file_exists($this->subject->stubPath().'/migration.stub')) {
-            $type .= '-6';
         }
         $expected = $normalize(file_get_contents(__DIR__.'/../Fixtures/migrations/'.$type.'.php'));
 

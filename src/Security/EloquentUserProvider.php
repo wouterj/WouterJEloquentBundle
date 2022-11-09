@@ -56,12 +56,16 @@ class EloquentUserProvider implements UserProviderInterface
                 $e = new UserNotFoundException();
                 $e->setUserIdentifier($identifier);
             } else {
-                // BC with symfony/security-core <5.3
+                /** @psalm-suppress UndefinedClass BC with symfony/security-core <5.3 */
                 $e = new UsernameNotFoundException();
-                /** @psalm-suppress UndefinedMethod https://github.com/vimeo/psalm/issues/5750 */
+                /**
+                 * @psalm-suppress UndefinedMethod https://github.com/vimeo/psalm/issues/5750
+                 * @psalm-suppress UndefinedClass
+                 */
                 $e->setUsername($identifier);
             }
 
+            /** @psalm-suppress InvalidThrow */
             throw $e;
         }
 
@@ -83,12 +87,16 @@ class EloquentUserProvider implements UserProviderInterface
                 $e = new UserNotFoundException();
                 $e->setUserIdentifier($userIdentifier);
             } else {
-                // BC with symfony/security-core <5.3
+                /** @psalm-suppress UndefinedClass BC with symfony/security-core <5.3 */
                 $e = new UsernameNotFoundException();
-                /** @psalm-suppress UndefinedMethod https://github.com/vimeo/psalm/issues/5750 */
+                /**
+                 * @psalm-suppress UndefinedMethod https://github.com/vimeo/psalm/issues/5750
+                 * @psalm-suppress UndefinedClass
+                 */
                 $e->setUsername($userIdentifier);
             }
 
+            /** @psalm-suppress InvalidThrow */
             throw $e;
         }
 

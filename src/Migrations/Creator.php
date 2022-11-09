@@ -40,6 +40,7 @@ class Creator extends MigrationCreator
         $stub = $this->getStub($table, $create);
 
         if (!trait_exists(WithoutModelEvents::class)) {
+            // BC for Laravel <9
             /** @psalm-suppress TooManyArguments BC with Laravel <9 */
             $populatedStub = $this->populateStub($name, $stub, $table);
         } else {
@@ -56,17 +57,9 @@ class Creator extends MigrationCreator
 
     protected function getStub($table, $create): string
     {
-        $eloquent7 = file_exists($this->stubPath().'/migration.stub');
-        if ($eloquent7) {
-            $file = 'migration.stub';
-            if (null !== $table) {
-                $file = $create ? 'migration.create.stub' : 'migration.update.stub';
-            }
-        } else {
-            $file = 'blank.stub';
-            if (null !== $table) {
-                $file = $create ? 'create.stub' : 'update.stub';
-            }
+        $file = 'migration.stub';
+        if (null !== $table) {
+            $file = $create ? 'migration.create.stub' : 'migration.update.stub';
         }
 
         // TODO add support to overwrite stub templates (ref https://github.com/illuminate/database/commit/b0300976c7a496bcaef5917b9efe72039b3d947a)
