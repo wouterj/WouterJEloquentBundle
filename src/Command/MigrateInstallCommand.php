@@ -24,6 +24,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class MigrateInstallCommand extends Command
 {
+    use ViewComponentsTrait;
+
     private $migrationRepository;
 
     public function __construct(MigrationRepositoryInterface $migrationRepository)
@@ -47,7 +49,7 @@ class MigrateInstallCommand extends Command
         $repository->setSource($input->getOption('database'));
         $repository->createRepository();
 
-        $output->writeln('<comment>Migration table created successfully.</>');
+        $this->info($output, 'Migration table created successfully.');
 
         return 0;
     }

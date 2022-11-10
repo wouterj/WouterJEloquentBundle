@@ -11,14 +11,12 @@
 
 namespace WouterJ\EloquentBundle\Command;
 
+use Illuminate\Console\View\Components;
 use Illuminate\Database\DatabaseManager;
 use WouterJ\EloquentBundle\MockeryTrait;
 use WouterJ\EloquentBundle\Seeder;
 use WouterJ\EloquentBundle\Promise;
-use WouterJ\EloquentBundle\Prediction;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -50,19 +48,18 @@ class SeedCommandTest extends TestCase
         Promise::containerDoesNotHaveService($this->container, $seederClass);
         Promise::containerDoesNotHaveService($this->container, $seeder1Class);
 
-        TestCommand::create($this->command)
+        $test = TestCommand::create($this->command)
             ->passing('--database')
             ->passing('class', [$seederClass, $seeder1Class])
             ->duringExecute()
-            ->outputs(<<<EOT
-Seeded: $seederClass
-Seeded: $seeder1Class
-EOT
-);
-    }
-
-    public function it_checks_all_bundles()
-    {
+        ;
+        if (class_exists(Components\Task::class)) {
+            $test->outputsRegex('/'.preg_quote($seederClass).' \.+ \d+ms DONE\s+'.preg_quote($seeder1Class).' \.+ \d+ms DONE/');
+        } else {
+            // BC Laravel <9.39
+            $test->outputsRegex('/RUNNING: '.preg_quote($seederClass).'\s+DONE: '.preg_quote($seederClass).' \(\d+ms\)/');
+            $test->outputsRegex('/RUNNING: '.preg_quote($seeder1Class).'\s+DONE: '.preg_quote($seeder1Class).' \(\d+ms\)/');
+        }
     }
 }
 

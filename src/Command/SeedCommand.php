@@ -11,6 +11,7 @@
 
 namespace WouterJ\EloquentBundle\Command;
 
+use Illuminate\Console\View\Components;
 use Illuminate\Database\DatabaseManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
@@ -28,6 +29,7 @@ use WouterJ\EloquentBundle\Seeder;
 class SeedCommand extends Command
 {
     use ConfirmationTrait;
+    use ViewComponentsTrait;
 
     private $container;
     private $resolver;
@@ -82,10 +84,14 @@ EOT
             return 1;
         }
 
+        $this->info($output, 'Seeding database.');
+
         $seeders = $this->getSeeders($input->getArgument('class'));
 
         if (0 === count($seeders)) {
-            throw new \RuntimeException('No Seeder classes found.');
+            $this->error($output, 'No Seeder classes found.');
+
+            return 1;
         }
 
         if (null !== $input->getOption('database')) {
@@ -94,13 +100,24 @@ EOT
 
         foreach ($seeders as $seederClass) {
             $seeder = $this->resolve($seederClass);
-            $seeder->run();
 
-            $output->writeln('<info>Seeded:</info> '.$seederClass);
-            foreach ($seeder->getSeedClasses() as $class) {
-                $output->writeln('<info>Seeded:</info> '.$class);
+            $this->task($output, $seederClass, function () use ($seeder): void {
+                $seeder->run();
+            });
+
+            $seeds = $seeder->getSeedClasses();
+            $last = array_key_last($seeds);
+            foreach ($seeds as $i => $class) {
+                if (class_exists(Components\TwoColumnDetail::class)) {
+                    (new Components\TwoColumnDetail($output))->render('<fg=gray>'.($i == $last ? '└' : '├').'─ </>'.$class, '<fg=green;options=bold>DONE</>');
+                } else {
+                    // BC Laravel <9.39
+                    $output->writeln('<fg=green;options=bold>DONE</>: '.$class);
+                }
             }
         }
+
+        $output->writeln('');
 
         return 0;
     }

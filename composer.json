@@ -9,7 +9,7 @@
         "php": "^7.3 || ^8.0",
         "illuminate/database": "^8.40 || ^9.0 || ^10.0",
         "illuminate/events": "^8.12 || ^9.0 || ^10.0",
-        "illuminate/console": "^8.12 || ^9.0 || ^10.0",
+        "illuminate/console": "^8.12 || ^9.39 || ^10.0",
         "symfony/framework-bundle": "^5.4 || ^6.0",
         "symfony/dependency-injection": "^5.4 || ^6.0",
         "jdorn/sql-formatter": "^1.2.17"

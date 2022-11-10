@@ -37,6 +37,7 @@ class MigrateCommandTest extends TestCase
         $this->migrator = \Mockery::mock(Migrator::class);
         $this->migrator->allows()->paths()->andReturn([])->byDefault();
         $this->migrator->allows()->setOutput()->withAnyArgs();
+        $this->migrator->allows()->repositoryExists()->andReturn(true)->byDefault();
 
         if (method_exists(Migrator::class, 'getNotes')) {
             $this->migrator->allows()->getNotes()->andReturn([]);
@@ -149,5 +150,23 @@ class MigrateCommandTest extends TestCase
         $command->setApplication($app);
 
         TestCommand::create($command)->passing('--seed')->duringExecute();
+    }
+
+    /** @test */
+    public function it_can_initialize_before_migration()
+    {
+        $app = new Application();
+        $command = new MigrateCommand($this->migrator, __DIR__.'/migrations', 'dev');
+
+        $installCommand = \Mockery::mock(new Command('eloquent:migrate:install'));
+        $installCommand->shouldReceive('run')->once()->with(\Mockery::type(ArrayInput::class), \Mockery::any());
+
+        $app->add($installCommand);
+        $command->setApplication($app);
+
+        $this->migrator->allows()->repositoryExists()->andReturn(false);
+        $this->migrator->shouldReceive('run')->once()->with([__DIR__.'/migrations'], \Mockery::any());
+
+        TestCommand::create($command)->execute();
     }
 }

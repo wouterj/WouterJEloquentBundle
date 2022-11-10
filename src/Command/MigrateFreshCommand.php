@@ -55,9 +55,14 @@ class MigrateFreshCommand extends BaseMigrateCommand
         }
 
         $database = $input->getOption('database');
-        $this->dropAllTables($database);
 
-        $output->writeln('Dropped all tables successfully.');
+        $output->writeln('');
+
+        $this->task($output, 'Dropping all tables', function () use ($database): void {
+            $this->dropAllTables($database);
+        });
+
+        $output->writeln('');
 
         $this->call($output, 'eloquent:migrate', array_filter([
             '--database' => $database,
@@ -67,7 +72,7 @@ class MigrateFreshCommand extends BaseMigrateCommand
 
         if ($input->getOption('seed') || $input->getOption('seeder')) {
             $this->call($output, 'eloquent:seed', array_filter([
-                'class'      => [$input->getOption('seeder') ?: 'DatabaseSeeder'],
+                'class'      => array_filter([$input->getOption('seeder')]),
                 '--database' => $database,
                 '--force'    => $force,
             ]));
@@ -76,7 +81,7 @@ class MigrateFreshCommand extends BaseMigrateCommand
         return 0;
     }
 
-    private function dropAllTables(string $database): void
+    private function dropAllTables(?string $database): void
     {
         $this->db->connection($database)
             ->getSchemaBuilder()

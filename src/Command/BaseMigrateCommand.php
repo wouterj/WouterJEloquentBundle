@@ -25,6 +25,7 @@ use WouterJ\EloquentBundle\Migrations\Migrator;
 abstract class BaseMigrateCommand extends Command
 {
     use ConfirmationTrait;
+    use ViewComponentsTrait;
 
     /** @var Migrator */
     private $migrator;

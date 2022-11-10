@@ -53,7 +53,7 @@ EOH
         $migrator->setOutput(new OutputStyle($input, $output));
 
         if (!$migrator->repositoryExists()) {
-            $output->writeln('<error>Migration table not found.</>');
+            $this->error($output, 'Migration table not found.');
 
             return 1;
         }
