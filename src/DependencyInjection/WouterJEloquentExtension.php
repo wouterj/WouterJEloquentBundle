@@ -45,6 +45,10 @@ class WouterJEloquentExtension extends Extension
 
     protected function loadDataCollector(ContainerBuilder $container, Loader\XmlFileLoader $loader): void
     {
+        if (!($container->has('twig') && $container->has('profiler'))) {
+            return;
+        }
+
         $loader->load('data_collector.xml');
 
         $container->getDefinition('wouterj_eloquent.events')
