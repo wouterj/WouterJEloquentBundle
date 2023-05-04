@@ -18,6 +18,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
 use Illuminate\Database\Events\QueryExecuted;
+use Twig\Extension\AbstractExtension;
 
 /**
  * @final
@@ -45,7 +46,7 @@ class WouterJEloquentExtension extends Extension
 
     protected function loadDataCollector(ContainerBuilder $container, Loader\XmlFileLoader $loader): void
     {
-        if (!($container->has('twig') && $container->has('profiler'))) {
+        if (!class_exists(\Twig_Environment::class) && !class_exists(AbstractExtension::class)) {
             return;
         }
 
