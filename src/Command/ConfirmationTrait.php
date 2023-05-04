@@ -22,7 +22,7 @@ trait ConfirmationTrait
         }
 
         /** @var QuestionHelper $helper */
-        $helper = $this->getHelper('question')
+        $helper = $this->getHelper('question');
 
         return $helper->ask($i, $o, new ConfirmationQuestion('Are you sure you want to execute the migrations in production?', false));
     }
