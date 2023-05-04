@@ -59,18 +59,18 @@ class MigrateFreshCommand extends BaseMigrateCommand
 
         $output->writeln('Dropped all tables successfully.');
 
-        $this->call($output, 'eloquent:migrate', [
+        $this->call($output, 'eloquent:migrate', array_filter([
             '--database' => $database,
             '--force'    => $force,
             '--path'     => $input->getOption('path'),
-        ]);
+        ]));
 
         if ($input->getOption('seed') || $input->getOption('seeder')) {
-            $this->call($output, 'eloquent:seed', [
+            $this->call($output, 'eloquent:seed', array_filter([
                 'class'      => [$input->getOption('seeder') ?: 'DatabaseSeeder'],
                 '--database' => $database,
                 '--force'    => $force,
-            ]);
+            ]));
         }
 
         return 0;

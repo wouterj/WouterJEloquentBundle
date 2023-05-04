@@ -51,13 +51,15 @@ class FormTest extends AbstractFunctionalTest
 
     public function testFormSubmission()
     {
+        $birthDay = new \DateTimeImmutable('-3 years');
+
         $formView = $this->client->request('GET', '/user/create');
         $form = $formView->selectButton('Submit')->form([
             'form[name]' => 'John Doe',
             'form[password]' => 's3cr3t',
-            'form[date_of_birth][year]' => '2017',
-            'form[date_of_birth][month]' => '10',
-            'form[date_of_birth][day]' => '20',
+            'form[date_of_birth][year]' => $birthDay->format('Y'),
+            'form[date_of_birth][month]' => $birthDay->format('n'),
+            'form[date_of_birth][day]' => $birthDay->format('j'),
             'form[is_admin]' => false,
         ]);
         $this->client->submit($form);
@@ -68,7 +70,7 @@ class FormTest extends AbstractFunctionalTest
         $userAttr = $user->getAttributes();
         $this->assertEquals('John Doe', $userAttr['name']);
         $this->assertEquals('s3cr3t', $userAttr['password']);
-        $this->assertEquals('2017-10-20 00:00:00', $userAttr['date_of_birth']);
+        $this->assertEquals($birthDay->format('Y-m-d').' 00:00:00', $userAttr['date_of_birth']);
         $this->assertEquals('0', $userAttr['is_admin']);
     }
 
@@ -78,7 +80,7 @@ class FormTest extends AbstractFunctionalTest
         $form = $formView->selectButton('Submit')->form([
             'form[name]' => '',
             'form[password]' => 's3cr3t',
-            'form[date_of_birth][year]' => '2017',
+            'form[date_of_birth][year]' => (new \DateTimeImmutable())->format('Y'),
             'form[date_of_birth][month]' => '10',
             'form[date_of_birth][day]' => '20',
             'form[is_admin]' => false,

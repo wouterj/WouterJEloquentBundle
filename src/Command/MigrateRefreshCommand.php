@@ -56,32 +56,32 @@ EOH
         $step = (int) $input->getOption('step');
 
         if ($step > 0) {
-            $this->call($output, 'eloquent:migrate:rollback', [
+            $this->call($output, 'eloquent:migrate:rollback', array_filter([
                 '--database' => $database,
                 '--force'    => $force,
                 '--path'     => $input->getOption('path'),
                 '--step'     => $step,
-            ]);
+            ]));
         } else {
-            $this->call($output, 'eloquent:migrate:reset', [
+            $this->call($output, 'eloquent:migrate:reset', array_filter([
                 '--database' => $database,
                 '--force'    => $force,
                 '--path'     => $input->getOption('path'),
-            ]);
+            ]));
         }
 
-        $this->call($output, 'eloquent:migrate', [
+        $this->call($output, 'eloquent:migrate', array_filter([
             '--database' => $database,
             '--force'    => $force,
             '--path'     => $input->getOption('path'),
-        ]);
+        ]));
 
         if ($input->getOption('seed') || $input->getOption('seeder')) {
-            $this->call($output, 'eloquent:seed', [
+            $this->call($output, 'eloquent:seed', array_filter([
                 'class'      => [$input->getOption('seeder') ?: 'DatabaseSeeder'],
                 '--database' => $database,
                 '--force'    => $force,
-            ]);
+            ]));
         }
 
         return 0;
