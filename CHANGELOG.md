@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.4.0
+-----
+
+ * Added Laravel 10 support
+ * Dropped Symfony <5.4 support
+
 2.0.0
 -----
 
