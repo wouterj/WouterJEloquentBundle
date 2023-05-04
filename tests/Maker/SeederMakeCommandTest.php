@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\MakerBundle\FileManager;
 use Symfony\Bundle\MakerBundle\Generator;
 use Symfony\Bundle\MakerBundle\Util\PhpCompatUtil;
+use Symfony\Bundle\MakerBundle\Doctrine\BaseSingleRelation;
 use WouterJ\EloquentBundle\MockeryTrait;
 
 class SeederMakeCommandTest extends TestCase
@@ -22,7 +23,7 @@ class SeederMakeCommandTest extends TestCase
     {
         $this->fileManager = \Mockery::spy(FileManager::class);
         $this->maker = new MakeSeeder($this->fileManager);
-        $this->generator = new Generator($this->fileManager, 'App', class_exists(PhpCompatUtil::class) ? new PhpCompatUtil($this->fileManager) : null);
+        $this->generator = new Generator($this->fileManager, 'App', class_exists(BaseSingleRelation::class) ? new PhpCompatUtil($this->fileManager) : null);
     }
 
     /**

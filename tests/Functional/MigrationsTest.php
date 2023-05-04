@@ -40,7 +40,7 @@ class MigrationsTest extends KernelTestCase
         $app->run(['command' => 'eloquent:migrate', '--seed' => true], ['decorated' => false]);
 
         $assertMethod = version_compare(Version::series(), '9.1', '>=') ? 'assertMatchesRegularExpression' : 'assertRegExp';
-        $this->{$assertMethod}('/^Migrated:\s+2015_02_16_203700_CreateUsersTable\s/m', $app->getDisplay());
+        $this->{$assertMethod}('/^\s+2015_02_16_203700_CreateUsersTable\s\.+\s\d+ms\sDONE/m', $app->getDisplay());
 
         $result = Db::select('select * from users');
         $this->assertCount(1, $result);
