@@ -12,6 +12,7 @@
 namespace WouterJ\EloquentBundle\Migrations;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Database\Schema\Blueprint;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\MakerBundle\FileManager;
@@ -56,7 +57,9 @@ class CreatorTest extends TestCase
     {
         $normalize = function ($str) { return preg_replace('/\R/', "\n", $str); };
 
-        if (trait_exists(WithoutModelEvents::class)) {
+        if (class_exists(Json::class)) {
+            $type .= '-10';
+        } elseif (trait_exists(WithoutModelEvents::class)) {
             $type .= '-9';
         }
         $expected = $normalize(file_get_contents(__DIR__.'/../Fixtures/migrations/'.$type.'.php'));

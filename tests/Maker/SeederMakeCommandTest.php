@@ -3,6 +3,7 @@
 namespace WouterJ\EloquentBundle\Maker;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Eloquent\Casts\Json;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\MakerBundle\DependencyBuilder;
 use Symfony\Bundle\MakerBundle\FileManager;
@@ -52,11 +53,13 @@ class SeederMakeCommandTest extends TestCase
 
     private function expectSeeder(string $name)
     {
-        $fixturePath = file_get_contents(__DIR__.'/../Fixtures/seeds/'.$name.'.php');
-        if (trait_exists(WithoutModelEvents::class)) {
-            $fixturePath = file_get_contents(__DIR__.'/../Fixtures/seeds/'.$name.'.laravel9.php');
+        $fixturePath = __DIR__.'/../Fixtures/seeds/'.$name.'.php';
+        if (class_exists(Json::class)) {
+            $fixturePath = __DIR__.'/../Fixtures/seeds/'.$name.'.laravel10.php';
+        } elseif (trait_exists(WithoutModelEvents::class)) {
+            $fixturePath = __DIR__.'/../Fixtures/seeds/'.$name.'.laravel9.php';
         }
-        $normalizedExpected = preg_replace('/\R/', "\n", $fixturePath);
+        $normalizedExpected = preg_replace('/\R/', "\n", file_get_contents($fixturePath));
 
         $path = '/app/src/Seed/'.$name.'.php';
         $this->fileManager->allows()->getRelativePathForFutureClass()->with('App\\Seed\\'.$name)->andReturn($path);
