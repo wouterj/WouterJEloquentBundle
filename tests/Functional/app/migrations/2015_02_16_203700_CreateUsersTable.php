@@ -16,7 +16,7 @@ use WouterJ\EloquentBundle\Facade\Schema;
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
-class CreateUsersTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -42,4 +42,4 @@ class CreateUsersTable extends Migration
     {
         Schema::drop('users');
     }
-}
+};

@@ -17,6 +17,7 @@ class CastingUser extends User
     /**
      * @Assert\NotBlank(message="The username should not be blank.")
      */
+    #[Assert\NotBlank(message: 'The username should not be blank.')]
     public function getName()
     {
         return $this->name;
