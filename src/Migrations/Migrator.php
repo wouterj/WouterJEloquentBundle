@@ -29,7 +29,13 @@ class Migrator extends LaravelMigrator
 {
     public function __construct(MigrationRepositoryInterface $repository, Resolver $resolver)
     {
-        parent::__construct($repository, $resolver, new Filesystem());
+        if (class_exists(Filesystem::class)) {
+            parent::__construct($repository, $resolver, new Filesystem());
+        } else {
+            // compat with Laravel 8
+            $this->repository = $repository;
+            $this->resolver = $resolver;
+        }
     }
 
     public function getMigrationFiles($paths): array
