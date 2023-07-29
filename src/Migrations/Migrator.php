@@ -14,6 +14,7 @@ namespace WouterJ\EloquentBundle\Migrations;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 use Illuminate\Database\Migrations\MigrationRepositoryInterface;
 use Illuminate\Database\Migrations\Migrator as LaravelMigrator;
+use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -28,8 +29,7 @@ class Migrator extends LaravelMigrator
 {
     public function __construct(MigrationRepositoryInterface $repository, Resolver $resolver)
     {
-        $this->repository = $repository;
-        $this->resolver = $resolver;
+        parent::__construct($repository, $resolver, new Filesystem());
     }
 
     public function getMigrationFiles($paths): array
