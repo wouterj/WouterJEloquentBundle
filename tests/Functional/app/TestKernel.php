@@ -54,7 +54,7 @@ class TestKernel extends Kernel
                 'secret' => 'abc123',
                 'router' => ['resource' => __DIR__.'/routes.yml', 'utf8' => true],
                 'validation' => ['enable_annotations' => true],
-                'annotations' => true,
+                'annotations' => PHP_VERSION_ID < 80000,
                 'test'   => true,
                 'form'   => true,
                 'assets' => false,
