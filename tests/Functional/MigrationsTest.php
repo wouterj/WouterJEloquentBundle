@@ -24,6 +24,8 @@ use WouterJ\EloquentBundle\Facade\Db;
  */
 class MigrationsTest extends KernelTestCase
 {
+    private static $originalMigration;
+
     protected static function getKernelClass(): string
     {
         return 'TestKernel';
@@ -34,8 +36,15 @@ class MigrationsTest extends KernelTestCase
         if (!trait_exists(WithoutModelEvents::class)) {
             // BC with Laravel <9
             $migration = __DIR__.'/app/migrations/2015_02_16_203700_CreateUsersTable.php';
-            file_put_contents($migration, str_replace('return new class', 'class CreateUsersTable', file_get_contents($migration)));
+            self::$originalMigration = file_get_contents($migration);
+            file_put_contents($migration, str_replace('return new class', 'class CreateUsersTable', self::$originalMigration));
         }
+    }
+
+    protected function tearDown(): void
+    {
+        $migration = __DIR__.'/app/migrations/2015_02_16_203700_CreateUsersTable.php';
+        file_put_contents($migration, self::$originalMigration);
     }
 
     public function testRunningMigrations()
