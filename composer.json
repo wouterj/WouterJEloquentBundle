@@ -32,6 +32,7 @@
         "symfony/twig-bundle": "^5.4 || ^6.0",
         "symfony/twig-bridge": "^5.4 || ^6.0",
         "symfony/var-dumper": "^5.4 || ^6.0",
+        "symfony/process": "^5.4 || ^6.0",
         "twig/twig": "^1.26 || ^2.0 || ^3.0",
         "vimeo/psalm": "^3.18.2 || ^4.0",
         "psalm/plugin-symfony": "^1.5.0 || ^2.0 || ^3.0"
