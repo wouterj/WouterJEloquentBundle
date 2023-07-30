@@ -15,6 +15,12 @@
             <tag name="maker.command"/>
         </service>
 
+        <service id="wouterj_eloquent.maker.factory" class="WouterJ\EloquentBundle\Maker\MakeFactory">
+            <argument type="service" id="maker.file_manager"/>
+
+            <tag name="maker.command"/>
+        </service>
+
         <service id="wouterj_eloquent.maker.migration" class="WouterJ\EloquentBundle\Maker\MakeMigration">
             <argument type="service" id="wouterj_eloquent.migrations.creator"/>
             <argument>%wouterj_eloquent.migration_path%</argument>
