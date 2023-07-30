@@ -1,0 +1,28 @@
+name: App test
+
+on:
+  push:
+    branches: [2.x]
+  schedule:
+    - cron: '4 3 1 * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    name: 'Demo application test'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: 'shivammathur/setup-php@v2'
+        with:
+          php-version: '8.2'
+          extensions: xml, pdo_sqlite
+
+      - name: Install dependencies
+        uses: 'ramsey/composer-install@v2'
+
+      - name: Run script
+        run: php .github/tester.php -vvv
