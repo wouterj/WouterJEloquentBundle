@@ -14,6 +14,7 @@ namespace WouterJ\EloquentBundle\Command;
 use Illuminate\Console\OutputStyle;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -50,6 +51,8 @@ EOT
             return 1;
         }
 
+        $this->prepareDatabase($input, $output);
+
         $this->getMigrator()->setOutput(new OutputStyle($input, $output));
 
         $this->getMigrator()->run($this->getMigrationPaths($input), [
@@ -62,5 +65,22 @@ EOT
         }
 
         return 0;
+    }
+
+    private function prepareDatabase(InputInterface $input, OutputInterface $output): void
+    {
+        if ($this->getMigrator()->repositoryExists()) {
+            return;
+        }
+
+        $this->info($output, 'Preparing database.');
+
+        $this->task($output, 'Creating migration table', function () use ($input) {
+            return $this->call(new NullOutput(), 'eloquent:migrate:install', array_filter([
+                '--database' => $input->getOption('database'),
+            ])) == 0;
+        });
+
+        $output->writeln('');
     }
 }

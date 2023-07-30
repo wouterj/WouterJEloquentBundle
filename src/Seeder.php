@@ -23,7 +23,10 @@ abstract class Seeder extends BaseSeeder
     /** @var null|ContainerInterface */
     protected $container;
     protected $seededClasses = [];
-    /** @var ConnectionInterface */
+    /**
+     * @var ConnectionInterface|null
+     * @deprecated since 2.3
+     */
     protected $connection;
 
     /** @return mixed */
@@ -39,21 +42,11 @@ abstract class Seeder extends BaseSeeder
 
 	    foreach ($classes as $class) {
             $seeder = $this->resolve($class);
-            $seeder->setConnection($this->connection);
-
-            if (false === $silent && isset($this->command)) {
-                $this->command->getOutput()->writeln("<info>Seeding:</info> $class");
+            if (null !== $this->connection) {
+                $seeder->setConnection($this->connection, false);
             }
-
-            $startTime = microtime(true);
 
             ($seeder)($parameters);
-
-            $runTime = round(microtime(true) - $startTime, 2);
-
-            if ($silent === false && isset($this->command)) {
-                $this->command->getOutput()->writeln("<info>Seeded:</info>  $class ($runTime seconds)");
-            }
         }
 
 	    return $this;
@@ -103,8 +96,13 @@ abstract class Seeder extends BaseSeeder
         $this->seededClasses[] = is_string($object) ? $object : get_class($object);
     }
 
-    public function setConnection(ConnectionInterface $connection): void
+    /** @deprecated since 2.3 */
+    public function setConnection(ConnectionInterface $connection/*, $triggerDeprecation = true*/): void
     {
+        if (1 === func_num_args() || func_get_arg(1)) {
+            trigger_deprecation('wouterj/eloquent-bundle', '2.3', 'The "%s()" method is deprecated.', __METHOD__);
+        }
+
         $this->connection = $connection;
     }
 }

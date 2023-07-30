@@ -78,7 +78,7 @@ EOH
 
         if ($input->getOption('seed') || $input->getOption('seeder')) {
             $this->call($output, 'eloquent:seed', array_filter([
-                'class'      => [$input->getOption('seeder') ?: 'DatabaseSeeder'],
+                'class'      => array_filter([$input->getOption('seeder')]),
                 '--database' => $database,
                 '--force'    => $force,
             ]));

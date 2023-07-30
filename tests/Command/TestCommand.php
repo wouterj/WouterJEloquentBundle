@@ -86,6 +86,13 @@ class TestCommand
         return $this;
     }
 
+    public function outputsRegex($expected)
+    {
+        Assert::assertMatchesRegularExpression($expected, $this->tester->getDisplay(true));
+
+        return $this;
+    }
+
     public function doesNotOutput($notExpected)
     {
         Assert::assertStringNotContainsString($notExpected, $this->tester->getDisplay(true));

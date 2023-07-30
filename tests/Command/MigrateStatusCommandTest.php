@@ -20,6 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\MockeryTrait;
 use WouterJ\EloquentBundle\Migrations\Migrator;
 use WouterJ\EloquentBundle\Promise;
+use Illuminate\Console\View\Components;
 use Illuminate\Database\Migrations\MigrationRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -43,7 +44,9 @@ class MigrateStatusCommandTest extends TestCase
         $this->migrator->allows()->paths()->andReturn([])->byDefault();
         $this->migrator->allows()->repositoryExists()->andReturn(true);
         $this->migrator->allows()->getRepository()->andReturn($this->repository);
-        $this->migrator->allows()->setConnection()->withAnyArgs();
+        $this->migrator->allows()->usingConnection()->withAnyArgs()->andReturnUsing(function ($database, $callback) {
+            return $callback();
+        });
         $this->migrator->allows()->getMigrationName()->withAnyArgs()->andReturnArg(0);
         $this->migrator->allows()->getMigrationFiles()->withAnyArgs()->andReturn(['Migration1', 'Migration2'])->byDefault();
 
@@ -54,10 +57,17 @@ class MigrateStatusCommandTest extends TestCase
     public function it_outputs_migration_statuses()
     {
         $this->repository->allows()->getRan()->andReturn(['Migration1']);
+        $this->repository->allows()->getMigrationBatches()->withAnyArgs()->andReturn(['Migration1' => 1]);
 
-        TestCommand::create($this->command)
+        $test = TestCommand::create($this->command)
             ->execute()
-            ->outputs(" ====== ============ \n  Ran?   Migration   \n ====== ============ \n  Y      Migration1  \n  N      Migration2  \n ====== ============");
+        ;
+        if (class_exists(Components\Task::class)) {
+            $test->outputsRegex('/Migration1 \.+ \[1\] Ran\s+Migration2 \.+ Pending/');
+        } else {
+            // BC Laravel <9.39
+            $test->outputs(" ====== ============ \n  Ran?   Migration   \n ====== ============ \n  Y      Migration1  \n  N      Migration2  \n ====== ============");
+        }
     }
 
     /** @test */
