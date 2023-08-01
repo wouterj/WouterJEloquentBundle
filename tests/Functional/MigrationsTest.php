@@ -11,8 +11,7 @@
 
 namespace WouterJ\EloquentBundle\Functional;
 
-use Illuminate\Console\View\Components\Task;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Migrations\Migrator;
 use PHPUnit\Runner\Version;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -31,22 +30,6 @@ class MigrationsTest extends KernelTestCase
         return 'TestKernel';
     }
 
-    protected function setUp(): void
-    {
-        if (!trait_exists(WithoutModelEvents::class)) {
-            // BC with Laravel <9
-            $migration = __DIR__.'/app/migrations/2015_02_16_203700_CreateUsersTable.php';
-            self::$originalMigration = file_get_contents($migration);
-            file_put_contents($migration, str_replace('return new class', 'class CreateUsersTable', self::$originalMigration));
-        }
-    }
-
-    protected function tearDown(): void
-    {
-        $migration = __DIR__.'/app/migrations/2015_02_16_203700_CreateUsersTable.php';
-        file_put_contents($migration, self::$originalMigration);
-    }
-
     public function testRunningMigrations()
     {
         static::bootKernel();
@@ -60,7 +43,7 @@ class MigrationsTest extends KernelTestCase
         $app->run(['command' => 'eloquent:migrate', '--seed' => true], ['decorated' => false]);
 
         $regex = '/^\s+2015_02_16_203700_CreateUsersTable \.+ [0-9.]+ms DONE/m';
-        if (!class_exists(Task::class)) {
+        if (method_exists(Migrator::class, 'note')) {
             // BC with Laravel <9.22
             $regex = '/^Migrated:\s+2015_02_16_203700_CreateUsersTable\s/m';
         }

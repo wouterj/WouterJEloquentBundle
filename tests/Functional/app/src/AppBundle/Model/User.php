@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 /**
  * @author Wouter J <wouter@wouterj.nl>
  */
-class LegacyUser extends Model implements UserInterface
+class User extends Model implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public $fillable = ['name', 'email', 'password'];
 
@@ -48,17 +48,6 @@ class LegacyUser extends Model implements UserInterface
     }
 
     public function eraseCredentials(): void
-    {
-    }
-}
-
-if (interface_exists(PasswordAuthenticatedUserInterface::class)) {
-    class User extends LegacyUser implements PasswordAuthenticatedUserInterface
-    {
-    }
-} else {
-    // BC with symfony/security-core <5.3
-    class User extends LegacyUser
     {
     }
 }

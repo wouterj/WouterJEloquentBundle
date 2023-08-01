@@ -12,7 +12,6 @@
 use AppBundle\Controller\FormController;
 use AppBundle\Model\User;
 use AppBundle\Model\UserObserver;
-use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorageFactory;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -44,12 +43,6 @@ class TestKernel extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(function (ContainerBuilder $container) {
-            $sessionConfig = ['storage_factory_id' => 'session.storage.factory.mock_file'];
-            if (!class_exists(MockFileSessionStorageFactory::class)) {
-                // BC with symfony/http-foundation <5.3
-                $sessionConfig = ['storage_id' => 'session.storage.mock_file'];
-            }
-
             $container->loadFromExtension('framework', [
                 'secret' => 'abc123',
                 'router' => ['resource' => __DIR__.'/routes.yml', 'utf8' => true],
@@ -58,7 +51,7 @@ class TestKernel extends Kernel
                 'test'   => true,
                 'form'   => true,
                 'assets' => false,
-                'session' => $sessionConfig,
+                'session' => ['storage_factory_id' => 'session.storage.factory.mock_file'],
                 'csrf_protection' => false,
                 'property_access' => true,
             ]);
