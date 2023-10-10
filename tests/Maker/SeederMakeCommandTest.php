@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\MakerBundle\DependencyBuilder;
 use Symfony\Bundle\MakerBundle\FileManager;
 use Symfony\Bundle\MakerBundle\Generator;
-use Symfony\Bundle\MakerBundle\Util\PhpCompatUtil;
 use WouterJ\EloquentBundle\MockeryTrait;
 
 class SeederMakeCommandTest extends TestCase
@@ -25,12 +24,7 @@ class SeederMakeCommandTest extends TestCase
         $this->fileManager = \Mockery::spy(FileManager::class);
         $this->maker = new MakeSeeder($this->fileManager);
 
-        $phpCompatUtil = null;
-        if (class_exists(PhpCompatUtil::class) && method_exists(DependencyBuilder::class, 'isPhpVersionSatisfied')) {
-            // PHP compat util must be used in SymfonyMakerBundle >=1.22,<1.44 and we need at most 1.43 for PHP <8.0 support testing
-            $phpCompatUtil = new PhpCompatUtil($this->fileManager);
-        }
-        $this->generator = new Generator($this->fileManager, 'App', $phpCompatUtil);
+        $this->generator = new Generator($this->fileManager, 'App');
     }
 
     /**

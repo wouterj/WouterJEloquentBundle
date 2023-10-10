@@ -52,20 +52,9 @@ class EloquentUserProvider implements UserProviderInterface
             ->where($this->usernameAttribute, $identifier)
             ->first();
         if (null === $user) {
-            if (class_exists(UserNotFoundException::class)) {
-                $e = new UserNotFoundException();
-                $e->setUserIdentifier($identifier);
-            } else {
-                /** @psalm-suppress UndefinedClass BC with symfony/security-core <5.3 */
-                $e = new UsernameNotFoundException();
-                /**
-                 * @psalm-suppress UndefinedMethod https://github.com/vimeo/psalm/issues/5750
-                 * @psalm-suppress UndefinedClass
-                 */
-                $e->setUsername($identifier);
-            }
+            $e = new UserNotFoundException();
+            $e->setUserIdentifier($identifier);
 
-            /** @psalm-suppress InvalidThrow */
             throw $e;
         }
 
@@ -83,20 +72,10 @@ class EloquentUserProvider implements UserProviderInterface
         $refreshedUser = $this->createModel()->newQuery()->where($user->getKeyName(), $user->getKey())->first();
         if (null === $refreshedUser) {
             $userIdentifier = $user->getAttribute($this->usernameAttribute);
-            if (class_exists(UserNotFoundException::class)) {
-                $e = new UserNotFoundException();
-                $e->setUserIdentifier($userIdentifier);
-            } else {
-                /** @psalm-suppress UndefinedClass BC with symfony/security-core <5.3 */
-                $e = new UsernameNotFoundException();
-                /**
-                 * @psalm-suppress UndefinedMethod https://github.com/vimeo/psalm/issues/5750
-                 * @psalm-suppress UndefinedClass
-                 */
-                $e->setUsername($userIdentifier);
-            }
 
-            /** @psalm-suppress InvalidThrow */
+            $e = new UserNotFoundException();
+            $e->setUserIdentifier($userIdentifier);
+
             throw $e;
         }
 

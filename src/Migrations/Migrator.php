@@ -11,6 +11,7 @@
 
 namespace WouterJ\EloquentBundle\Migrations;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 use Illuminate\Database\Migrations\MigrationRepositoryInterface;
 use Illuminate\Database\Migrations\Migrator as LaravelMigrator;
@@ -32,9 +33,27 @@ class Migrator extends LaravelMigrator
         if (class_exists(Filesystem::class)) {
             parent::__construct($repository, $resolver, new Filesystem());
         } else {
-            // compat with Laravel 8
+            // BC with Laravel <10
             $this->repository = $repository;
             $this->resolver = $resolver;
+            /** @psalm-suppress InvalidPropertyAssignmentValue */
+            $this->files = new class {
+                public function getRequire($path, array $data = [])
+                {
+                    if (is_file($path)) {
+                        $__path = $path;
+                        $__data = $data;
+
+                        return (static function () use ($__path, $__data) {
+                            extract($__data, EXTR_SKIP);
+
+                            return require $__path;
+                        })();
+                    }
+
+                    throw new FileNotFoundException("File does not exist at path {$path}.");
+                }
+            };
         }
     }
 
