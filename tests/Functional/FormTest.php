@@ -39,14 +39,20 @@ class FormTest extends AbstractFunctionalTest
             $inputs[trim(str_replace('form_', '', $node->attr('id')), '[]')] = 'select';
         });
 
-        $this->assertEquals([
+        $expectedTypes = [
             'name' => 'text',
             'password' => 'text',
-            'date_of_birth_year' => 'select',
-            'date_of_birth_month' => 'select',
-            'date_of_birth_day' => 'select',
             'is_admin' => 'checkbox',
-        ], $inputs);
+            'date_of_birth' => 'date',
+        ];
+        if (!\array_key_exists('date_of_birth', $inputs)) {
+            $expectedTypes['date_of_birth_year'] = 'select';
+            $expectedTypes['date_of_birth_month'] = 'select';
+            $expectedTypes['date_of_birth_day'] = 'select';
+            unset($expectedTypes['date_of_birth']);
+        }
+
+        $this->assertEquals($expectedTypes, $inputs);
     }
 
     public function testFormSubmission()
@@ -54,14 +60,20 @@ class FormTest extends AbstractFunctionalTest
         $birthDay = new \DateTimeImmutable('-3 years');
 
         $formView = $this->client->request('GET', '/user/create');
-        $form = $formView->selectButton('Submit')->form([
-            'form[name]' => 'John Doe',
-            'form[password]' => 's3cr3t',
-            'form[date_of_birth][year]' => $birthDay->format('Y'),
-            'form[date_of_birth][month]' => $birthDay->format('n'),
-            'form[date_of_birth][day]' => $birthDay->format('j'),
-            'form[is_admin]' => false,
-        ]);
+        $form = $formView->selectButton('Submit')->form();
+
+        $form['form[name]'] = 'John Doe';
+        $form['form[password]'] = 's3cr3t';
+        if (!isset($form['form[date_of_birth][year]'])) {
+            $form['form[date_of_birth]'] = $birthDay->format('Y-n-j');
+        } else {
+            // BC for Symfony <7
+            $form['form[date_of_birth][year]'] = $birthDay->format('Y');
+            $form['form[date_of_birth][month]'] = $birthDay->format('n');
+            $form['form[date_of_birth][day]'] = $birthDay->format('j');
+        }
+        $form['form[is_admin]'] = false;
+
         $this->client->submit($form);
 
         $user = CastingUser::where(['name' => 'John Doe'])->first();
@@ -77,14 +89,18 @@ class FormTest extends AbstractFunctionalTest
     public function testFormValidation()
     {
         $formView = $this->client->request('GET', '/user/create');
-        $form = $formView->selectButton('Submit')->form([
-            'form[name]' => '',
-            'form[password]' => 's3cr3t',
-            'form[date_of_birth][year]' => (new \DateTimeImmutable())->format('Y'),
-            'form[date_of_birth][month]' => '10',
-            'form[date_of_birth][day]' => '20',
-            'form[is_admin]' => false,
-        ]);
+        $form = $formView->selectButton('Submit')->form();
+        $form['form[name]'] = '';
+        $form['form[password]'] = 's3cr3t';
+        $form['form[is_admin]'] = false;
+        if (!isset($form['form[date_of_birth][year]'])) {
+            $form['form[date_of_birth]'] = (new \DateTimeImmutable())->format('Y').'-10-20';
+        } else {
+            // BC for Symfony <7
+            $form['form[date_of_birth][year]'] = (new \DateTimeImmutable())->format('Y');
+            $form['form[date_of_birth][month]'] = '10';
+            $form['form[date_of_birth][day]'] = '20';
+        }
         $crawler = $this->client->submit($form);
 
         $this->assertCount(1, $crawler->filterXPath('//li[text()="The username should not be blank."]'));

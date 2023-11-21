@@ -36,17 +36,16 @@ jobs:
           - deps: 'dev'
             php: 8.3
             symfony: '6.x'
-            laravel: '11.x'
+            laravel: '10.x'
             experimental: true
             composer: preview
 
-          # TODO enable when Laravel allows Symfony 7
-          #- deps: 'dev'
-          #  php: 8.3
-          #  symfony: '7.x'
-          #  laravel: '11.x'
-          #  experimental: true
-          #  composer: preview
+          - deps: 'dev'
+            php: 8.3
+            symfony: '7.x'
+            laravel: '11.x'
+            experimental: true
+            composer: preview
 
     steps:
       - uses: actions/checkout@v2
@@ -85,12 +84,12 @@ jobs:
               echo "LARAVEL_REQUIRE=$(echo '${{ matrix.laravel }}' | tr x \\*)" >> $GITHUB_ENV
           fi
 
-          if [ "${{ matrix.laravel }}" = "7.x" ]; then
-              echo "SYMFONY_DEPRECATIONS_HELPER=max[direct]=5" >> $GITHUB_ENV
-          fi
+          if [ "${{ matrix.symfony }}" = "7.x" ]; then
+              # Psalm Symfony Plugin doesn't support Symfony 7 yet
+              composer remove --no-update --dev vimeo/psalm psalm/plugin-symfony
 
-          if [ "${{ matrix.php }}" = "8.1" ]; then
-              echo "SYMFONY_PHPUNIT_VERSION=9.5" >> $GITHUB_ENV
+              # Carbon needs version 3
+              composer require --no-update nesbot/carbon:"3.x-dev as 2.99.0"
           fi
 
           echo "PHP_VERSION=${{ matrix.php }}" >> $GITHUB_ENV

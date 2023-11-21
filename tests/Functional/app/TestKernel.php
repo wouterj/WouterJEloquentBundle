@@ -12,11 +12,12 @@
 use AppBundle\Controller\FormController;
 use AppBundle\Model\User;
 use AppBundle\Model\UserObserver;
+use Symfony\Bundle\FrameworkBundle\Routing\AttributeRouteControllerLoader;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Log\Logger;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticatorManager;
 
 /**
@@ -46,7 +47,7 @@ class TestKernel extends Kernel
             $container->loadFromExtension('framework', [
                 'secret' => 'abc123',
                 'router' => ['resource' => __DIR__.'/routes.yml', 'utf8' => true],
-                'validation' => ['enable_annotations' => true],
+                'validation' => [(class_exists(AttributeRouteControllerLoader::class) ? 'enable_attributes' : 'enable_annotations') => true],
                 'annotations' => PHP_VERSION_ID < 80000,
                 'test'   => true,
                 'form'   => true,
@@ -73,12 +74,9 @@ class TestKernel extends Kernel
                 ],
                 'password_hashers' => [User::class => 'plaintext'],
             ];
-            if (class_exists(AuthenticatorManager::class)) {
+            if (class_exists(AuthenticatorManager::class) && class_exists(Security::class)) {
+                // Symfony >5.4, <7.0
                 $securityConfig['enable_authenticator_manager'] = true;
-            }
-            if (!interface_exists(PasswordHasherInterface::class)) {
-                $securityConfig['encoders'] = $securityConfig['password_hashers'];
-                unset($securityConfig['password_hashers']);
             }
             $container->loadFromExtension('security', $securityConfig);
 

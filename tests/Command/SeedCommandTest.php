@@ -54,7 +54,7 @@ class SeedCommandTest extends TestCase
             ->duringExecute()
         ;
         if (class_exists(Components\Task::class)) {
-            $test->outputsRegex('/'.preg_quote($seederClass).' \.+ \d+ms DONE\s+'.preg_quote($seeder1Class).' \.+ \d+ms DONE/');
+            $test->outputsRegex('/'.preg_quote($seederClass).'[\s\.]* [\d\.]+ms DONE\s+'.preg_quote($seeder1Class).'[\s\.]* [\d\.]+ms DONE/');
         } else {
             // BC Laravel <9.39
             $test->outputsRegex('/RUNNING: '.preg_quote($seederClass).'\s+DONE: '.preg_quote($seederClass).' \(\d+ms\)/');
