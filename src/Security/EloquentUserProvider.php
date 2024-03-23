@@ -20,7 +20,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
- * @template TUserObject of Model&UserInterface
+ * @psalm-suppress TooManyTemplateParams BC with Symfony 6
+ * @template-covariant TUserObject of Model&UserInterface
+ * @implements UserProviderInterface<TUserObject>
  *
  * @final
  * @author Wouter de Jong <wouter@wouterj.nl>

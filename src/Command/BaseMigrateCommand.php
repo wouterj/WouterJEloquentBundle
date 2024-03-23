@@ -46,7 +46,7 @@ abstract class BaseMigrateCommand extends Command
         return $this->migrationPath;
     }
 
-    protected function getMigrationPaths(InputInterface $input = null): array
+    protected function getMigrationPaths(?InputInterface $input = null): array
     {
         if (null !== $input && $input->hasOption('path') && null !== $path = $input->getOption('path')) {
             return [getcwd().'/'.$path];

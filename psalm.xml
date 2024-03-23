@@ -3,6 +3,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    findUnusedBaselineEntry="true"
+    findUnusedCode="false"
     errorLevel="4"
 >
     <projectFiles>
@@ -22,8 +24,14 @@
         <UndefinedMethod>
             <errorLevel type="suppress">
                 <referencedMethod name="WouterJ\EloquentBundle\Seeder::run"/>
+                <referencedMethod name="Symfony\Component\Config\Definition\Builder\NodeDefinition::fixXmlConfig"/>
             </errorLevel>
         </UndefinedMethod>
+        <UndefinedInterfaceMethod>
+            <errorLevel type="suppress">
+                <referencedMethod name="Symfony\Component\Config\Definition\Builder\NodeParentInterface::scalarNode"/>
+            </errorLevel>
+        </UndefinedInterfaceMethod>
     </issueHandlers>
 
     <plugins>

@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\Factory as IlluminateFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @psalm-suppress TooManyTemplateParams BC with Laravel 8
  * @template TModel of Model
  * @extends IlluminateFactory<TModel>
  */
@@ -14,8 +13,7 @@ abstract class Factory extends IlluminateFactory
 {
     public function modelName(): string
     {
-        /** @psalm-suppress RedundantPropertyInitializationCheck */
-        $resolver = static::$modelNameResolver ?? function (self $factory) {
+        $resolver = static::$modelNameResolver ?: function (self $factory) {
             $name = $factory::class;
             if (str_ends_with($name, 'Factory')) {
                 $name = substr($name, 0, -7);
