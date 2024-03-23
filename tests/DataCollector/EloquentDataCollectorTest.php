@@ -11,7 +11,9 @@
 
 namespace WouterJ\EloquentBundle\DataCollector;
 
+use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager;
+use Illuminate\Support\Fluent;
 use WouterJ\EloquentBundle\MockeryTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,14 +23,18 @@ class EloquentDataCollectorTest extends TestCase
 {
     use MockeryTrait;
 
+    private Container $container;
     private $capsule;
     private $queryListener;
     private $collector;
 
     protected function setUp(): void
     {
+        $this->container = new Container();
+        $this->container->instance('config', new Fluent(['database.connections' => []]));
+
         $this->capsule = \Mockery::mock(Manager::class);
-        $this->capsule->allows()->getContainer()->andReturn(['config' => ['database.connections' => []]])->byDefault();
+        $this->capsule->allows()->getContainer()->andReturn($this->container);
         $this->capsule->allows()->getDatabaseManager()->andReturn(new class{
             public function getConnections() { return []; }
         })->byDefault();
@@ -42,14 +48,10 @@ class EloquentDataCollectorTest extends TestCase
     /** @test */
     public function it_collects_connections()
     {
-        $this->capsule->allows()->getContainer()->andReturn([
-            'config' => [
-                'database.connections' => [
-                    'db1' => ['db' => 'foobar'],
-                    'db2' => ['db' => 'something else']
-                ],
-            ],
-        ]);
+        $this->container['config']['database.connections'] = [
+            'db1' => ['db' => 'foobar'],
+            'db2' => ['db' => 'something else']
+        ];
 
         $this->capsule->allows()->getDatabaseManager()->andReturn(new class{
             public function getConnections() {

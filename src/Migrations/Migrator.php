@@ -36,8 +36,7 @@ class Migrator extends LaravelMigrator
             // BC with Laravel <10
             $this->repository = $repository;
             $this->resolver = $resolver;
-            /** @psalm-suppress InvalidPropertyAssignmentValue */
-            $this->files = new class {
+            $this->files = new class extends Filesystem {
                 public function getRequire($path, array $data = [])
                 {
                     if (is_file($path)) {

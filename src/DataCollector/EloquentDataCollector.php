@@ -38,10 +38,9 @@ class EloquentDataCollector extends DataCollector
 
     public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
     {
-        /** @psalm-suppress UndefinedInterfaceMethod */
         $connections = array_map(function ($config) {
             return $this->cloneVar($config);
-        }, $this->capsule->getContainer()['config']['database.connections']);
+        }, $this->capsule->getContainer()->make('config')['database.connections']);
 
         $usedConnections = [];
         foreach (array_keys($this->capsule->getDatabaseManager()->getConnections()) as $name) {
