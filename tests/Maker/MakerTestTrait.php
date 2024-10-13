@@ -20,7 +20,12 @@ trait MakerTestTrait
         $app = new Application();
         $app->setAutoExit(false);
         $app->add(
-            (new MakerCommand($this->maker, \Mockery::spy(FileManager::class), $this->generator ?? \Mockery::spy(Generator::class), class_exists(TemplateLinter::class) ? new TemplateLinter() : null))
+            (new MakerCommand(
+                $this->maker,
+                $fileManager = \Mockery::spy(FileManager::class),
+                $this->generator ?? \Mockery::spy(Generator::class),
+                new TemplateLinter(method_exists(Generator::class, 'generateClassFromClassData') ? $fileManager : null)
+            ))
                 ->setName($this->maker->getCommandName())
         );
 
