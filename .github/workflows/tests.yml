@@ -7,6 +7,7 @@ on:
     branches: [2.x, 1.x]
   schedule:
     - cron: '3 2 1 * *'
+  workflow_dispatch: {}
 
 env:
   SYMFONY_DEPRECATIONS_HELPER: "max[direct]=0"
