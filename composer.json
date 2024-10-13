@@ -10,13 +10,14 @@
         "illuminate/database": "^9.0 || ^10.0 || ^11.0",
         "illuminate/events": "^9.0 || ^10.0 || ^11.0",
         "illuminate/console": "^9.39 || ^10.0 || ^11.0",
+        "laravel/serializable-closure": "^1.0",
         "symfony/framework-bundle": "^6.0 || ^7.0",
         "symfony/dependency-injection": "^6.0 || ^7.0",
         "jdorn/sql-formatter": "^1.2.17"
     },
     "require-dev": {
         "doctrine/annotations": "1.*",
-        "symfony/maker-bundle": "^1.44",
+        "symfony/maker-bundle": "^1.49",
         "mockery/mockery": "^1.6",
         "symfony/console": "^6.0 || ^7.0",
         "symfony/event-dispatcher": "^6.0 || ^7.0",

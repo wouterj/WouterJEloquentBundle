@@ -22,6 +22,7 @@ abstract class Factory extends IlluminateFactory
             return str_replace('\\Factory\\', '\\Model\\', $name);
         };
 
+        /** @psalm-suppress RedundantPropertyInitializationCheck the model is incorrectly typed as not being able to be null */
         return $this->model ?? $resolver($this);
     }
 }

@@ -7,6 +7,7 @@ on:
     branches: [2.x, 1.x]
   schedule:
     - cron: '3 2 1 * *'
+  workflow_dispatch: {}
 
 env:
   SYMFONY_DEPRECATIONS_HELPER: "max[direct]=0"
@@ -33,7 +34,7 @@ jobs:
             experimental: false
             composer: v2
 
-          - deps: 'dev'
+          - deps: 'stable'
             php: '8.3'
             symfony: '7.x'
             laravel: '11.x'
@@ -43,7 +44,7 @@ jobs:
           - deps: 'dev'
             php: '8.4'
             symfony: '7.x'
-            laravel: '11.x'
+            laravel: '12.x'
             experimental: true
             composer: preview
 
@@ -83,14 +84,6 @@ jobs:
           if [ -n "${{ matrix.laravel }}" ]; then
               echo "LARAVEL_REQUIRE=$(echo '${{ matrix.laravel }}' | tr x \\*)" >> $GITHUB_ENV
           fi
-
-          #if [ "${{ matrix.symfony }}" = "7.x" ]; then
-          #    # Psalm Symfony Plugin doesn't support Symfony 7 yet
-          #    composer remove --no-update --dev vimeo/psalm psalm/plugin-symfony
-
-          #    # Carbon needs version 3
-          #    composer require --no-update nesbot/carbon:"3.x-dev as 2.99.0"
-          #fi
 
           echo "PHP_VERSION=${{ matrix.php }}" >> $GITHUB_ENV
 
