@@ -69,6 +69,10 @@ EOT
 
     private function prepareDatabase(InputInterface $input, OutputInterface $output): void
     {
+        if ($input->hasOption('database')) {
+            $this->getMigrator()->setConnection($input->getOption('database'));
+        }
+        
         if ($this->getMigrator()->repositoryExists()) {
             return;
         }
