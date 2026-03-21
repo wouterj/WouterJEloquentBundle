@@ -4,6 +4,7 @@
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
     findUnusedBaselineEntry="true"
+    findUnusedIssueHandlerSuppression="false"
     findUnusedCode="false"
     errorLevel="4"
 >
@@ -32,6 +33,7 @@
                 <referencedMethod name="Symfony\Component\Config\Definition\Builder\NodeParentInterface::scalarNode"/>
             </errorLevel>
         </UndefinedInterfaceMethod>
+        <MissingOverrideAttribute errorLevel="info" />
     </issueHandlers>
 
     <plugins>

@@ -35,7 +35,7 @@
         "symfony/var-dumper": "^6.0 || ^7.0",
         "symfony/process": "^6.0 || ^7.0",
         "twig/twig": "^2.0 || ^3.0",
-        "vimeo/psalm": "^5.0",
+        "vimeo/psalm": "^5.0 || ^6.0",
         "psalm/plugin-symfony": "^5.0"
     },
     "conflict": {

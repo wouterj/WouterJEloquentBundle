@@ -114,5 +114,5 @@ jobs:
         run: ./vendor/bin/simple-phpunit
 
       - name: Run static analysis
-        if: '!matrix.experimental'
+        if: "!matrix.experimental && matrix.deps != 'low'"
         run: ./vendor/bin/psalm --php-version=$PHP_VERSION
