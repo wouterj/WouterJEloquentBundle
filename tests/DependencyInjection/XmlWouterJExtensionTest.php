@@ -20,9 +20,19 @@ use Illuminate\Database\DatabaseManager;
 
 /**
  * @author Wouter J <wouter@wouterj.nl>
+ * @group legacy
  */
 class XmlWouterJEloquentExtensionTest extends WouterJEloquentExtensionTest
 {
+    protected function setUp(): void
+    {
+        if (!class_exists(XmlFileLoader::class)) {
+            $this->markTestSkipped('XML no longer supported in Symfony');
+        }
+
+        parent::setUp();
+    }
+
     protected function loadConfig(ContainerBuilder $container, $name)
     {
         (new XmlFileLoader($container, new FileLocator(__DIR__.'/../Fixtures/config')))->load($name.'.xml');
