@@ -19,7 +19,7 @@ trait MakerTestTrait
     {
         $app = new Application();
         $app->setAutoExit(false);
-        $app->add(
+        $app->{method_exists($app, 'addCommand') ? 'addCommand' : 'add'}(
             (new MakerCommand(
                 $this->maker,
                 $fileManager = \Mockery::spy(FileManager::class),
