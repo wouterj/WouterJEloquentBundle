@@ -88,7 +88,7 @@ jobs:
           echo "PHP_VERSION=${{ matrix.php }}" >> $GITHUB_ENV
 
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v6
         with:
           path: ${{ steps.ctx.outputs.composer_dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.json') }}
