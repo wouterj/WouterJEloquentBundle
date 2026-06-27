@@ -66,6 +66,7 @@ jobs:
           case "${{ matrix.deps }}" in
             "low")
               echo "COMPOSER_FLAGS=--prefer-lowest" >> $GITHUB_ENV
+              echo "COMPOSER_NO_BLOCKING=1" >> $GITHUB_ENV
               echo "SYMFONY_DEPRECATIONS_HELPER=disabled=1" >> $GITHUB_ENV
 
               ;;
