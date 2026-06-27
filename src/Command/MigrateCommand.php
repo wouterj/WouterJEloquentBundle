@@ -61,7 +61,11 @@ EOT
         ]);
 
         if ($input->getOption('seed')) {
-            $this->call($output, 'eloquent:seed', ['--force' => true]);
+            $this->call(
+                $output,
+                'eloquent:seed',
+                ['--force' => true] + ($input->getOption('database') ? ['--database' => $input->getOption('database')] : [])
+            );
         }
 
         return 0;
@@ -69,7 +73,7 @@ EOT
 
     private function prepareDatabase(InputInterface $input, OutputInterface $output): void
     {
-        if ($input->hasOption('database')) {
+        if ($input->getOption('database')) {
             $this->getMigrator()->setConnection($input->getOption('database'));
         }
         
