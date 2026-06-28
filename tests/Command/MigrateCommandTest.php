@@ -145,7 +145,7 @@ class MigrateCommandTest extends TestCase
         $seedCommand->shouldReceive('run')->once()->with(\Mockery::type(ArrayInput::class), \Mockery::any());
 
         $app = new Application();
-        $app->add($seedCommand);
+        $app->{method_exists($app, 'addCommand') ? 'addCommand' : 'add'}($seedCommand);
 
         $command->setApplication($app);
 
@@ -161,7 +161,7 @@ class MigrateCommandTest extends TestCase
         $installCommand = \Mockery::mock(new Command('eloquent:migrate:install'));
         $installCommand->shouldReceive('run')->once()->with(\Mockery::type(ArrayInput::class), \Mockery::any());
 
-        $app->add($installCommand);
+        $app->{method_exists($app, 'addCommand') ? 'addCommand' : 'add'}($installCommand);
         $command->setApplication($app);
 
         $this->migrator->allows()->repositoryExists()->andReturn(false);

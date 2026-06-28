@@ -48,7 +48,7 @@ trait ViewComponentsTrait
 
             $task();
 
-            $runTime = number_format((microtime(true) - $startTime) * 1000).'ms';
+            $runTime = number_format((microtime(true) - $startTime) * 1000.0).'ms';
 
             $output->writeln('<fg=green;options=bold>DONE</>: '.$description.' <fg=gray>('.$runTime.')</>');
         }

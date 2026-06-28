@@ -32,11 +32,11 @@ class WouterJEloquentExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../../config'));
+        $loader = new Loader\PhpFileLoader($container, new FileLocator(__DIR__.'/../../config'));
 
-        $loader->load('migrations.xml');
-        $loader->load('form.xml');
-        $loader->load('maker.xml');
+        $loader->load('migrations.php');
+        $loader->load('form.php');
+        $loader->load('maker.php');
 
         $this->loadCapsule($config, $container, $loader);
         $this->loadEloquent($config, $container, $loader);
@@ -44,13 +44,13 @@ class WouterJEloquentExtension extends Extension
         $this->loadDataCollector($container, $loader);
     }
 
-    protected function loadDataCollector(ContainerBuilder $container, Loader\XmlFileLoader $loader): void
+    protected function loadDataCollector(ContainerBuilder $container, Loader\PhpFileLoader $loader): void
     {
         if (!class_exists(\Twig_Environment::class) && !class_exists(AbstractExtension::class)) {
             return;
         }
 
-        $loader->load('data_collector.xml');
+        $loader->load('data_collector.php');
 
         $container->getDefinition('wouterj_eloquent.events')
             ->addMethodCall('listen', [
@@ -59,13 +59,13 @@ class WouterJEloquentExtension extends Extension
             ]);
     }
 
-    protected function loadCapsule(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader): void
+    protected function loadCapsule(array $config, ContainerBuilder $container, Loader\PhpFileLoader $loader): void
     {
         if (0 === count($config['connections']) || !isset(current($config['connections'])['database'])) {
             throw new InvalidConfigurationException('At least one connection must be configured in order to use WouterJEloquentBundle.');
         }
 
-        $loader->load('services.xml');
+        $loader->load('services.php');
 
         $capsuleDefinition = $container->getDefinition('wouterj_eloquent');
         foreach ($config['connections'] as $name => $connection) {
@@ -75,7 +75,7 @@ class WouterJEloquentExtension extends Extension
         $container->setParameter('wouterj_eloquent.default_connection', $config['default_connection']);
     }
 
-    protected function loadEloquent(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader): void
+    protected function loadEloquent(array $config, ContainerBuilder $container, Loader\PhpFileLoader $loader): void
     {
         if (!$this->isConfigEnabled($container, $config['eloquent'])) {
             return;
@@ -85,12 +85,12 @@ class WouterJEloquentExtension extends Extension
             throw new \LogicException('There should be at least one connection configured on "wouterj_eloquent.connections" in order to use the Eloquent ORM.');
         }
 
-        $loader->load('eloquent.xml');
+        $loader->load('eloquent.php');
     }
 
-    protected function loadFacades(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader): void
+    protected function loadFacades(array $config, ContainerBuilder $container, Loader\PhpFileLoader $loader): void
     {
-        $loader->load('facades.xml');
+        $loader->load('facades.php');
 
         if ($config['aliases']['db'] || $config['aliases']['schema']) {
             $aliasesLoaderDefinition = $container->getDefinition('wouterj_eloquent.aliases.loader');
