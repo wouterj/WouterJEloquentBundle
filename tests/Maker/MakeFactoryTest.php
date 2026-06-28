@@ -3,6 +3,7 @@
 namespace WouterJ\EloquentBundle\Maker;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Casts\Json;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\MakerBundle\DependencyBuilder;
@@ -84,6 +85,8 @@ class MakeFactoryTest extends TestCase
             $fixturePath .= '-8';
         } elseif (!class_exists(Json::class)) {
             $fixturePath .= '-9';
+        } elseif (!class_exists(UseResource::class)) {
+            $fixturePath .= '-10';
         }
         $fixturePath .= '.php';
         $normalizedExpected = preg_replace('/\R/', "\n", file_get_contents($fixturePath));

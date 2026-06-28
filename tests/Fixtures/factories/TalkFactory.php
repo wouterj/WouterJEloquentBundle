@@ -2,10 +2,11 @@
 
 namespace App\Factory;
 
+use App\Model\Talk;
 use WouterJ\EloquentBundle\Factory\Factory;
 
 /**
- * @extends \WouterJ\EloquentBundle\Factory\Factory<\App\Model\Talk>
+ * @extends Factory<Talk>
  */
 class TalkFactory extends Factory
 {
