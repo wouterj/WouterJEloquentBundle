@@ -66,6 +66,7 @@ jobs:
           case "${{ matrix.deps }}" in
             "low")
               echo "COMPOSER_FLAGS=--prefer-lowest" >> $GITHUB_ENV
+              echo "COMPOSER_NO_BLOCKING=1" >> $GITHUB_ENV
               echo "SYMFONY_DEPRECATIONS_HELPER=disabled=1" >> $GITHUB_ENV
 
               ;;
@@ -88,7 +89,7 @@ jobs:
           echo "PHP_VERSION=${{ matrix.php }}" >> $GITHUB_ENV
 
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v6
         with:
           path: ${{ steps.ctx.outputs.composer_dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.json') }}

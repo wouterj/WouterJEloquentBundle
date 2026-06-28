@@ -2,13 +2,12 @@
 
 namespace App\Factory;
 
-use App\Model;
 use WouterJ\EloquentBundle\Factory\Factory;
 
 /**
- * @extends Factory<Model>
+ * @extends \WouterJ\EloquentBundle\Factory\Factory<\App\Model\Talk>
  */
-class PostFactory extends Factory
+class TalkFactory extends Factory
 {
     /**
      * Define the model's default state.

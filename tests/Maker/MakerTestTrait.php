@@ -24,7 +24,7 @@ trait MakerTestTrait
                 $this->maker,
                 $fileManager = \Mockery::spy(FileManager::class),
                 $this->generator ?? \Mockery::spy(Generator::class),
-                new TemplateLinter(method_exists(Generator::class, 'generateClassFromClassData') ? $fileManager : null)
+                new TemplateLinter()
             ))
                 ->setName($this->maker->getCommandName())
         );
