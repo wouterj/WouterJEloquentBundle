@@ -56,7 +56,6 @@ class TestKernel extends Kernel
 
             $container->loadFromExtension('twig', [
                 'paths' => [__DIR__.'/templates'],
-                'exception_controller' => null,
                 'strict_variables' => $container->getParameter('kernel.debug'),
             ]);
 
