@@ -12,14 +12,12 @@
 namespace WouterJ\EloquentBundle\Command;
 
 use Illuminate\Console\OutputStyle;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\DependencyInjection\Container;
 use WouterJ\EloquentBundle\MockeryTrait;
 use WouterJ\EloquentBundle\Migrations\Migrator;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
 class MigrateRollbackCommandTest extends TestCase
 {
     use MockeryTrait;
@@ -41,7 +39,7 @@ class MigrateRollbackCommandTest extends TestCase
         $this->command = new MigrateRollbackCommand($this->migrator, __DIR__.'/migrations', 'dev');
     }
 
-    /** @test */
+    #[Test]
     public function it_asks_for_confirmation_in_prod()
     {
         $command = new MigrateRollbackCommand($this->migrator, __DIR__.'/migrations', 'prod');
@@ -54,7 +52,7 @@ class MigrateRollbackCommandTest extends TestCase
             ->outputs('Are you sure you want to execute the migrations in production?');
     }
 
-    /** @test */
+    #[Test]
     public function it_does_not_ask_for_confirmation_in_dev()
     {
         $this->migrator->shouldReceive('rollback')->once();
@@ -64,7 +62,7 @@ class MigrateRollbackCommandTest extends TestCase
             ->doesNotOutput('Are you sure you want to execute the migrations in production?');
     }
 
-    /** @test */
+    #[Test]
     public function it_always_continues_when_force_is_passed()
     {
         $command = new MigrateRollbackCommand($this->migrator, __DIR__.'/migrations', 'prod');
@@ -77,7 +75,7 @@ class MigrateRollbackCommandTest extends TestCase
             ->doesNotOutput('Are you sure you want to execute the migrations in production?');
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_the_default_migration_path()
     {
         $this->migrator->shouldReceive('rollback')->once()->with([__DIR__.'/migrations'], \Mockery::any());
@@ -85,7 +83,7 @@ class MigrateRollbackCommandTest extends TestCase
         TestCommand::create($this->command)->execute();
     }
 
-    /** @test */
+    #[Test]
     public function it_allows_to_specify_another_path()
     {
         $this->migrator->shouldReceive('rollback')->once()->with([getcwd().'/db'], \Mockery::any());
@@ -93,7 +91,7 @@ class MigrateRollbackCommandTest extends TestCase
         TestCommand::create($this->command)->passing('--path', 'db')->duringExecute();
     }
 
-    /** @test */
+    #[Test]
     public function it_allows_multiple_migration_directories()
     {
         $this->migrator->allows()->paths()->andReturn(['/somewhere/migrations']);
@@ -104,7 +102,7 @@ class MigrateRollbackCommandTest extends TestCase
         TestCommand::create($this->command)->execute();
     }
 
-    /** @test */
+    #[Test]
     public function it_allows_changing_the_connection()
     {
         $this->migrator->shouldReceive('setConnection')->once()->with('something');
@@ -115,7 +113,7 @@ class MigrateRollbackCommandTest extends TestCase
         TestCommand::create($this->command)->passing('--database', 'something')->duringExecute();
     }
 
-    /** @test */
+    #[Test]
     public function it_allows_to_revert_multiple_migrations()
     {
         $this->migrator->shouldReceive('rollback')->once()
@@ -124,7 +122,7 @@ class MigrateRollbackCommandTest extends TestCase
         TestCommand::create($this->command)->passing('--step', 4)->duringExecute();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_pretend_migrations_were_rolled_back()
     {
         $this->migrator->shouldReceive('rollback')->once()

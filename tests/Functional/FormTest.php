@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Symfony\Component\DomCrawler\Crawler;
 use WouterJ\EloquentBundle\Facade\Schema;
 
-class FormTest extends AbstractFunctionalTest
+class FormTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
     {

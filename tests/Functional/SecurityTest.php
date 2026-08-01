@@ -6,7 +6,7 @@ use AppBundle\Model\User;
 use Illuminate\Database\Schema\Blueprint;
 use WouterJ\EloquentBundle\Facade\Schema;
 
-class SecurityTest extends AbstractFunctionalTest
+class SecurityTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
     {

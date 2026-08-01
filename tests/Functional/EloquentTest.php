@@ -16,9 +16,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use WouterJ\EloquentBundle\Facade\Schema;
 
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
 class EloquentTest extends KernelTestCase
 {
     protected static function getKernelClass(): string
@@ -52,4 +49,3 @@ class EloquentTest extends KernelTestCase
         $this->assertEquals('pa$$word', $user->password);
     }
 }
-

@@ -4,6 +4,8 @@ namespace WouterJ\EloquentBundle\Maker;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Casts\Json;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\MakerBundle\DependencyBuilder;
 use Symfony\Bundle\MakerBundle\FileManager;
@@ -27,10 +29,7 @@ class SeederMakeCommandTest extends TestCase
         $this->generator = new Generator($this->fileManager, 'App');
     }
 
-    /**
-     * @test
-     * @dataProvider provideSeederNames
-     */
+    #[Test, DataProvider('provideSeederNames')]
     public function it_creates_app_seeders($name)
     {
         $this->expectSeeder('PostSeeder');
@@ -38,7 +37,7 @@ class SeederMakeCommandTest extends TestCase
         $this->callGenerate(['name' => $name]);
     }
 
-    public function provideSeederNames()
+    public static function provideSeederNames()
     {
         yield ['Post'];
         yield ['PostSeeder'];

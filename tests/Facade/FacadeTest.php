@@ -14,22 +14,20 @@ namespace WouterJ\EloquentBundle\Facade;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\Fixtures\Facade as Fixture;
 use WouterJ\EloquentBundle\MockeryTrait;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
 class FacadeTest extends TestCase
 {
     use MockeryTrait;
 
-    /** @test */
+    #[Test]
     public function it_accepts_object_accessors()
     {
         $this->assertEquals(Fixture\Dummy::class, Fixture\ObjectFacade::foo());
     }
 
-    /** @test */
+    #[Test]
     public function it_accepts_container_accessors()
     {
         $container = \Mockery::mock(ContainerInterface::class);

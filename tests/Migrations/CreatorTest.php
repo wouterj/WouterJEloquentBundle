@@ -13,6 +13,8 @@ namespace WouterJ\EloquentBundle\Migrations;
 
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Database\Schema\Blueprint;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\MakerBundle\FileManager;
 use WouterJ\EloquentBundle\MockeryTrait;
@@ -32,10 +34,7 @@ class CreatorTest extends TestCase
         $this->migrationsPath = sys_get_temp_dir();
     }
 
-    /**
-     * @test
-     * @dataProvider getMigrationTypes
-     */
+    #[Test, DataProvider('getMigrationTypes')]
     public function it_bootstraps_blank_migrations($type, $table = null, $create = false)
     {
         $this->expectMigration($type, $type.'_migration');
@@ -43,7 +42,7 @@ class CreatorTest extends TestCase
         $this->subject->create($type.'_migration', $this->migrationsPath, $table, $create);
     }
 
-    public function getMigrationTypes()
+    public static function getMigrationTypes()
     {
         return [
             ['blank'],

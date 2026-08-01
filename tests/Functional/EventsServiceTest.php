@@ -13,10 +13,7 @@ namespace WouterJ\EloquentBundle\Functional;
 
 use AppBundle\Model\UserObserver;
 
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
-class EventsServiceTest extends EventsTest
+class EventsServiceTest extends EventsTestCase
 {
     private $userObserver;
 

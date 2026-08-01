@@ -14,11 +14,9 @@ namespace WouterJ\EloquentBundle\Command;
 use WouterJ\EloquentBundle\MockeryTrait;
 use WouterJ\EloquentBundle\Migrations\Migrator;
 use Illuminate\Database\Migrations\MigrationRepositoryInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
 class MigrateStatusCommandTest extends TestCase
 {
     use MockeryTrait;
@@ -45,7 +43,7 @@ class MigrateStatusCommandTest extends TestCase
         $this->command = new MigrateStatusCommand($this->migrator, __DIR__.'/migrations', 'dev');
     }
 
-    /** @test */
+    #[Test]
     public function it_outputs_migration_statuses()
     {
         $this->repository->allows()->getRan()->andReturn(['Migration1']);
@@ -57,7 +55,7 @@ class MigrateStatusCommandTest extends TestCase
         $test->outputsRegex('/Migration1 \.+ \[1\] Ran\s+Migration2 \.+ Pending/');
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_the_default_migration_path()
     {
         $this->migrator->shouldReceive('getMigrationFiles')
@@ -68,7 +66,7 @@ class MigrateStatusCommandTest extends TestCase
         TestCommand::create($this->command)->execute();
     }
 
-    /** @test */
+    #[Test]
     public function it_allows_to_specify_another_path()
     {
         $this->migrator->shouldReceive('getMigrationFiles')
@@ -79,7 +77,7 @@ class MigrateStatusCommandTest extends TestCase
         TestCommand::create($this->command)->passing('--path', 'db')->duringExecute();
     }
 
-    /** @test */
+    #[Test]
     public function it_allows_multiple_migration_directories()
     {
         $this->migrator->allows()->paths()->andReturn(['/somewhere/migrations']);

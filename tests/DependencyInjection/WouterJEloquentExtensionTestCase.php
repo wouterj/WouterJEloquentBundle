@@ -11,19 +11,18 @@
 
 namespace WouterJ\EloquentBundle\DependencyInjection;
 
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use WouterJ\EloquentBundle\EventListener\EloquentInitializer;
 use WouterJ\EloquentBundle\EventListener\FacadeInitializer;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Database\DatabaseManager;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use WouterJ\EloquentBundle\WouterJEloquentBundle;
 
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
-abstract class WouterJEloquentExtensionTest extends TestCase
+abstract class WouterJEloquentExtensionTestCase extends TestCase
 {
     protected $container;
 
@@ -59,7 +58,7 @@ abstract class WouterJEloquentExtensionTest extends TestCase
         $this->assertEquals($class, $this->container->findDefinition($id)->getClass());
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_capsule_with_connections()
     {
         $this->load('with_connections');
@@ -107,7 +106,7 @@ abstract class WouterJEloquentExtensionTest extends TestCase
         ], $connectionCalls);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_enable_eloquent()
     {
         $this->load('eloquent_enabled');
@@ -126,7 +125,7 @@ abstract class WouterJEloquentExtensionTest extends TestCase
         $this->load('no_connection');
     }
 
-    /** @test */
+    #[Test]
     public function it_only_requires_a_database_option()
     {
         $this->load('only_required_options');
@@ -134,7 +133,7 @@ abstract class WouterJEloquentExtensionTest extends TestCase
         $this->assertContainerHasService('wouterj_eloquent', Manager::class);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_enable_facade_aliases()
     {
         $this->load('with_aliases');
@@ -142,14 +141,13 @@ abstract class WouterJEloquentExtensionTest extends TestCase
         $this->assertContainerHasService('wouterj_eloquent.facade.initializer', FacadeInitializer::class);
     }
 
-    /**
-     * @test
-     * @group legacy
-     * @expectedDeprecation Driver name "postgres" is deprecated as of version 0.4 and will be removed in 1.0. Use "pgsql" instead.
-     * @expectedDeprecation Driver name "sql server" is deprecated as of version 0.4 and will be removed in 1.0. Use "sqlsrv" instead.
-     */
+    #[Test]
+    #[Group('legacy')]
     public function it_notifies_and_aliases_deprecated_driver_names()
     {
+        $this->expectUserDeprecationMessage('Driver name "postgres" is deprecated as of version 0.4 and will be removed in 1.0. Use "pgsql" instead.');
+        $this->expectUserDeprecationMessage('Driver name "sql server" is deprecated as of version 0.4 and will be removed in 1.0. Use "sqlsrv" instead.');
+
         $this->load('deprecated_drivers');
     }
 }

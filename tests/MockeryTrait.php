@@ -11,11 +11,6 @@
 
 namespace WouterJ\EloquentBundle;
 
-use Prophecy\Prophecy\ObjectProphecy;
-
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
 trait MockeryTrait
 {
     protected function tearDown(): void

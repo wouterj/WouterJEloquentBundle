@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
-    bootstrap="./vendor/autoload.php"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/13.1/phpunit.xsd"
+    bootstrap="./tests/bootstrap.php"
     colors="true"
 >
     <testsuites>
@@ -9,17 +10,13 @@
         </testsuite>
     </testsuites>
 
-    <coverage>
+    <extensions>
+        <bootstrap class="WouterJ\EloquentBundle\FunctionalTestExtension"/>
+    </extensions>
+
+    <source>
         <include>
             <directory>./src</directory>
         </include>
-    </coverage>
-
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
-    </listeners>
-
-    <extensions>
-        <extension class="WouterJ\EloquentBundle\FunctionalTestListener"/>
-    </extensions>
+    </source>
 </phpunit>

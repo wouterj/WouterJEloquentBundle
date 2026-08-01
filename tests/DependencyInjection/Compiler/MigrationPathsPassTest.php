@@ -13,6 +13,7 @@ namespace WouterJ\EloquentBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Reference;
 
@@ -32,7 +33,7 @@ class MigrationPathsPassTest extends TestCase
         ;
     }
 
-    /** @test */
+    #[Test]
     public function it_configures_the_extra_migration_paths()
     {
         MigrationPathsPass::add('/package1/migrations');

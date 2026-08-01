@@ -16,11 +16,9 @@ use WouterJ\EloquentBundle\MockeryTrait;
 use WouterJ\EloquentBundle\Seeder;
 use WouterJ\EloquentBundle\Promise;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
 class SeedCommandTest extends TestCase
 {
     use MockeryTrait;
@@ -38,7 +36,7 @@ class SeedCommandTest extends TestCase
         $this->command = new SeedCommand($this->container, $this->manager, [], 'dev');
     }
 
-    /** @test */
+    #[Test]
     public function it_executes_specified_classes()
     {
         $seederClass = __CLASS__.'_DummySeeder';

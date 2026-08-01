@@ -17,10 +17,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use WouterJ\EloquentBundle\Facade\Schema;
 
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
-abstract class EventsTest extends KernelTestCase
+abstract class EventsTestCase extends KernelTestCase
 {
     protected static function getKernelClass(): string
     {

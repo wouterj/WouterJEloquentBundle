@@ -17,9 +17,6 @@ use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
 
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
 class TestCommand
 {
     private $command;

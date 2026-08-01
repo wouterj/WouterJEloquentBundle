@@ -12,6 +12,7 @@
 namespace WouterJ\EloquentBundle\EventListener;
 
 use Illuminate\Database\Capsule\Manager;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use WouterJ\EloquentBundle\MockeryTrait;
 
@@ -31,7 +32,7 @@ class EloquentInitializerTest extends TestCase
         $this->subject = new EloquentInitializer($this->capsule);
     }
 
-    /** @test */
+    #[Test]
     public function it_registers_the_loader()
     {
         $this->capsule->shouldReceive('bootEloquent')->once();

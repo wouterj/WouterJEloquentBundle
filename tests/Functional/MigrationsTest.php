@@ -17,9 +17,6 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\ApplicationTester;
 use WouterJ\EloquentBundle\Facade\Db;
 
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
 class MigrationsTest extends KernelTestCase
 {
     private static $originalMigration;

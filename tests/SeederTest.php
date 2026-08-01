@@ -13,13 +13,11 @@ namespace WouterJ\EloquentBundle;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\MockeryTrait;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/Fixtures/ConsoleCommandFixture.php';
 
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
 class SeederTest extends TestCase
 {
     use MockeryTrait;
@@ -35,7 +33,7 @@ class SeederTest extends TestCase
         $this->subject->setSfContainer($this->container);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_the_seeder_using_the_container()
     {
         $seeder = \Mockery::mock(Seeder::class);
@@ -46,7 +44,7 @@ class SeederTest extends TestCase
         $this->assertEquals($seeder, $this->subject->resolve('foo_service'));
     }
 
-    /** @test */
+    #[Test]
     public function it_instantiates_the_seeder_without_container()
     {
         $class = __CLASS__.'_DummySeeder';
@@ -55,7 +53,7 @@ class SeederTest extends TestCase
         $this->assertInstanceOf($class, $this->subject->resolve($class));
     }
 
-    /** @test */
+    #[Test]
     public function it_fails_if_seeder_does_not_extend_base_seeder()
     {
         Promise::containerHasService($this->container, 'foo_service', new SeederTest_WrongSeeder());
