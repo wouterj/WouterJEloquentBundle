@@ -42,7 +42,10 @@
         "nesbot/carbon": "<2.63"
     },
 
-    "autoload": { "psr-4": { "WouterJ\\EloquentBundle\\": "src" } },
+    "autoload": {
+        "psr-4": { "WouterJ\\EloquentBundle\\": "src" },
+        "files": ["src/functions.php"]
+    },
     "autoload-dev": {
         "psr-4": { "WouterJ\\EloquentBundle\\": "tests", "": "tests/Functional/app/src" },
         "classmap": ["tests/Functional/app/migrations", "tests/Functional/app/TestKernel.php"]
