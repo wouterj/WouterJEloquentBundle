@@ -11,7 +11,6 @@
 
 namespace WouterJ\EloquentBundle\Command;
 
-use Illuminate\Console\View\Components;
 use Illuminate\Database\DatabaseManager;
 use WouterJ\EloquentBundle\MockeryTrait;
 use WouterJ\EloquentBundle\Seeder;
@@ -53,13 +52,7 @@ class SeedCommandTest extends TestCase
             ->passing('class', [$seederClass, $seeder1Class])
             ->duringExecute()
         ;
-        if (class_exists(Components\Task::class)) {
-            $test->outputsRegex('/'.preg_quote($seederClass).'[\s\.]* [\d\.]+ms DONE\s+'.preg_quote($seeder1Class).'[\s\.]* [\d\.]+ms DONE/');
-        } else {
-            // BC Laravel <9.39
-            $test->outputsRegex('/RUNNING: '.preg_quote($seederClass).'\s+DONE: '.preg_quote($seederClass).' \(\d+ms\)/');
-            $test->outputsRegex('/RUNNING: '.preg_quote($seeder1Class).'\s+DONE: '.preg_quote($seeder1Class).' \(\d+ms\)/');
-        }
+        $test->outputsRegex('/'.preg_quote($seederClass).'[\s\.]* [\d\.]+ms DONE\s+'.preg_quote($seeder1Class).'[\s\.]* [\d\.]+ms DONE/');
     }
 }
 

@@ -11,16 +11,8 @@
 
 namespace WouterJ\EloquentBundle\Command;
 
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\HelperSet;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputDefinition;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\MockeryTrait;
 use WouterJ\EloquentBundle\Migrations\Migrator;
-use WouterJ\EloquentBundle\Promise;
-use Illuminate\Console\View\Components;
 use Illuminate\Database\Migrations\MigrationRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -62,12 +54,7 @@ class MigrateStatusCommandTest extends TestCase
         $test = TestCommand::create($this->command)
             ->execute()
         ;
-        if (class_exists(Components\Task::class)) {
-            $test->outputsRegex('/Migration1 \.+ \[1\] Ran\s+Migration2 \.+ Pending/');
-        } else {
-            // BC Laravel <9.39
-            $test->outputs(" ====== ============ \n  Ran?   Migration   \n ====== ============ \n  Y      Migration1  \n  N      Migration2  \n ====== ============");
-        }
+        $test->outputsRegex('/Migration1 \.+ \[1\] Ran\s+Migration2 \.+ Pending/');
     }
 
     /** @test */

@@ -2,11 +2,9 @@
 
 namespace WouterJ\EloquentBundle\Maker;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Casts\Json;
 use PHPUnit\Framework\TestCase;
-use Symfony\Bundle\MakerBundle\DependencyBuilder;
 use Symfony\Bundle\MakerBundle\FileManager;
 use Symfony\Bundle\MakerBundle\Generator;
 use WouterJ\EloquentBundle\MockeryTrait;
@@ -80,10 +78,7 @@ class MakeFactoryTest extends TestCase
     private function expectFactory(string $name)
     {
         $fixturePath = __DIR__.'/../Fixtures/factories/'.$name;
-        // BC with Laravel <10
-        if (!trait_exists(WithoutModelEvents::class)) {
-            $fixturePath .= '-8';
-        } elseif (!class_exists(Json::class)) {
+        if (!class_exists(Json::class)) {
             $fixturePath .= '-9';
         } elseif (!class_exists(UseResource::class)) {
             $fixturePath .= '-10';

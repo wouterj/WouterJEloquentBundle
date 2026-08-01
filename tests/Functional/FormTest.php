@@ -4,9 +4,7 @@ namespace WouterJ\EloquentBundle\Functional;
 
 use AppBundle\Model\CastingUser;
 use Illuminate\Database\Schema\Blueprint;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\DomCrawler\Crawler;
-use WouterJ\EloquentBundle\Facade\Db;
 use WouterJ\EloquentBundle\Facade\Schema;
 
 class FormTest extends AbstractFunctionalTest
@@ -64,14 +62,7 @@ class FormTest extends AbstractFunctionalTest
 
         $form['form[name]'] = 'John Doe';
         $form['form[password]'] = 's3cr3t';
-        if (!isset($form['form[date_of_birth][year]'])) {
-            $form['form[date_of_birth]'] = $birthDay->format('Y-n-j');
-        } else {
-            // BC for Symfony <7
-            $form['form[date_of_birth][year]'] = $birthDay->format('Y');
-            $form['form[date_of_birth][month]'] = $birthDay->format('n');
-            $form['form[date_of_birth][day]'] = $birthDay->format('j');
-        }
+        $form['form[date_of_birth]'] = $birthDay->format('Y-m-d');
         $form['form[is_admin]'] = false;
 
         $this->client->submit($form);
@@ -93,14 +84,7 @@ class FormTest extends AbstractFunctionalTest
         $form['form[name]'] = '';
         $form['form[password]'] = 's3cr3t';
         $form['form[is_admin]'] = false;
-        if (!isset($form['form[date_of_birth][year]'])) {
-            $form['form[date_of_birth]'] = (new \DateTimeImmutable())->format('Y').'-10-20';
-        } else {
-            // BC for Symfony <7
-            $form['form[date_of_birth][year]'] = (new \DateTimeImmutable())->format('Y');
-            $form['form[date_of_birth][month]'] = '10';
-            $form['form[date_of_birth][day]'] = '20';
-        }
+        $form['form[date_of_birth]'] = (new \DateTimeImmutable())->format('Y').'-10-20';
         $crawler = $this->client->submit($form);
 
         $this->assertCount(1, $crawler->filterXPath('//li[text()="The username should not be blank."]'));
