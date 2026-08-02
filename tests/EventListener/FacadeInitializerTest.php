@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\Facade\Facade;
 use WouterJ\EloquentBundle\Facade\AliasesLoader;
 use WouterJ\EloquentBundle\MockeryTrait;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -35,7 +36,7 @@ class FacadeInitializerTest extends TestCase
         $this->subject = new FacadeInitializer($this->container);
     }
 
-    /** @test */
+    #[Test]
     public function it_configures_the_facade()
     {
         $this->subject->initialize();
@@ -45,7 +46,7 @@ class FacadeInitializerTest extends TestCase
         $this->assertSame($this->container, $container);
     }
 
-    /** @test */
+    #[Test]
     public function it_registers_the_loader_when_provided()
     {
         $this->loader->shouldReceive('register')->once();

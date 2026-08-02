@@ -11,16 +11,12 @@
 
 namespace WouterJ\EloquentBundle\Functional;
 
-use Illuminate\Database\Migrations\Migrator;
 use PHPUnit\Runner\Version;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\ApplicationTester;
 use WouterJ\EloquentBundle\Facade\Db;
 
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
 class MigrationsTest extends KernelTestCase
 {
     private static $originalMigration;
@@ -43,10 +39,6 @@ class MigrationsTest extends KernelTestCase
         $app->run(['command' => 'eloquent:migrate', '--seed' => true], ['decorated' => false]);
 
         $regex = '/^\s+2015_02_16_203700_CreateUsersTable \.+ [0-9.]+ms DONE/m';
-        if (method_exists(Migrator::class, 'note')) {
-            // BC with Laravel <9.22
-            $regex = '/^Migrated:\s+2015_02_16_203700_CreateUsersTable\s/m';
-        }
         $assertMethod = version_compare(Version::series(), '9.1', '>=') ? 'assertMatchesRegularExpression' : 'assertRegExp';
         $this->{$assertMethod}($regex, $app->getDisplay());
 

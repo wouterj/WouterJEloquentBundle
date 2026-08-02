@@ -16,11 +16,9 @@ use Symfony\Component\DependencyInjection\Container;
 use WouterJ\EloquentBundle\Promise;
 use WouterJ\EloquentBundle\MockeryTrait;
 use WouterJ\EloquentBundle\Migrations\Migrator;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
 class MigrateResetCommandTest extends TestCase
 {
     use MockeryTrait;
@@ -43,7 +41,7 @@ class MigrateResetCommandTest extends TestCase
         $this->command = new MigrateResetCommand($this->migrator, __DIR__.'/migrations', 'dev');
     }
 
-    /** @test */
+    #[Test]
     public function it_asks_for_confirmation_in_prod()
     {
         $command = new MigrateResetCommand($this->migrator, __DIR__.'/migrations', 'prod');
@@ -56,7 +54,7 @@ class MigrateResetCommandTest extends TestCase
             ->outputs('Are you sure you want to execute the migrations in production?');
     }
 
-    /** @test */
+    #[Test]
     public function it_does_not_ask_for_confirmation_in_dev()
     {
         $this->migrator->shouldReceive('reset')->once()->withAnyArgs();
@@ -66,7 +64,7 @@ class MigrateResetCommandTest extends TestCase
             ->doesNotOutput('Are you sure you want to execute the migrations in production?');
     }
 
-    /** @test */
+    #[Test]
     public function it_always_continues_when_force_is_passed()
     {
         $command = new MigrateResetCommand($this->migrator, __DIR__.'/migrations', 'prod');
@@ -79,7 +77,7 @@ class MigrateResetCommandTest extends TestCase
             ->doesNotOutput('Are you sure you want to execute the migrations in production?');
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_the_default_migration_path()
     {
         $this->migrator->shouldReceive('reset')->once()->with([__DIR__.'/migrations'], \Mockery::any());
@@ -87,7 +85,7 @@ class MigrateResetCommandTest extends TestCase
         TestCommand::create($this->command)->execute();
     }
 
-    /** @test */
+    #[Test]
     public function it_allows_to_specify_another_path()
     {
         $this->migrator->shouldReceive('reset')->once()->with([getcwd().'/db'], \Mockery::any());
@@ -95,7 +93,7 @@ class MigrateResetCommandTest extends TestCase
         TestCommand::create($this->command)->passing('--path', 'db')->duringExecute();
     }
 
-    /** @test */
+    #[Test]
     public function it_allows_multiple_migration_directories()
     {
         $this->migrator->allows()->paths()->andReturn(['/somewhere/migrations']);
@@ -106,7 +104,7 @@ class MigrateResetCommandTest extends TestCase
         TestCommand::create($this->command)->execute();
     }
 
-    /** @test */
+    #[Test]
     public function it_allows_changing_the_connection()
     {
         $this->migrator->shouldReceive('setConnection')->once()->with('something');
@@ -116,7 +114,7 @@ class MigrateResetCommandTest extends TestCase
         TestCommand::create($this->command)->passing('--database', 'something')->duringExecute();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_pretend_migrations_were_resetted()
     {
         $this->migrator->shouldReceive('reset')->once()->with(\Mockery::any(), true);
@@ -124,7 +122,7 @@ class MigrateResetCommandTest extends TestCase
         TestCommand::create($this->command)->passing('--pretend')->duringExecute();
     }
 
-    /** @test */
+    #[Test]
     public function it_stops_when_repository_does_not_exists()
     {
         $this->migrator->allows()->repositoryExists()->andReturn(false);

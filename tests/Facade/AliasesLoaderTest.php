@@ -11,11 +11,9 @@
 
 namespace WouterJ\EloquentBundle\Facade;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
 class AliasesLoaderTest extends TestCase
 {
     protected $subject;
@@ -26,7 +24,7 @@ class AliasesLoaderTest extends TestCase
         $this->subject->register();
     }
 
-    /** @test */
+    #[Test]
     public function it_aliases_the_correct_classes()
     {
         $this->subject->addAlias('AD', __NAMESPACE__.'\AliasDummy');
@@ -34,7 +32,7 @@ class AliasesLoaderTest extends TestCase
         $this->assertInstanceOf(__NAMESPACE__.'\AliasDummy', new \AD);
     }
 
-    /** @test */
+    #[Test]
     public function it_works_in_every_namespace()
     {
         $class = __NAMESPACE__.'\AliasDummy1';

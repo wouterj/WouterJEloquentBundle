@@ -2,6 +2,7 @@
 
 namespace WouterJ\EloquentBundle\Form;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class EloquentModelTypeGuesserTest extends TestCase
@@ -13,7 +14,7 @@ class EloquentModelTypeGuesserTest extends TestCase
         $this->subject = new EloquentModelTypeGuesser();
     }
 
-    /** @test */
+    #[Test]
     public function it_ignores_non_eloquent_models()
     {
         $this->assertNull($this->subject->guessType(NoModel::class, 'title'));

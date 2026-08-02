@@ -4,7 +4,7 @@ namespace WouterJ\EloquentBundle\Functional;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-abstract class AbstractFunctionalTest extends WebTestCase
+abstract class AbstractFunctionalTestCase extends WebTestCase
 {
     /** @var KernelBrowser */
     protected $client;

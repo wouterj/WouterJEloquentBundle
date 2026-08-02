@@ -13,10 +13,7 @@ namespace WouterJ\EloquentBundle\Functional;
 
 use AppBundle\Model\UserObserver;
 
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
-class EventsClassTest extends EventsTest
+class EventsClassTest extends EventsTestCase
 {
     protected function reset()
     {

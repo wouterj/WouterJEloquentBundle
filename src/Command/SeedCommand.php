@@ -108,12 +108,7 @@ EOT
             $seeds = $seeder->getSeedClasses();
             $last = array_key_last($seeds);
             foreach ($seeds as $i => $class) {
-                if (class_exists(Components\TwoColumnDetail::class)) {
-                    (new Components\TwoColumnDetail($output))->render('<fg=gray>'.($i == $last ? '└' : '├').'─ </>'.$class, '<fg=green;options=bold>DONE</>');
-                } else {
-                    // BC Laravel <9.39
-                    $output->writeln('<fg=green;options=bold>DONE</>: '.$class);
-                }
+                (new Components\TwoColumnDetail($output))->render('<fg=gray>'.($i == $last ? '└' : '├').'─ </>'.$class, '<fg=green;options=bold>DONE</>');
             }
         }
 

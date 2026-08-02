@@ -11,22 +11,12 @@
 
 namespace WouterJ\EloquentBundle\Command;
 
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\HelperSet;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputDefinition;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use WouterJ\EloquentBundle\MockeryTrait;
 use WouterJ\EloquentBundle\Migrations\Migrator;
-use WouterJ\EloquentBundle\Promise;
-use Illuminate\Console\View\Components;
 use Illuminate\Database\Migrations\MigrationRepositoryInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
 class MigrateStatusCommandTest extends TestCase
 {
     use MockeryTrait;
@@ -53,7 +43,7 @@ class MigrateStatusCommandTest extends TestCase
         $this->command = new MigrateStatusCommand($this->migrator, __DIR__.'/migrations', 'dev');
     }
 
-    /** @test */
+    #[Test]
     public function it_outputs_migration_statuses()
     {
         $this->repository->allows()->getRan()->andReturn(['Migration1']);
@@ -62,15 +52,10 @@ class MigrateStatusCommandTest extends TestCase
         $test = TestCommand::create($this->command)
             ->execute()
         ;
-        if (class_exists(Components\Task::class)) {
-            $test->outputsRegex('/Migration1 \.+ \[1\] Ran\s+Migration2 \.+ Pending/');
-        } else {
-            // BC Laravel <9.39
-            $test->outputs(" ====== ============ \n  Ran?   Migration   \n ====== ============ \n  Y      Migration1  \n  N      Migration2  \n ====== ============");
-        }
+        $test->outputsRegex('/Migration1 \.+ \[1\] Ran\s+Migration2 \.+ Pending/');
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_the_default_migration_path()
     {
         $this->migrator->shouldReceive('getMigrationFiles')
@@ -81,7 +66,7 @@ class MigrateStatusCommandTest extends TestCase
         TestCommand::create($this->command)->execute();
     }
 
-    /** @test */
+    #[Test]
     public function it_allows_to_specify_another_path()
     {
         $this->migrator->shouldReceive('getMigrationFiles')
@@ -92,7 +77,7 @@ class MigrateStatusCommandTest extends TestCase
         TestCommand::create($this->command)->passing('--path', 'db')->duringExecute();
     }
 
-    /** @test */
+    #[Test]
     public function it_allows_multiple_migration_directories()
     {
         $this->migrator->allows()->paths()->andReturn(['/somewhere/migrations']);

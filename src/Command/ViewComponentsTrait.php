@@ -18,39 +18,16 @@ trait ViewComponentsTrait
 {
     protected function info(OutputInterface $output, string $message): void
     {
-        if (class_exists(Components\Info::class)) {
-            (new Components\Info($output))->render($message);
-        } else {
-            // BC Laravel <9.39
-            $output->writeln('<info>'.$message.'</>');
-        }
+        (new Components\Info($output))->render($message);
     }
 
     protected function error(OutputInterface $output, string $message): void
     {
-        if (class_exists(Components\Error::class)) {
-            (new Components\Error($output))->render($message);
-        } else {
-            // BC Laravel <9.39
-            $output->writeln('<error>'.$message.'</>');
-        }
+        (new Components\Error($output))->render($message);
     }
 
     protected function task(OutputInterface $output, string $description, callable $task): void
     {
-        if (class_exists(Components\Task::class)) {
-            (new Components\Task($output))->render($description, $task);
-        } else {
-            // BC Laravel <9.39
-            $startTime = microtime(true);
-
-            $output->writeln('<info>RUNNING</info>: '.$description);
-
-            $task();
-
-            $runTime = number_format((microtime(true) - $startTime) * 1000.0).'ms';
-
-            $output->writeln('<fg=green;options=bold>DONE</>: '.$description.' <fg=gray>('.$runTime.')</>');
-        }
+        (new Components\Task($output))->render($description, $task);
     }
 } 

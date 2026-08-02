@@ -2,11 +2,11 @@
 
 namespace WouterJ\EloquentBundle\Maker;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Casts\Json;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use Symfony\Bundle\MakerBundle\DependencyBuilder;
 use Symfony\Bundle\MakerBundle\FileManager;
 use Symfony\Bundle\MakerBundle\Generator;
 use WouterJ\EloquentBundle\MockeryTrait;
@@ -27,10 +27,7 @@ class MakeFactoryTest extends TestCase
         $this->generator = new Generator($this->fileManager, 'App');
     }
 
-    /**
-     * @test
-     * @dataProvider providePostFactoryNames
-     */
+    #[Test, DataProvider('providePostFactoryNames')]
     public function it_creates_factories($name)
     {
         $this->expectFactory('PostFactory');
@@ -38,16 +35,14 @@ class MakeFactoryTest extends TestCase
         $this->callGenerate(['name' => $name]);
     }
 
-    public function providePostFactoryNames()
+    public static function providePostFactoryNames()
     {
         yield ['Post'];
         yield ['PostFactory'];
         yield ['\App\Factory\PostFactory'];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_accepts_model_fqcn()
     {
         $this->expectFactory('PersonFactory');
@@ -55,10 +50,7 @@ class MakeFactoryTest extends TestCase
         $this->callGenerate(['name' => 'PersonFactory', '--model' => 'Person']);
     }
 
-    /**
-     * @test
-     * @dataProvider provideFactoryNames
-     */
+    #[Test, DataProvider('provideFactoryNames')]
     public function it_guesses_model_fqcn($name)
     {
         if (!class_exists('App\Model\Talk')) {
@@ -70,7 +62,7 @@ class MakeFactoryTest extends TestCase
         $this->callGenerate(['name' => $name]);
     }
 
-    public function provideFactoryNames()
+    public static function provideFactoryNames()
     {
         yield ['Talk'];
         yield ['TalkFactory'];
@@ -80,10 +72,7 @@ class MakeFactoryTest extends TestCase
     private function expectFactory(string $name)
     {
         $fixturePath = __DIR__.'/../Fixtures/factories/'.$name;
-        // BC with Laravel <10
-        if (!trait_exists(WithoutModelEvents::class)) {
-            $fixturePath .= '-8';
-        } elseif (!class_exists(Json::class)) {
+        if (!class_exists(Json::class)) {
             $fixturePath .= '-9';
         } elseif (!class_exists(UseResource::class)) {
             $fixturePath .= '-10';

@@ -14,14 +14,8 @@ namespace WouterJ\EloquentBundle\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use WouterJ\EloquentBundle\EventListener\EloquentInitializer;
-use Illuminate\Database\Capsule\Manager;
-use Illuminate\Database\DatabaseManager;
 
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
-class YamlWouterJEloquentExtensionTest extends WouterJEloquentExtensionTest
+class YamlWouterJEloquentExtensionTest extends WouterJEloquentExtensionTestCase
 {
     protected function loadConfig(ContainerBuilder $container, $name)
     {

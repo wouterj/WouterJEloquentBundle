@@ -23,30 +23,30 @@ jobs:
       matrix:
         include:
           - deps: 'low'
-            php: '8.0'
+            php: '8.2'
             experimental: false
-            composer: v2
 
           - deps: 'stable'
-            php: '8.3'
-            symfony: '6.x'
-            laravel: '10.x'
-            experimental: false
-            composer: v2
-
-          - deps: 'stable'
-            php: '8.3'
+            php: '8.5'
             symfony: '7.x'
             laravel: '11.x'
             experimental: false
-            composer: v2
 
-          - deps: 'dev'
-            php: '8.4'
+          - deps: 'stable'
+            php: '8.5'
             symfony: '7.x'
             laravel: '12.x'
+            experimental: false
+
+          - deps: 'stable'
+            php: '8.5'
+            symfony: '8.x'
+            laravel: '13.x'
+            experimental: false
+
+          - deps: 'dev'
+            php: '8.6'
             experimental: true
-            composer: preview
 
     steps:
       - uses: actions/checkout@v6
@@ -56,7 +56,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: xml, pdo_sqlite
-          tools: "composer:${{ matrix.composer }}"
+          tools: "composer:v2"
 
       - name: Set-up env variables
         id: ctx
@@ -102,7 +102,6 @@ jobs:
             composer require --no-update illuminate/database:$LARAVEL_REQUIRE illuminate/events:$LARAVEL_REQUIRE illuminate/console:$LARAVEL_REQUIRE
           fi
           composer update --prefer-dist --no-progress $COMPOSER_FLAGS
-          ./vendor/bin/simple-phpunit install
 
       - name: Show info
         run: |
@@ -111,7 +110,7 @@ jobs:
           echo "$(php tests/Functional/app/bin/console --version)"
 
       - name: Run test suite
-        run: ./vendor/bin/simple-phpunit
+        run: ./vendor/bin/phpunit
 
       - name: Run static analysis
         if: "!matrix.experimental && matrix.deps != 'low'"

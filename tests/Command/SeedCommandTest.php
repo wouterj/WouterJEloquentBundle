@@ -11,17 +11,14 @@
 
 namespace WouterJ\EloquentBundle\Command;
 
-use Illuminate\Console\View\Components;
 use Illuminate\Database\DatabaseManager;
 use WouterJ\EloquentBundle\MockeryTrait;
 use WouterJ\EloquentBundle\Seeder;
 use WouterJ\EloquentBundle\Promise;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
 class SeedCommandTest extends TestCase
 {
     use MockeryTrait;
@@ -39,7 +36,7 @@ class SeedCommandTest extends TestCase
         $this->command = new SeedCommand($this->container, $this->manager, [], 'dev');
     }
 
-    /** @test */
+    #[Test]
     public function it_executes_specified_classes()
     {
         $seederClass = __CLASS__.'_DummySeeder';
@@ -53,13 +50,7 @@ class SeedCommandTest extends TestCase
             ->passing('class', [$seederClass, $seeder1Class])
             ->duringExecute()
         ;
-        if (class_exists(Components\Task::class)) {
-            $test->outputsRegex('/'.preg_quote($seederClass).'[\s\.]* [\d\.]+ms DONE\s+'.preg_quote($seeder1Class).'[\s\.]* [\d\.]+ms DONE/');
-        } else {
-            // BC Laravel <9.39
-            $test->outputsRegex('/RUNNING: '.preg_quote($seederClass).'\s+DONE: '.preg_quote($seederClass).' \(\d+ms\)/');
-            $test->outputsRegex('/RUNNING: '.preg_quote($seeder1Class).'\s+DONE: '.preg_quote($seeder1Class).' \(\d+ms\)/');
-        }
+        $test->outputsRegex('/'.preg_quote($seederClass).'[\s\.]* [\d\.]+ms DONE\s+'.preg_quote($seeder1Class).'[\s\.]* [\d\.]+ms DONE/');
     }
 }
 

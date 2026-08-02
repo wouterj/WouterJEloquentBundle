@@ -17,6 +17,7 @@ use Illuminate\Support\Fluent;
 use WouterJ\EloquentBundle\MockeryTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class EloquentDataCollectorTest extends TestCase
@@ -45,7 +46,7 @@ class EloquentDataCollectorTest extends TestCase
         $this->collector = new EloquentDataCollector($this->capsule, $this->queryListener);
     }
 
-    /** @test */
+    #[Test]
     public function it_collects_connections()
     {
         $this->container['config']['database.connections'] = [
@@ -65,7 +66,7 @@ class EloquentDataCollectorTest extends TestCase
         $this->assertCount(1, $this->collector->usedConnections());
     }
 
-    /** @test */
+    #[Test]
     public function it_collects_queries()
     {
         $this->queryListener->allows()->getQueriesByConnection()->andReturn([

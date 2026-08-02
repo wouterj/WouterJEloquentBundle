@@ -13,11 +13,9 @@ namespace WouterJ\EloquentBundle\Maker;
 
 use WouterJ\EloquentBundle\MockeryTrait;
 use WouterJ\EloquentBundle\Migrations\Creator;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @author Wouter J <wouter@wouterj.nl>
- */
 class MakeMigrationTest extends TestCase
 {
     use MakerTestTrait;
@@ -32,7 +30,7 @@ class MakeMigrationTest extends TestCase
         $this->maker = new MakeMigration($this->creator, __DIR__.'/migrations');
     }
 
-    /** @test */
+    #[Test]
     public function it_defaults_to_the_main_migrations_dir()
     {
         $this->creator->shouldReceive('create')->once()
@@ -41,7 +39,7 @@ class MakeMigrationTest extends TestCase
         $this->callGenerate(['name' => 'CreateFlightsTable']);
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_a_stub_for_table_creation()
     {
         $this->creator->shouldReceive('create')->once()
@@ -50,7 +48,7 @@ class MakeMigrationTest extends TestCase
         $this->callGenerate(['--create' => 'flights', 'name' => 'CreateFlightsTable']);
     }
 
-    /** @test */
+    #[Test]
     public function it_guesses_table_creation_from_migration_name()
     {
         $this->creator->shouldReceive('create')->twice()
@@ -60,7 +58,7 @@ class MakeMigrationTest extends TestCase
         $this->callGenerate(['name' => 'CreateFlightsTable']);
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_a_stub_for_updates()
     {
         $this->creator->shouldReceive('create')->once()
@@ -69,7 +67,7 @@ class MakeMigrationTest extends TestCase
         $this->callGenerate(['--table' => 'flights', 'name' => 'RenamingNameField']);
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_a_blank_stub_when_no_option_was_provided()
     {
         $this->creator->shouldReceive('create')->once()

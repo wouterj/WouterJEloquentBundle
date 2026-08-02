@@ -13,10 +13,8 @@ namespace WouterJ\EloquentBundle\Command;
 
 use Illuminate\Console\View\Components;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\Table;
 use WouterJ\EloquentBundle\Migrations\Migrator;
 
 /**
@@ -68,41 +66,24 @@ EOT
     private function writeStatus(OutputInterface $output, Migrator $migrator, array $migrations): void
     {
         $ran = $migrator->getRepository()->getRan();
-        if (class_exists(Components\TwoColumnDetail::class)) {
-            $output->writeln('');
+        $output->writeln('');
 
-            (new Components\TwoColumnDetail($output))->render('<fg=gray>Migration name</>', '<fg=gray>Batch / Status</>');
+        (new Components\TwoColumnDetail($output))->render('<fg=gray>Migration name</>', '<fg=gray>Batch / Status</>');
 
-            $batches = $migrator->getRepository()->getMigrationBatches();
-            foreach ($migrations as $migration) {
-                $migrationName = $migrator->getMigrationName($migration);
-                $status = in_array($migrationName, $ran)
-                    ? '<fg=green;options=bold>Ran</>'
-                    : '<fg=yellow;options=bold>Pending</>';
+        $batches = $migrator->getRepository()->getMigrationBatches();
+        foreach ($migrations as $migration) {
+            $migrationName = $migrator->getMigrationName($migration);
+            $status = in_array($migrationName, $ran)
+                ? '<fg=green;options=bold>Ran</>'
+                : '<fg=yellow;options=bold>Pending</>';
 
-                if (\in_array($migrationName, $ran)) {
-                    $status = '['.$batches[$migrationName].'] '.$status;
-                }
-
-                (new Components\TwoColumnDetail($output))->render($migrationName, $status);
+            if (\in_array($migrationName, $ran)) {
+                $status = '['.$batches[$migrationName].'] '.$status;
             }
 
-            $output->writeln('');
-        } else {
-            // BC Laravel <9.39
-            $migrations = array_map([$migrator, 'getMigrationName'], $migrations);
-
-            $migrations = array_map(function ($migration) use ($ran, $migrator) {
-                return in_array($migration, $ran)
-                    ? ['<info>Y</>', $migration]
-                    : ['<fg=red>N</>', $migration];
-            }, $migrations);
-
-            $table = (new Table($output))->setStyle('borderless');
-            $table->setHeaders(['Ran?', 'Migration'])
-                ->setRows($migrations);
-
-            $table->render();
+            (new Components\TwoColumnDetail($output))->render($migrationName, $status);
         }
+
+        $output->writeln('');
     }
 }
